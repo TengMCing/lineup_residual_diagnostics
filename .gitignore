@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+.DS_Store
+
+paper.log
+
+paper_cache/
+
+paper_files/

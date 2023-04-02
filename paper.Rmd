@@ -1,0 +1,1654 @@
+---
+title: |
+  A Plot is Worth a Thousand Tests: Assessing Residual Diagnostics with the Lineup Protocol
+type: ARTICLE TEMPLATE
+author:
+  - name: Weihao Li
+    affil: a
+    email: weihao.li@monash.edu
+  - name: Dianne Cook
+    affil: a
+    email: dicook@monash.edu
+  - name: Emi Tanaka
+    affil: a
+    email: emi.tanaka@monash.edu
+  - name: Susan VanderPlas
+    affil: b
+    email: susan.vanderplas@unl.edu
+affiliation:
+  - num: a
+    address: |
+      Department of Econometrics and Business Statistics, Monash University, Clayton, VIC, Australia
+  - num: b
+    address: |
+      Department of Statistics, University of Nebraska, Lincoln, Nebraska, USA
+bibliography: paper.bib
+abstract: |
+  Abstract to fill.
+keywords: |
+  statistical graphics; data visualization; visual inference; hypothesis testing; reression analysis; cognitive perception; simulation; practical significance; effect size
+header-includes: |
+  \usepackage{lscape}
+  \usepackage{hyperref}
+  \usepackage[utf8]{inputenc}
+  \def\tightlist{}
+output: rticles::tf_article
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  echo = FALSE,
+  fig.width = 8,
+  fig.height = 6,
+  out.width = "100%",
+  fig.align = "center")
+```
+
+```{r}
+# OOP supports needed by `visage`
+# remotes::install_github("TengMCing/bandicoot")
+# 
+# Visual inference models and p-value calculation
+# remotes::install_github("TengMCing/visage")
+
+library(tidyverse)
+library(visage)
+
+# To control the simulation in this file
+set.seed(10086)
+```
+
+```{r get-lineup-data}
+# Create the dir folder
+if (!dir.exists(here::here("data/"))) dir.create(here::here("data/"))
+
+# The lineup data used to draw residual plot needed to be downloaded
+# from the github repo. Cache it.
+if (!file.exists(here::here("data/vi_lineup.rds"))) {
+  vi_lineup <- get_vi_lineup()
+  saveRDS(vi_lineup, here::here("data/vi_lineup.rds"))
+} else {
+  vi_lineup <- readRDS(here::here("data/vi_lineup.rds"))
+}
+```
+
+```{r poly-conventional-simulation}
+# Ensure the support of the predictor is [-1, 1]
+stand_dist <- function(x) (x - min(x))/max(x - min(x)) * 2 - 1
+
+# Run simulations to get the behaviours of conventional tests
+if (!file.exists(here::here("data/poly_conventional_simulation.rds"))) {
+  poly_conv_sim <- list()
+  
+  # 100 bootstrap samples
+  for (i in 1:100)
+  {
+    poly_conv_sim[[i]] <- 
+      # Every sample contains 2000 lineups
+      map(1:2000, function(i) {
+        
+        # Sample a set of parameters
+        shape <- sample(1:4, 1)
+        e_sigma <- sample(c(0.5, 1, 2, 4), 1)
+        x_dist <- sample(c("uniform", 
+                           "normal", 
+                           "lognormal", 
+                           "even_discrete"), 1)
+        x <- switch(x_dist,
+                    uniform = rand_uniform(-1, 1),
+                    normal = {
+                      raw_x <- rand_normal(sigma = 0.3)
+                      closed_form(~stand_dist(raw_x))
+                      },
+                    lognormal = {
+                      raw_x <- rand_lognormal(sigma = 0.6)
+                      closed_form(~stand_dist(raw_x/3 - 1))
+                      },
+                    even_discrete = rand_uniform_d(k = 5, even = TRUE))
+        
+        # Build the model
+        mod <- poly_model(shape, x = x, sigma = e_sigma)
+        
+        # Sample the number of observations
+        n <- sample(c(50, 100, 300), 1)
+        
+        # Generate data from the model 
+        tmp_dat <- mod$gen(n)
+        
+        # Return a data frame containing p-values of
+        # F, RESET, BP and SW tests
+        tibble(shape = shape,
+               e_sigma = e_sigma,
+               x_dist = x_dist,
+               n = n,
+               F_p_value = mod$test(tmp_dat)$p_value,
+               RESET3_p_value = mod$test(tmp_dat, 
+                                         test = "RESET", 
+                                         power = 2:3, 
+                                         power_type = "fitted")$p_value,
+               RESET4_p_value = mod$test(tmp_dat, 
+                                         test = "RESET", 
+                                         power = 2:4, 
+                                         power_type = "fitted")$p_value,
+               RESET5_p_value = mod$test(tmp_dat, 
+                                         test = "RESET", 
+                                         power = 2:5, 
+                                         power_type = "fitted")$p_value,
+               RESET6_p_value = mod$test(tmp_dat, 
+                                         test = "RESET", 
+                                         power = 2:6, 
+                                         power_type = "fitted")$p_value,
+               RESET7_p_value = mod$test(tmp_dat, 
+                                         test = "RESET", 
+                                         power = 2:7, 
+                                         power_type = "fitted")$p_value,
+               RESET8_p_value = mod$test(tmp_dat, 
+                                         test = "RESET", 
+                                         power = 2:8, 
+                                         power_type = "fitted")$p_value,
+               RESET9_p_value = mod$test(tmp_dat, 
+                                         test = "RESET", 
+                                         power = 2:9, 
+                                         power_type = "fitted")$p_value,
+               RESET10_p_value = mod$test(tmp_dat, 
+                                          test = "RESET", 
+                                          power = 2:10, 
+                                          power_type = "fitted")$p_value,
+               BP_p_value = HETER_MODEL$test(tmp_dat)$p_value,
+               SW_p_value = shapiro.test(tmp_dat$.resid)$p.value,
+               boot_id = i)
+        }) %>%
+  reduce(bind_rows)
+  }
+  
+  poly_conv_sim <- poly_conv_sim %>%
+    reduce(bind_rows)
+  
+  saveRDS(poly_conv_sim, here::here("data/poly_conventional_simulation.rds"))
+} else {
+  poly_conv_sim <- readRDS(here::here("data/poly_conventional_simulation.rds"))
+}
+```
+
+```{r heter-conventional-simulation}
+# Run simulations to get the behaviours of conventional tests
+if (!file.exists(here::here("data/heter_conventional_simulation.rds"))) {
+  heter_conv_sim <- list()
+  
+  # 100 bootstrap samples
+  for (i in 1:100)
+  {
+    heter_conv_sim[[i]] <-
+      # Every sample contains 2000 lineups
+      map(1:2000, function(x) {
+        
+        # Sample a set of parameters
+        a <- sample(c(-1, 0, 1), 1)
+        b <- sample(c(0.25, 1, 4, 16, 64), 1)
+        x_dist <- sample(c("uniform", 
+                           "normal", 
+                           "lognormal", 
+                           "even_discrete"), 1)
+        x <- switch(x_dist,
+                    uniform = rand_uniform(-1, 1),
+                    normal = {
+                      raw_x <- rand_normal(sigma = 0.3)
+                      closed_form(~stand_dist(raw_x))
+                      },
+                    lognormal = {
+                      raw_x <- rand_lognormal(sigma = 0.6)
+                      closed_form(~stand_dist(raw_x/3 - 1))
+                      },
+                    even_discrete = rand_uniform_d(-1, 1, k = 5, even = TRUE))
+        
+        # Build the model
+        mod <- heter_model(a = a, b = b, x = x)
+        
+        # Sample the number of observations
+        n <- sample(c(50, 100, 300), 1)
+        
+        # Generate data from the model 
+        tmp_dat <- mod$gen(n)
+        
+        # Return a data frame containing p-values of
+        # F, RESET, BP and SW tests
+        tibble(a = a,
+               b = b,
+               x_dist = x_dist,
+               n = n,
+               F_p_value = POLY_MODEL$test(
+                 
+                 # Create a pseudo z to be able to use F-test
+                 tmp_dat %>%
+                   mutate(z = poly_model()$
+                            gen(n, computed = select(tmp_dat, x)) %>%
+                            pull(z))
+                 )$p_value,
+               RESET3_p_value = POLY_MODEL$test(tmp_dat, 
+                                                test = "RESET", 
+                                                power = 2:3, 
+                                                power_type = "fitted")$p_value,
+               RESET4_p_value = POLY_MODEL$test(tmp_dat, 
+                                                test = "RESET", 
+                                                power = 2:4, 
+                                                power_type = "fitted")$p_value,
+               RESET5_p_value = POLY_MODEL$test(tmp_dat, 
+                                                test = "RESET", 
+                                                power = 2:5, 
+                                                power_type = "fitted")$p_value,
+               RESET6_p_value = POLY_MODEL$test(tmp_dat, 
+                                                test = "RESET", 
+                                                power = 2:6, 
+                                                power_type = "fitted")$p_value,
+               RESET7_p_value = POLY_MODEL$test(tmp_dat, 
+                                                test = "RESET", 
+                                                power = 2:7, 
+                                                power_type = "fitted")$p_value,
+               RESET8_p_value = POLY_MODEL$test(tmp_dat, 
+                                                test = "RESET", 
+                                                power = 2:8, 
+                                                power_type = "fitted")$p_value,
+               RESET9_p_value = POLY_MODEL$test(tmp_dat, 
+                                                test = "RESET", 
+                                                power = 2:9, 
+                                                power_type = "fitted")$p_value,
+               RESET10_p_value = POLY_MODEL$test(tmp_dat, 
+                                                 test = "RESET", 
+                                                 power = 2:10, 
+                                                 power_type = "fitted")$p_value,
+               BP_p_value = mod$test(tmp_dat)$p_value,
+               SW_p_value = shapiro.test(tmp_dat$.resid)$p.value,
+               boot_id = i)
+        }) %>%
+  reduce(bind_rows)
+  }
+  
+  heter_conv_sim <- heter_conv_sim %>%
+    reduce(bind_rows)
+  
+  saveRDS(heter_conv_sim, here::here("data/heter_conventional_simulation.rds"))
+} else {
+  heter_conv_sim <- readRDS(here::here("data/heter_conventional_simulation.rds"))
+}
+```
+
+```{r}
+# Borrow effect size from the survey
+poly_conv_sim <- poly_conv_sim %>%
+  left_join(select(filter(vi_survey, type == "polynomial"), shape, e_sigma, n, x_dist, effect_size))
+
+heter_conv_sim <- heter_conv_sim %>%
+  left_join(select(filter(vi_survey, type == "heteroskedasticity"), a, b, n, x_dist, effect_size))
+```
+
+# Introduction
+
+> *"Since all models are wrong the scientist must be alert to what is importantly wrong."* [@box1976science]
+
+Diagnostics are the key to determining whether there is anything importantly wrong with a model. In linear regression analysis, residuals from the model fit are commonly used. Residuals summarise what is not captured by the model, and thus provide the capacity to identify what might be wrong. 
+
+We can assess residuals in multiple ways. Residuals may be plotted as a histogram or quantile-quantile plot to examine the distribution. Using the classical normal linear regression model as an example, if the distribution is symmetric and unimodal, we consider it to be well behaved. However, if the distribution is skewed, bimodal, multimodal, or contains outliers, there is a cause for concern. One could also inspect the distribution by conducting a goodness of fit test, such as the Shapiro-Wilk Normality test [@shapiro1965analysis].
+
+More typically, residuals will be plotted, as a scatter plot against the predicted values and each of the explanatory variables to scrutinize their relationships. If there are any visually discoverable patterns, the model is potentially misspecified. In general, one looks for noticeable departures from the model like non-linear dependency or heteroskedasticity. However, correctly judging a residual plot where no pattern exists can be a painstakingly difficult task for humans. It is especially common, particularly among students, to misinterpret patterns that are random noise and random deviation from a model [@loy2021bringing]. It is also possible to conduct hypothesis tests for non-linear dependence [@ramsey_tests_1969], and use a Breusch-Pagan test [@breusch_simple_1979] for heteroskedasticity.
+
+Abundance of literature describe appropriate diagnostic methods for linear regression, e.g. @draper1998applied, @montgomery1982introduction, @belsley_regression_1980, @cook_applied_1999 and @cook1982residuals. All these writings consider plotting residuals to be a standard technique that should be examined routinely in all regression modelling problems. In addition, @draper1998applied and @belsley_regression_1980 believe that residual plots are usually revealing when the assumptions are violated. @cook_applied_1999 thinks formal tests and graphical procedures are complementary and both have a place in residual analysis, but they focus on graphical methods rather than on formal testing, as they are easier to use. @montgomery1982introduction even suggests that residual plots are more informative in most practical situations than the corresponding formal tests, and statistical tests on regression model residuals are not widely used based on their experience.
+
+A common guidance by experts is that optimal method for diagnosing model fits is by plotting the data. The persistence of this advice to check the plots is curious, and investigating why this might be common advice is the subject of this paper. The paper is structured as follows. The next section describes the background on the types of departures that one expects to detect, and outlines a formal statistical process for reading residual plots, called visual inference. Section \ref{experimental-design} details the experimental design to compare the decisions made by formal hypothesis testing, and how humans would read diagnostic plots. The results are reported in Section \ref{results}. We conclude with a discussion of future work, in particular, how the responsibility for residual plot reading might be relieved.
+
+# Background
+
+## Departures from good residual plots
+
+```{r residual-plot-common-departures, fig.width = 10, fig.height = 2.5, fig.cap = "Example residual vs fitted value plots: (A) classically good looking residuals, (B) non-linear pattern indicates that the model has not captured a non-linear association, (C) heteroskedasticity indicating that variance around the fitted model is not uniform, and (D) non-normality where the residual distribution is not symmetric around 0. The latter pattern might best be assessed using a univariate plot of the residuals, but patterns B and C need to be assessed using a residual vs fitted value plot."}
+
+set.seed(10086)
+
+# Base model
+mod <- poly_model(include_z = FALSE, sigma = 0.25)
+
+# Base data
+dat <- mod$gen(300)
+
+bind_rows(
+  dat %>%
+    mutate(type = "(A) Good residuals"),
+  mod$set_prm("include_z", TRUE)$
+    gen(300, computed = select(dat, x, e)) %>%
+    mutate(type = "(B) Non-linearity"),
+  heter_model(b = 64)$
+    gen(300, computed = select(dat, x, e)) %>%
+    mutate(type = "(C) Heteroskedasticity"),
+  heter_model(b = 0, e = rand_lognormal(sigma = 0.5))$
+    gen(300, computed = select(dat, x)) %>%
+    mutate(type = "(D) Non-normality")
+) %>%
+  mod$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  facet_wrap(~type, ncol = 4, scales = "free") +
+  xlab("Fitted values") +
+  ylab("Residuals")
+```
+
+Graphical summaries in which residuals are plotted against fitted values or other functions of the predictors that are approximately orthogonal to the residuals are referred to as standard residual plots in @cook1982residuals. Figure \ref{fig:residual-plot-common-departures}A shows an ideal residual plot where the residuals are evenly distributed at both sides of the horizontal zero line, with no noticeable patterns. 
+
+There are various types of departures from an ideal residual plot. Non-linearity, heteroskedasticity and non-normality are perhaps the three mostly checked departures. 
+
+Non-linearity is a type of model misspecification caused by failing to include higher order terms of the predictors in the regression equation. Any non-linear functional form of residuals on fitted values in the residual plot could be indicative of non-linearity. An example residual plot containing visual pattern of non-linearity is shown in Figure \ref{fig:residual-plot-common-departures}B. One can clearly observe the "S-shape" from the residual plot as the cubic term is not captured by the misspecified model.
+
+Heteroskedasticity refers to the presence of nonconstant error variance in a regression model. It is mostly due to the strict but false assumptions on the variance-covariance matrix of the error term. The usual pattern of heteroskedasticity on a residual plot is the inconsistent spread of the residuals across the horizontal axis. Visually, it sometimes results in the so-called "butterfly" shape as shown in Figure \ref{fig:residual-plot-common-departures}C, or the "left-triangle" and "right-triangle" shape where the smallest variance occurs at one side of the horizontal axis.
+
+Compared to non-linearity and heteroskedasticity, non-normality is usually harder to detect from a residual plot since a scatter plot do not readily reveal the marginal distribution. A favourable graphical summary for this task is the quantile-quantile plot. As we mainly discuss residual plots, non-normality will not be the focus of this paper. For a consistent comparison, the residual plot of this departure is still presented in Figure \ref{fig:residual-plot-common-departures}D. When the number residuals below and above the horizontal axis are uneven across the local regions along the $x$-axis, we expect that the normality assumption is violated. For example, given a skewed error distribution, there will be fewer data points and more outliers on one side of the horizontal axis as shown in Figure \ref{fig:residual-plot-common-departures}D.
+
+## Conventionally testing for departures
+
+Other than checking diagnostic plots, analysts may perform formal hypothesis testing to detect model defects. A variety of tests can be applied; each testing for a specific violation of the null hypothesis. For example, the presence of heteroskedasticity can usually be tested by applying the White test [@white_heteroskedasticity-consistent_1980] or the Breusch-Pagan test [@breusch_simple_1979], which are both derived from the Lagrange multiplier test [@silvey1959lagrangian] principle that relies on the asymptotic properties of the null distribution. To test specific forms of non-linearity, one may apply the F-test as a model structural test to examine the significance of specific polynomial and non-linear forms of the predictors, or the significance of proxy variables as in the Ramsey Regression Equation Specification Error Test (RESET) [@ramsey_tests_1969]. The Shapiro-Wilk test [@shapiro1965analysis] is the most widely used test of non-normality included by many of the statistical software programs. The Jarque--Bera test [@jarque1980efficient] is also used to directly check whether the sample skewness and kurtosis match a normal distribution.
+
+We apply the RESET test, Breusch-Pagan test and Shapiro-Wilk test to the residual plots shown in Figure \ref{fig:residual-plot-common-departures}; the results of this is shown in Table \ref{tab:example-residual-plot-table}. The Breusch-Pagan test and the Shapiro-Wilk test both reject $H_0$ for residual plots that display non-linearity and heteroscedasticity, even though these are not the original intention of the test. As discussed in @cook1982residuals, most residual-based tests for a particular type of departure from model assumptions are also sensitive to other types of departures. It is likely $H_0$ is correctly rejected but for the wrong reason, a phenomenon known as the "Type III error". Additionally, outliers will often incorrectly trigger the rejection of $H_0$ despite when majority of the residuals are well-behaved [@cook_applied_1999]. Furthermore, with a sufficiently large sample size, residual-based tests may reject $H_0$ due to a slight departure that is of little practical significance. These can be largely avoided in diagnostic plots as experienced analysts can evaluate the acceptability of assumptions flexibly, even in the presence of outliers and slight departures. 
+
+
+```{r}
+set.seed(10086)
+
+# Base model
+mod <- poly_model(include_z = FALSE, sigma = 0.25)
+
+# Base data
+dat0 <- mod$gen(300)
+
+# Replicate data in Figure 1
+dat1 <- mod$set_prm("include_z", TRUE)$gen(300, computed = select(dat0, x, e))
+dat2 <- heter_model(b = 64)$gen(300, computed = select(dat0, x, e))
+dat3 <- heter_model(b = 0, e = rand_lognormal(sigma = 0.5))$
+               gen(300, computed = select(dat0, x))
+
+dat_list <- list(dat0, dat1, dat2, dat3)
+
+table_dat <- data.frame(plot = c("A", "B", "C", "D"), 
+                        model = c("None", 
+                                  "Non-linearity", 
+                                  "Heteroskedasticity", 
+                                  "Non-normality"),
+                        r = map_dbl(dat_list, 
+                                    ~POLY_MODEL$test(.x, 
+                                                     test = "RESET", 
+                                                     power = 2:4)$p_value),
+                        b = map_dbl(dat_list, 
+                                    ~HETER_MODEL$test(.x)$p_value),
+                        
+                        # SW test has not been included by visage
+                        s = map_dbl(dat_list, 
+                                    ~shapiro.test(.x$.resid)$p.value)) %>%
+  
+  # 3 decimal points
+  mutate(across(r:s, ~ format(round(.x, digits = 3), nsmall = 3))) %>%
+  
+  # Italic if reject
+  mutate(across(r:s, ~ kableExtra::cell_spec(.x, italic = as.numeric(.x) <= 0.05)))
+
+  table_dat %>%
+  knitr::kable(col.names = c("Plot", 
+                             "Departures", 
+                             "RESET", 
+                             "Breusch-Pagan", 
+                             "Shapiro–Wilk"),
+               align = "llrrr",
+               escape = FALSE,
+               format = "latex",
+               booktabs = TRUE, 
+               caption  = 'Statistical significance testing for departures from good residuals for plots in Figure \\ref{fig:residual-plot-common-departures}. Shown are the $p$-values calculated for the RESET, the Breusch-Pagan and the Shapiro–Wilk tests. The good residual plot (A) is judged a good residual plot, as expected, by all tests. The non-linearity (B) is detected by all tests, as might be expected given the extreme structure.', 
+               label = "example-residual-plot-table" ) 
+```
+
+
+## Visual test procedure based on lineups
+
+One may argue that reading diagnostic plots is to some extent subjective and indecisive compared to those rigorous statistical procedures as it relies on graphical perception - human ability to interpret and decode the information embedded in graph [@cleveland_graphical_1984]. Further, the degree of the presence of the visual features typically can not be measured quantitatively and objectively, which may lead to over or under-interpretations of the data. For instance, people 
+over-interpret the separation between gene groups in a two-dimensional projection from a linear discriminant analysis when in fact there are no differences in the expression levels between the gene groups and separation is not an uncommon occurrence [@roy_chowdhury_using_2015].
+
+Visual inference was first introduced in a 1999 Joint Statistical Meetings (JSM) talk with the title "Inference for Data Visualization" by @buja_inference_1999 as an idea to address the issue of valid inference for visual discoveries of data plots. Later, @buja_statistical_2009 proposed the lineup protocol as a visual test inspired by the "police lineup" or "identity parade" which is the act of asking the eyewitness to identify criminal suspect from a group of irrelevant people. The protocol consists of $m$ randomly placed plots, where one plot is the data plot, and the remaining $m - 1$ null plots have the identical graphical procedure except the data has been replaced with data consistent with $H_0$, that the model is correctly specified. Then, an observer who have not seen the data plot will be asked to point out the most different plot from the lineup. Under $H_0$, it is expected that the data plot would have no distinguishable difference from the null plots, and the probability that the observer correctly picks the data plot is $1/m$. If one rejects $H_0$ as the observer correctly picks the data plot, then the Type I error of this test is $1/m$.
+
+```{r first-example-lineup, fig.height = 7, fig.width = 7, fig.cap = "Visual testing is conducted using a lineup, as in the example here. The residual plot computed from the observed data (plot $2^2 + 2$, exhibiting non-linearity) is embedded among 19 null plots, where the residuals are simulated from a standard error model. Computing the $p$-value requires that the lineup be examined by a number of human judges, each asked to select the most different plot. A small $p$-value would result from a substantial number selecting plot $2^2 + 2$."}
+
+vi_lineup$poly_300$data %>%
+  VI_MODEL$plot_lineup(theme = theme_light(), remove_axis = TRUE, remove_grid_line = TRUE)
+```
+
+Figure \ref{fig:first-example-lineup} is an example of a lineup protocol. If the data plot at position $2^2 + 2$ is identifiable, then it is evidence for the rejection of $H_0$. In fact, the actual residual plot is obtained from a misspecified regression model with missing non-linear terms. 
+
+Data used in the $m - 1$ null plots needs to be simulated. In regression diagnostics, sampling data consistent with $H_0$ is equivalent to sampling data from the assumed model. As @buja_statistical_2009 suggested, $H_0$ is usually a composite hypothesis controlled by nuisance parameters. Since regression models can have various forms, there is no general solution to this problem, but it sometimes can be reduced to a so called "reference distribution" by applying one of the three methods: (i) sampling from a conditional distribution given a minimal sufficient statistic under $H_0$, (ii) parametric bootstrap sampling with nuisance parameters estimated under $H_0$, and (iii) Bayesian posterior predictive sampling. The conditional distribution given a minimal sufficient statistic is the best justified reference distribution among the three [@buja_statistical_2009]. Essentially, null residuals can be simulated by regressing $N$ i.i.d standard normal random draws on the predictors, then rescaling it by the ratio of residual sum of square in two regressions.
+
+The effectiveness of lineup protocol for regression analysis is validated by @majumder_validation_2013 under relatively simple settings with up to two predictors. Their results suggest that visual tests are capable of testing the significance of a single predictor with a similar power as a t-test, though they express that in general it is unnecessary to use visual inference if there exists a conventional test, and they do not expect the visual test to perform equally well as the conventional test. In their third experiment, where there is not a conventional test, visual test outperforms the conventional test for a large margin. This is encouraging, as it promotes the use of visual inference in situations where there are no existing statistical testing procedures. Visual inference have also been integrated into diagnostic of hierarchical linear models by @loy2013diagnostic, @loy2014hlmdiag and @loy2015you. They use lineup protocols to judge the assumption of linearity, normality and constant error variance for both the level-1 and level-2 residuals.
+
+# Calculation of statistical significance and test power
+
+## What is being tested?
+
+In diagnosing a model fit from residuals, we are generally interested in $H_0:$ *The regression model is correctly specified* against the broad alternative $H_a:$ *The regression model is misspecified*.
+
+However, it is practically impossible to test this specific $H_0$ with conventional tests, which are constructed to measure specific departures. For example, the RESET test is formulated as $H_0:\gamma_1 = \gamma_2 = \gamma_3 = 0$ against $H_a: \gamma_1 \neq 0 \text{ or } \gamma_2 \neq 0 \text{ or } \gamma_3 \neq 0$, from $y = \tau_0 + \sum_{i=1}^{p}\tau_px_p +\gamma_1\hat{y}^2 + \gamma_2\hat{y}^3 + \gamma_3\hat{y}^4 + u, ~~u \sim N(0, \sigma_u^2)$. 
+Similarly, the Breusch-Pagan test is designed to specifically test $H_0:$ *error variances are all equal* ($\zeta_i=0 \text{ for } i=1,..,p$) versus the alternative $H_a:$ *that the error variances are a multiplicative function of one or more variables* ($\text{at least one } \zeta_i\neq 0$) from $e^2 = \zeta_0 + \sum_{i=1}^{p}\zeta_i x_i + u, ~ u\sim N(0,\sigma_u^2)$. 
+
+One of the potential benefits of the visual test, based on the lineup protocol, is that it should be able to detect a range of departures from good residuals. 
+
+## Statistical significance
+
+In hypothesis testing, a $p$-value is defined as the probability of observing test results as least as extreme as the observed result given $H_0$ is true. Conventional hypothesis tests usually have an existing method to derive or compute $p$-value based on the null distribution. What we need to discuss in the following is the method to estimate $p$-value for a visual test.
+
+Within the context of visual inference, by involving $k$ independent observers, the visual $p$-value can be interpreted as the probability of having as many or more subjects detect the data plot than the observed result.
+
+Let $X_j = \{0,1\}$ be a Bernoulli random variable denoting whether subject $j$ correctly detecting the data plot, and $X = \sum_{j=1}^{K}X_j$ be the number of observers correctly picking the data plot. Then, by imposing a relatively strong assumption on the visual test that all $K$ evaluations are fully independent, under $H_0$, $X \sim \mathrm{Binom}_{K,1/m}$. Therefore, the $p$-value of a lineup of size $m$ evaluated by $K$ observer is given as $P(X \geq x) = 1 - F(x) + f(x)$, where $F(.)$ is the binomial cumulative distribution function, $f(.)$ is the binomial probability mass function and $x$ is the realization of number of observers correctly picking the data plot [@majumder_validation_2013].
+
+As pointed out by @vanderplas2021statistical, this basic binomial model does not take into account the possible dependencies in the visual test due to repeated evaluations of the same lineup. And it is inapplicable to visual test where subjects are asked to select one or more "most different" plots from the lineup. @vanderplas2021statistical summarises three common scenarios in visual inference: (1) $K$ different lineups are shown to $K$ subjects, (2) $K$ lineups with different null plots but the same data plot are shown to $K$ subjects, and (3) the same lineup is shown to $K$ subjects. Out of these three scenarios, Scenario 3 is the most common in previous studies as it puts the least constraints on the experiment design. For Scenario 3, @vanderplas2021statistical models the probability of a plot $i$ being selected from a lineup as $\theta_i$, where $\theta_i \sim Dirichlet(\alpha)$ for $i=1,...,m$ and $\alpha > 0$. The number of times plot $i$ being selected in $K$ evaluations is denoted as $c_i$. In case subject $j$ makes multiple selections, $1/s_j$ will be added to $c_i$ instead of one, where $s_j$ is the number of plots subject $j$ selected for $j=1,...K$. This ensures $\sum_{i}c_i=K$. Since we are only interested in the selections of the data plot $i$, the marginal model can be simplified to a beta-binomial model and thus the visual $p$-value is given as
+
+
+```{=tex}
+\begin{equation} \label{eq:pvalue-beta-binomial}
+P(C \geq c_i) = \sum_{x=c_i}^{K}{K \choose x}\frac{B(x + \alpha, K - x + (m - 1)\alpha)}{B(\alpha, (m-1)\alpha)},\quad \text{for} \quad c_i \in \mathbb{Z}_0^+
+\end{equation}
+```
+
+\noindent where $B(.)$ is the beta function defined as
+
+```{=tex}
+\begin{equation} \label{eq:betafunction}
+B(a, b) = \int_{0}^{1}t^{\alpha - 1}(1-t)^{b-1}dt,\quad \text{where}\quad a,b>0.
+\end{equation}
+```
+
+Note that Equation \ref{eq:pvalue-beta-binomial} given in @vanderplas2021statistical only works with non-negative integer $c_i$. We extend the equation to non-negative real number $c_i$ by applying a linear approximation
+
+```{=tex}
+\begin{equation} \label{eq:pvalue-beta-binomial-approx}
+P(C \geq c_i) = P(C \geq \lceil c_i \rceil) + (\lceil c_i \rceil - c_i) P(C = \lfloor c_i \rfloor), \quad \text{for}\quad c_i \in \mathbb{R}_0^+,
+\end{equation}
+```
+
+where $P(C \geq \lceil c_i \rceil)$ is calculated using Equation \ref{eq:pvalue-beta-binomial} and $P(C = \lfloor c_i \rfloor)$ is calculated by
+
+\begin{equation} \label{eq:pmf-beta-binomial}
+P(C = c_i) = {K \choose c_i}\frac{B(c_i + \alpha, K - c_i + (m - 1)\alpha)}{B(\alpha, (m-1)\alpha)},\quad \text{for} \quad c_i \in \mathbb{Z}_0^+.
+\end{equation}
+
+Besides, the parameter $\alpha$ used in Equation \ref{eq:pvalue-beta-binomial} and \ref{eq:pmf-beta-binomial} is usually unknown and hence needs to be estimated from the survey data. For low values of $\alpha$, only a few plots are attractive to the observers and tend to be selected. For higher values of $\alpha$, the distribution of the probability of each plot being selected is more even. @vanderplas2021statistical defines that a plot is $c$-interesting if $c$ or more participants select the plot as the most different. Given the definition, The expected number of plots selected at least $c$ times, $E[Z_c]$, is calculated as
+
+```{=tex}
+\begin{equation} \label{eq:c-interesting-expectation}
+E[Z_c(\alpha)] = \frac{m}{B(\alpha, (m-1)\alpha)}\sum_{\lceil c \rceil}^{K}{K \choose x} B(x + \alpha, K - x + (m-1)\alpha).\end{equation}
+```
+
+With Equation \ref{eq:c-interesting-expectation}, $\alpha$ can be estimated using maximum likelihood estimation. But for precise estimate of $\alpha$, additional human responses to Rorschach lineups, which is a type of lineup that consists of plots constructed from the same null data generating mechanism, are required.
+
+## Power of the tests
+
+The power of a model misspecification test is the probability that $H_0$ is rejected given the regression model is misspecified in a specific way. It is an important indicator
+when one is concerned about whether model assumptions have been violated. Although in practice, one might be more interested in knowing how much the residuals deviate from the model assumptions, and whether this deviation is of practical significance.
+
+The power of a conventional hypothesis test is affected by both the true parameter $\boldsymbol{\theta}$ and the sample size $n$. These two can be quantified in terms of effect size $E$ to measure the strength of the residual departures from the model assumptions. Details about the effect size is provided in Section \ref{effect-size} after the introduction of the simulation model used in our human subject experiment. The theoretical power of a test is sometimes not a trival solution, but it can be estimated if the data generating process is known. We use a predefined model to generate a large set of simulated data under different effect sizes, and record if the conventional test rejects $H_0$. The probability of the conventional test rejects $H_0$ is then fitted by a logistic regression formulated as
+
+```{=tex}
+\begin{equation} \label{eq:logistic-regression-1-1}
+Pr(\text{reject}~H_0|H_1,E) = \Lambda\left(log\left(\frac{0.05}{0.95}\right) + \beta_1 E\right),
+\end{equation}
+```
+
+\noindent where $\Lambda(.)$ is the standard logistic function given as $\Lambda(z) = exp(z)/(1+exp(z))$. The effect size $E$ is the only predictor and the intercept is fixed to $log(0.05/0.95)$ so that $\hat{Pr}(\text{reject}~H_0|H_1,E = 0) = 0.05$, which is the desired significance level.    
+
+The power of a visual test on the other hand, may additionally depend on the ability of the particular subject, as the skill of the individual may affect the number of observers who identify the data plot from the lineup [@majumder_validation_2013]. To address this issue, @majumder_validation_2013 models the probability of a subject $j$ correctly picking the data plot from a lineup $l$ using a mixed-effect logistic regression, with subjects treated as random effect. Then, the estimated power of a visual test evaluated by a single subject is the predicted value obtained from the mix-effect model. However, this mix-effect model does not work with scenario where subjects are asked to select one or more most different plots. In this scenario, having the probability of a subject $j$ correctly picking the data plot from a lineup $l$ is insufficient to determine the power of a visual test because it does not provide information about the number of selections made by the subject for the calculation of the $p$-value (See Equation \ref{eq:pvalue-beta-binomial-approx}). Therefore, we directly estimate the probability of a lineup being rejected by assuming that individual skill has negligible effect on the variation of the power. This assumption is not necessary true, but it helps simplifying the model structure, thereby obviate a costly large-scale experiment to estimate complex covariance matrices. The same model given in Equation \ref{eq:logistic-regression-1-1} is applied to model the power of a visual test.  
+
+To study various factors contributing to the power of both tests, the same logistic regression model is fit on different subsets of the collated data grouped by levels of factors. These include the distribution of the fitted values, type of the simulation model and the shape of the residual departures.
+
+# Experimental design
+
+An experiment is conducted in three data collection periods to investigate the difference between conventional hypothesis testing and visual inference in the application of linear regression diagnostics. Two types of departures, non-linearity and heteroskedasticity, are collected during data collection periods I and II. The data collection period III was designed primarily to measure human responses to null lineups so that the parameter $\alpha$ in Equation \ref{eq:pvalue-beta-binomial} can be estimated. Additional lineups for both non-linearity and heteroskedasticity, using uniform fitted value distribution, were included so that the participants were evaluating some lineups with signal also. It would be too frustrating for participants to only be assigned lineups with all null plots. Overall, we collected `r vi_survey  %>% filter(!attention_check) %>% nrow()` evaluations on `r vi_survey  %>% filter(!attention_check) %>% pull(unique_lineup_id) %>% unique() %>% length()` unique lineups performed by `r vi_survey  %>% filter(!attention_check) %>% count(exp, set) %>% nrow()` subjects throughout three data collection periods. 
+
+## Simulating departures from good residuals
+
+### Non-linearity
+
+Data collection period I is designed to study the ability of human subjects to detect the effect of a non-linear term $\boldsymbol{z}$ constructed using Hermite polynomials on random vector $\boldsymbol{x}$ formulated as
+
+\begin{align} \label{eq:nonlinearity-model}
+\boldsymbol{y} &= 1 + \boldsymbol{x} + \boldsymbol{z} + \boldsymbol{\varepsilon},\\
+\boldsymbol{x} &= g(\boldsymbol{x}_{raw}, 1), \\
+\boldsymbol{z} &= g(\boldsymbol{z}_{raw}, 1), \\
+\boldsymbol{z}_{raw} &= He_j(g(\boldsymbol{x}, 2)),
+\end{align}
+
+\noindent where $\boldsymbol{y}$, $\boldsymbol{x}$, $\boldsymbol{\varepsilon}$, $\boldsymbol{x}_{raw}$, $\boldsymbol{z}_{raw}$ are vectors of size $n$, $He_{j}(.)$ is the $j$th-order probabilist's Hermite polynomials, $\varepsilon \sim N(\boldsymbol{0}, \sigma^2\boldsymbol{I}_n)$, and $g(\boldsymbol{x}, k)$ is a scaling function to enforce the support of the random vector to be $[-k, k]^n$ defined as
+
+```{=tex}
+\begin{equation} \label{eq:scaling-function}
+g(\boldsymbol{x}, k) = (\boldsymbol{x} - min(\boldsymbol{x}))/max(\boldsymbol{x} - min(\boldsymbol{x}))2k - k, \quad \text{for} \quad k > 0. 
+\end{equation}
+```
+
+According to @abramowitz1964handbook, Hermite polynomials were initially defined by @de1820theorie, but named after Hermite [@hermite1864nouveau] because of the unrecognisable form of Laplace's work. When simulating $\boldsymbol{z}_{raw}$, function `hermite` from the R package `mpoly` [@mpoly] is used to generate Hermite polynomials. 
+
+The null regression model used to fit the realizations generated by the above model is formulated as
+
+```{=tex}
+\begin{equation} \label{eq:null-model}
+\boldsymbol{y} = \beta_0 + \beta_1 \boldsymbol{x} + \boldsymbol{u},
+\end{equation}
+```
+\noindent where $\boldsymbol{u} \sim N(\boldsymbol{0}, \sigma^2\boldsymbol{I}_n)$.
+
+Since $z = O(x^j)$, for $j > 1$, $z$ is a higher order term leaves out by the null regression, which will lead to model misspecification. 
+
+Visual patterns of non-linearity are simulated using four different orders of probabilist's Hermite polynomials ($j = 2, 3, 6, 18$).  (A summary of the factors is given in Table \ref{tab:model-factor-table}.) The values of $j$ is chosen so that distinct shapes of non-linearity are included in the residual plot. These include "U", "S", "M" and "triple-U" shape as shown in Figure \ref{fig:different-shape-of-herimite}. A greater value of $j$ will result in a curve with more turning points. It is expected that the "U" shape will be the easiest one to detect because complex shape tends to be concealed by cluster of data points.
+
+Figure \ref{fig:example-poly-lineup} demonstrates one of the lineups used in non-linearity detection. This lineup is produced by the non-linearity model with $j = 6$. The data plot location is $2^3 - 4$. All five subjects correctly identify the data plot from this lineup.
+
+```{r results='asis'}
+data.frame(j = c("2", "3", "6", "18", ""),
+           sigma = c("0.25", "1.00", "2.00", "4.00", ""),
+           a = c("-1", "0", "1", "", ""),
+           b = c("0.25", "1.00", "4.00", "16.00", "64.00"),
+           n = c("50", "100", "300", "", ""), 
+           x_dist = c("Uniform", "Normal", "Skewed", "Discrete uniform", "")) %>%
+  knitr::kable(col.names = NULL,
+               align = "rr|rr|rc",
+               escape = FALSE,
+               format = "latex",
+               booktabs = TRUE, 
+               caption  = 'Levels of the factors used in data collection periods I, II, III.', 
+               label = "model-factor-table" ) %>%
+  kableExtra::kable_styling(latex_options = "scale_down") %>%
+  kableExtra::add_header_above(c("Poly Order (sym1)", #"Order of Hermite polynomial\n(sym1)", 
+                                 "SD (sym3)", #"Standard deviation of polynomial model\n(sym3)",
+                                 "Shape (sym4)", # "Shape of heteroskedasticity\n(sym4)", 
+                                 "Ratio (sym5)", # Variance factor of heteroskedasticity model\n(sym5)",
+                                 "Size (sym6)", 
+                                 "Distribution of fitted values")) %>% #"Sample size\n(sym6)")) %>%
+  kableExtra::add_header_above(c("Non-linearity" = 2, 
+                               "Heteroskedasticity" = 2, "Common" = 2)) %>%
+  as.character() %>%
+  gsub("sym1", "$j$", .) %>%
+  gsub("sym3", "$\\\\sigma$", .) %>%
+  gsub("sym4", "$a$", .) %>%
+  gsub("sym5", "$b$", .) %>%
+  gsub("sym6", "$n$", .) %>%
+  cat()
+```
+
+
+
+```{r different-shape-of-herimite, fig.height = 2, fig.cap = "Polynomial forms generated for the residual plots used to assess detecting non-linearity. The four shapes are generated by varying the order of polynomial given by $j$ in $He_j(.)$."}
+
+# Facet label
+shape_labels <- c('He[2]:"U"', 'He[3]:"S"', 'He[6]:"M"', 'He[18]:"triple-U"')
+
+# Data for shape 1
+dat_shape_1 <- poly_model(shape = 1, 
+                          x = {
+                            raw_x <- rand_uniform(-1, 1);
+                            closed_form(~stand_dist(raw_x))
+                            }, 
+                          sigma = 0.05)$gen(300) %>%
+  mutate(shape = shape_labels[1])
+
+# Generate data for shape 2, 3 and 4. Reuse x and e.
+map_df(2:4, function(shape) {
+  poly_model(shape = shape, 
+                  x = {
+                    raw_x <- rand_uniform(-1, 1); 
+                    closed_form(~stand_dist(raw_x))
+                    }, 
+                  sigma = 0.05)$
+  gen(300, computed = select(dat_shape_1, x, e)) %>%
+  mutate(shape = shape_labels[shape])
+}) %>%
+  
+  # Combined with data for shape 1
+  bind_rows(dat_shape_1) %>%
+  mutate(shape = factor(shape, levels = shape_labels)) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  facet_wrap(~shape, scales = "free", labeller = label_parsed, ncol = 4) +
+  xlab("Fitted values") +
+  ylab("Residuals")
+```
+
+
+```{r different-sigma, fig.height = 2, fig.cap = 'Examining the effect of $\\sigma$ on the signal strength in the non-linearity detection, for $n=300$, uniform fitted value distribution and the "U" shape. As $\\sigma$ increases the signal strength decreases, to the point that the "U" is almost unrecognisable when $\\sigma=4$.'}
+
+# Generate data for sigma 0.5
+dat_sigma_05 <- poly_model(shape = 1, 
+                           x = {
+                             raw_x <- rand_uniform(-1, 1);
+                             closed_form(~stand_dist(raw_x))
+                             }, 
+                           sigma = 0.5)$gen(300) %>%
+  mutate(sigma = "sigma: 0.5")
+
+# Generate data for other sigma
+map(c(1, 2, 4), function(sigma) {
+  poly_model(shape = 1, 
+                  x = {
+                    raw_x <- rand_uniform(-1, 1); 
+                    closed_form(~stand_dist(raw_x))
+                    }, 
+                  sigma = sigma)$
+  gen(300, computed = select(dat_sigma_05, x)) %>%
+  mutate(sigma = paste0("sigma: ", sigma))
+}) %>%
+  
+  # Combined with data for sigma 0.5
+  bind_rows(dat_sigma_05) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) + 
+  facet_wrap(~sigma, ncol = 4, scales = "free", labeller = label_parsed) +
+  xlab("Fitted values") +
+  ylab("Residuals")
+```
+
+```{r example-poly-lineup, fig.height = 7, fig.width = 7, fig.cap = "One of the lineups containing non-linearity patterns used in data collection period I. Can you spot the most different plot? The data plot is positioned at $2^3 + 1$."}
+VI_MODEL$plot_lineup(vi_lineup$poly_24$data, 
+                     remove_grid_line = TRUE, 
+                     theme = theme_light(),
+                     remove_axis = TRUE)
+```
+
+### Heteroskedasticity
+
+Data collection period II is designed to study the ability of human subjects to detect the appearance of a heteroskedasticity pattern under a simple linear regression model setting:
+
+```{=tex}
+\begin{align} \label{eq:heter-model}
+\boldsymbol{y} &= 1 + \boldsymbol{x} + \boldsymbol{\varepsilon},\\
+\boldsymbol{x} &= g(\boldsymbol{x}_{raw}, 1),\\
+\boldsymbol{\varepsilon} &\sim N(\boldsymbol{0}, 1 + (2 - |a|)(\boldsymbol{x} - a)^2b \boldsymbol{I}), 
+\end{align}
+```
+
+\noindent where $\boldsymbol{y}$, $\boldsymbol{x}$, $\boldsymbol{\varepsilon}$ are vectors of size $n$ and $g(.)$ is the scaling function defined in Equation \ref{eq:scaling-function}.
+
+The null regression model used to fit the realizations generated by the above model is formulated exactly the same as Equation \ref{eq:null-model}.
+
+For $b \neq 0$, the variance-covariance matrix of the error term $\boldsymbol{\varepsilon}$ is correlated with the predictor $\boldsymbol{x}$, which will lead to the presence of heteroskedasticity. Visual patterns of heteroskedasticity are simulated using three different shapes ($a$ = -1, 0, 1). (A summary of the factors can be found in Table \ref{tab:model-factor-table}.)
+
+Since $supp(X) = [-1, 1]$, choosing $a$ to be $-1$, $0$ and $1$ can generate "left-triangle", "butterfly" and "right-triangle" shape as displayed in Figure \ref{fig:different-shape-of-heter}. The term $(2 - |a|)$ maintains the magnitude of residuals across different values of $a$.
+
+```{r different-shape-of-heter, fig.height = 2.67, fig.cap = 'Heteroskedasticity forms used in the experiment. Three different shapes ($a = -1, 0, 1$) are used in the experiment to create left-triangle, "butterfly" and "right-triangle" shapes, respectively.'}
+
+set.seed(10086)
+
+a_labels <- c("left-triangle", "butterfly", "right-triangle")
+
+# Generate data for a = -1
+dat_a_n1 <- heter_model(a = -1, 
+                        x = {
+                          raw_x <- rand_uniform(-1, 1);
+                          closed_form(~stand_dist(raw_x))
+                          },
+                        b = 128)$gen(300) %>%
+  mutate(a = a_labels[1])
+
+# Generate data for other a
+map(c(0, 1), function(a) {
+  heter_model(a = a,
+              x = {
+                raw_x <- rand_uniform(-1, 1); 
+                closed_form(~stand_dist(raw_x))
+                }, 
+              b = 128)$
+    gen(300, computed = select(dat_a_n1, x, e)) %>%
+    mutate(a = a_labels[a + 2])
+}) %>%
+  
+  # Combined with data for a = -1
+  bind_rows(dat_a_n1) %>%
+  mutate(a = factor(a, levels = a_labels)) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  facet_wrap(~a, scales = "free", ncol = 3) +
+  xlab("Fitted values") +
+  ylab("Residuals")
+```
+
+
+```{r different-b, fig.height = 2, fig.cap = "Five different values of $b$ are used in heteroskedasticity simulation to control the strength of the signal. Larger values of $b$ yield a bigger difference in variation, and stus stronger heteroskedasticity signal."}
+
+# Generate data for b = 0.25
+dat_b025 <- heter_model(a = 0, 
+                        x = {
+                          raw_x <- rand_uniform(-1, 1);
+                          closed_form(~stand_dist(raw_x))
+                          }, 
+                        b = 0.25)$gen(300) %>%
+  mutate(b = "b: 0.25")
+
+# Generate data for other b
+map(c(1, 4, 16, 64), function(b) {
+  heter_model(a = 0,
+              x = {
+                raw_x <- rand_uniform(-1, 1); 
+                closed_form(~stand_dist(raw_x))
+                }, 
+              b = b)$
+  gen(300, computed = select(dat_b025, x, e)) %>%
+  mutate(b = paste0("b: ", b))
+}) %>%
+  
+  # Combined with data for b = 0.25
+  bind_rows(dat_b025) %>%
+  mutate(b = factor(b, levels = paste0("b: ", c(0.25, 1, 4, 16, 64)))) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  facet_wrap(~b, scales = "free", ncol = 5) +
+  xlab("Fitted values") +
+  ylab("Residuals")
+```
+
+
+```{r example-heter-lineup, fig.height = 7, fig.width = 7, fig.cap = "One of the lineups containing heteroskedasticity pattern used in data collection period II. Can you spot the most different plot? The data plot is positioned at $3^3 - 3^2$"}
+
+VI_MODEL$plot_lineup(vi_lineup$heter_471$data, 
+                     remove_grid_line = TRUE, 
+                     theme = theme_light(),
+                     remove_axis = TRUE)
+```
+
+
+An example lineup of this model used in data collection period II is shown in Figure \ref{fig:example-heter-lineup} with $a = -1$. The data plot location is $2^4 + 2$. Nine out of 11 subjects correctly identify the data plot from this lineup. 
+
+
+### Factors common to both data collection periods
+
+
+Fitted values are a function of the independent variables, and the distribution of the observed values affects the distribution of the fitted values. In the best case scenario the fitted values will have a uniform distribution, which means that there is even coverage of possible observed values across all of the predictors. This is not always present in the collected data. Sometimes the fitted values are discrete because one or more predictors were measured discretely. The distribution may be relatively Gaussian, reflecting a linear combinatio of many predictors, adhering to the Central Limit Theorem. It is also common to see a skewed distribution of fitted values, if one or more of the predictors has a skewed distribution. This latter problem is usually corrected before modelling using a variable transformation. Our simulation assess this by using four different distributions to represent fitted values: (1) uniform, (2) normal, (3) skewed and (4) discrete uniform. This is constructed by defining the raw predictor $X_{raw}$ in four corresponding distributions: 
+(1) $U(-1, 1)$, (2) $N(0, 0.3^2)$, (3) $lognormal(0, 0.6^2)/3$ and (4) $u\{1, 5\}$. We would expect that the best reading of residual plots occurs when the fitted values are uniformly distributed.
+
+Three different sample sizes are used, $n=50, 100, 300$ across the experiments. We would expect considerable variation in the signal strength in the simulated data plots with smaller $n$. A sample size of 300 is typically enough for structure to be visible in a scatter plot reliably.
+
+
+```{r different-dist, fig.height = 2, fig.cap = "Variations in fitted values, that might affect perception of residual plots. Four different distributions are used."}
+
+# Data for uniform distribution
+dat_dist_1 <- poly_model(shape = 1, 
+                      x = {
+                        raw_x <- rand_uniform(-1, 1);
+                        closed_form(~stand_dist(raw_x))
+                        }, 
+                      sigma = 0.5)$gen(300) %>%
+  mutate(x_dist = "Uniform")
+
+# Generate data for other distributions
+dat_dist_2 <- poly_model(shape = 1,
+                         x = {
+                           raw_x <- rand_normal(sigma = 0.3); 
+                           closed_form(~stand_dist(raw_x))
+                           }, 
+                         sigma = 0.5)$
+  gen(300, computed = select(dat_dist_1, e)) %>%
+  mutate(x_dist = "Normal")
+
+dat_dist_3 <- poly_model(shape = 1,
+                         x = {
+                           raw_x <- rand_lognormal(sigma = 0.6); 
+                           closed_form(~stand_dist(raw_x/3 - 1))
+                           }, 
+                         sigma = 0.5)$
+  gen(300, computed = select(dat_dist_1, e)) %>%
+  mutate(x_dist = "Skewed")
+
+dat_dist_4 <- poly_model(shape = 1,
+                         x = {
+                           raw_x <- rand_uniform_d(k = 5, even = TRUE); 
+                           closed_form(~stand_dist(raw_x))
+                           }, 
+                         sigma = 0.5)$
+  gen(300, computed = select(dat_dist_1, e)) %>%
+  mutate(x_dist = "Discrete uniform")
+
+# Generate and plot data for discrete uniform distribution
+bind_rows(dat_dist_1, dat_dist_2, dat_dist_3, dat_dist_4) %>%
+  mutate(x_dist = factor(x_dist, 
+                         levels = c("Uniform", 
+                                    "Normal", 
+                                    "Skewed", 
+                                    "Discrete uniform"))) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  xlab("Fitted values") +
+  ylab("Residuals") +
+  facet_wrap(~x_dist, ncol = 4, scales = "free")
+```
+
+
+```{r different-n, fig.height = 2.67, fig.cap = 'Examining the effect of signal strength for the three different values of $n$ used in the experiment, for non-linear structure with fixed $\\sigma = 1.5$, uniform fitted value distribution, and "S" shape. For these factor levels, only when $n = 300$ is the "S" shape clearly visible.'}
+
+set.seed(666)
+
+# Generate data for 300 observations
+dat_n_300 <- poly_model(shape = 2, 
+                        x = {
+                          raw_x <- rand_uniform(-1, 1)
+                          closed_form(~stand_dist(raw_x))
+                        },
+                        sigma = 1)$gen(300) %>%
+  mutate(n = "N: 300")
+
+# Generate data for other settings
+map(c(50, 100), function(n) {
+  poly_model(shape = 2, 
+                   x = {
+                     raw_x <- rand_uniform(-1, 1);
+                     closed_form(~stand_dist(raw_x))
+                     }, 
+             sigma = 1)$
+    gen(n, computed = select(dat_n_300[1:n, ], x, e)) %>%
+    mutate(n = paste0("N: ", n))
+}) %>%
+  
+  # Combined with data for 300 observations
+  bind_rows(dat_n_300) %>%
+  mutate(n = factor(n, levels = c("N: 50", "N: 100", "N: 300"))) %>%
+  VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
+  facet_wrap(~n, scales = "free", ncol = 3) +
+  xlab("Fitted values") +
+  ylab("Residuals")
+```
+
+## Experimental setup
+
+### Controlling the strength of the signal
+
+As summarised in Table \ref{tab:model-factor-table}, three additional parameters $n$, $\sigma$ and $b$ are used to control the strength of the signal so that different difficulty levels of lineups are generated, and therefore, the estimated power curve will be smooth and continuous. Parameter $\sigma \in \{0.5, 1, 2, 4\}$ and $b \in \{0.25, 1, 4, 16, 64\}$ are used in data collection periods I and II respectively. Figure \ref{fig:different-sigma} and \ref{fig:different-b} demonstrate the impact of these two parameters. A large value of $\sigma$ will increase the variation of the error of the non-linearity model and decrease the visibility of the visual pattern. The parameter $b$ controls the standard deviation of the error across the support of the predictor. Given $x \neq a$, a larger value of $b$ will lead to a larger ratio of the variance at $x$ to the variance at $x - a = 0$, making the visual pattern more obvious.
+
+Three different sample sizes are used (n = 50, 100, 300) in all three data collection periods. It can be observed from Figure \ref{fig:different-n} that with fewer data points drawn in a residual plot, the visual pattern is more difficult to be detected.
+
+### Effect size
+
+Effect size in statistics measures the strength of the signal relative to the noise. It is surprisingly difficult to quantify in general, even for simulated data as used in this experiment. 
+
+For the non-linearity model, the key items defining effect size are sample size ($n$) and variance of the error term ($\sigma^2$), and so effect size would be roughly calculated as $\sqrt{n}/{\sigma}$. As sample size increases the effect size would increase, but as variance increases the effect size decreases. However, it is not clear how the additional parameter for the model polynomial order, $k$, should be incorporated. Intuitively, the large $k$ means more complex pattern, which likely means effect size would decrease. For the purposes of our calculations we have chosen to use an approach based on Kullback-Leibler divergence [@kullback1951information], coupled with simulation. This formulation defines effect size to be:
+
+$$E = \frac{1}{2}\left(\boldsymbol{\mu}_z'(diag(\boldsymbol{R}_a\sigma^2))^{-1}\boldsymbol{\mu}_z\right)$$
+\noindent where $diag(.)$ is the diagonal matrix constructed from the diagonal elements of a matrix,
+$\boldsymbol{R}_a = \boldsymbol{I}_n - \boldsymbol{H}_a$ is the residual operator, $\boldsymbol{H}_a = \boldsymbol{X}_a(\boldsymbol{X}_a'\boldsymbol{X}_a)^{-1}\boldsymbol{X}_a'$ is the hat matrix, $\boldsymbol{\mu}_z = \boldsymbol{R}_a\boldsymbol{Z}\boldsymbol{\beta}_z$ is the expected values of residuals with $\boldsymbol{Z}$ be any higher order terms of $\boldsymbol{X}$ leave out by the regression equation and $\boldsymbol{\beta}_z$ be the corresponding coefficients, and $\sigma^2\boldsymbol{I}$ is the assumed covariance matrix of the error term when $H_0$ is true.
+
+In the heteroskedasticity model, the key elements for measuring effect size are sample size, $n$, and the ratio of the biggest variance to smallest variance, $b$. Larger values of both would produce higher effect size. However, it is not clear how to incorporate the additional shape parameter, $a$. Thus the same approach is used here, where the formula can be written as:
+
+$$E = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')|}{|diag(\boldsymbol{R}_a)|} - n + tr(diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')^{-1}diag(\boldsymbol{R}_a))\right)$$
+\noindent where $\boldsymbol{V}$ is the actual covariance matrix of the error term.
+
+Derivations for these equations are provided in the Appendix. 
+
+To compute the effect size for each lineup we simulate a sufficient large number of samples from the same model, in each sample, the number of observations $n$ is fixed. We then compute the effect size for each sample and take the average as the final value. This ensures lineups constructed with the same experimental factors will share the same effect size.
+
+### Subject allocation
+
+As shown in Table \ref{tab:model-factor-table}, there are a total of $4 \times 4 \times 3 \times 4 = 192$ and $3 \times 5 \times 3 \times 4 = 180$ number of combinations of parameter values for non-linearity model and heteroskedasticity model respectively. Three replications are made for each of the combination results in $192 \times 3 = 576$ and $180 \times 3 = 540$ lineups. In addition, each lineup is designed to be evaluated by five different subjects. After attempting some pilot studies internally, we decide to present a block of 20 lineups to every subject. And to ensure the quality of the survey data, two lineups with obvious visual patterns are included as attention checks. Thus, $576 \times 5 / (20-2) = 160$ and $540 \times 5 / (20-2) = 150$ subjects are recruited to satisfy the design of the data collection period I and II respectively.
+
+As mentioned in Section \ref{power-of-the-tests}, $\alpha$ used in Equation \ref{eq:pvalue-beta-binomial} needs to be estimated using null lineups. Three replications are made for $3 \times 4 = 12$ combinations of common factors $n$ and fitted value distribution, results in $12 \times 3 = 36$ lineups included in data collection period III. In these lineups, the data of the data plot is generated from a model with zero effect size, while the data of the 19 null plots are generated using the same simulation method discussed in Section \ref{visual-test-procedure-based-on-lineups}. This generation procedure differs from the canonical Rorschach lineup procedure, which requires that all 20 plots are generated directly from the null model. However, these lineups serve the same fundamental purpose: to assess the number of visually interesting plots generated under $H_0$.
+
+To account for the fact that our simulation method for these lineups is not the Rorschach procedure, we use the method suggested in @vanderplas2021statistical for typical lineups containing a data plot to estimate $\alpha$. 
+We have included a sensitivity analysis in the Appendix to examine the impact of the variance of the $\alpha$ estimate on our findings.
+
+All lineups consist of only null plots are planned to be evaluated by 20 subjects. 
+However, presenting only these lineups to subjects are considered to be bad practices as subjects will lose interest quickly. 
+Therefore, we plan to collect 6 more evaluations on the 279 lineups with uniform fitted value distribution, result in $(36 \times 20 + 279 \times 3 \times 6) / (20-2) = 133$ subjects recruited for data collection period III.
+
+### Collecting results
+
+Subjects for all three data collection periods are recruited from an crowdsourcing platform called Prolific [@palan2018prolific]. Prescreening procedure is applied during the recruitment, subjects are required to be fluent in English, with $98\%$ minimum approval rate and 10 minimum submissions in other studies. 
+
+During the experiment, every subject is presented with a block of 20 lineups. A lineup consists of a randomly placed data plot and 19 null plots, which are all residual plots drawn with raw residuals on the y-axis and fitted values on the x-axis. An additional horizontal red line is added at $y = 0$ as a helping line.
+
+The data of the data plot is simulated from one of two models described in Section \ref{simulating-departures-from-good-residuals}, while the data of the remaining 19 null plots are generated by the residual rotation technique discussed in Section \ref{visual-test-procedure-based-on-lineups}.
+
+In every lineup evaluation, the subject is asked to select one or more plots that are most different from others, provide a reason for their selections, and evaluate how different they think the selected plots are from others. If there is no noticeable difference between plots in a lineup, subjects are permitted to select zero plots without providing the reason. No subject are shown the same lineup twice. Information about preferred pronoun, age group, education, and previous experience in visual experiments are also collected. A subject's submission is only accepted if the data plot is identified for at least one attention check. Data of rejected submissions are discarded automatically to maintain the overall data quality.
+
+# Results 
+
+## Overview
+
+There are `r 160 * 18`, `r 150 * 18` and `r 133 * 18 - nrow(filter(vi_survey, null_lineup, !attention_check))` lineups evaluation made by 160, 150 and 133 subjects recruited for data collection periods I, II and III respectively. In the total of `r nrow(filter(vi_survey, !attention_check))` lineup evaluations, `r nrow(filter(vi_survey, type == "polynomial", !attention_check))` use lineups produced by the non-linearity model, and `r nrow(filter(vi_survey, type == "heteroskedasticity", !attention_check))` use lineups produced by the heteroskedasticity model. Besides, there are `r nrow(filter(vi_survey, attention_check))` attention checks and `r nrow(filter(vi_survey, null_lineup, !attention_check))` evaluations on null lineups needed for the estimate of $\alpha$ not included in the analysis. The collated dataset is provided in `vi_survey` of the `visage` `R` package. 
+
+In the following analysis, lineups with uniform fitted values will be the focus. Visual patterns are more likely to be revealed under a uniform distribution. Additionally, we have collected extra evaluations on these lineups, which will result in a more reliable analysis. Analysis of lineups with other fitted value distributions can be found in Section \ref{effect-of-fitted-value-distributions}.  
+
+## Power comparison of different tests 
+
+```{r cache = TRUE}
+# Define the minimum and maximum effect size
+min_poly_es <- vi_survey %>% 
+  filter(!null_lineup, 
+         !attention_check,
+         type == "polynomial", 
+         x_dist == "uniform") %>%
+  pull(effect_size) %>%
+  min()
+max_poly_es <- vi_survey %>% 
+  filter(!null_lineup, 
+         !attention_check,
+         type == "polynomial", 
+         x_dist == "uniform") %>%
+  pull(effect_size) %>%
+  max()
+
+# The glm model for RESET test
+reset_poly_glmmod <- poly_conv_sim %>%
+  filter(x_dist == "uniform") %>%
+  mutate(log_effect_size = log(effect_size)) %>%
+  mutate(reject = as.numeric(RESET4_p_value <= 0.05)) %>%
+  mutate(offset0 = log(0.05/0.95)) %>%
+  select(x_dist, effect_size, log_effect_size, offset0, reject) %>%
+  glm(reject ~ effect_size - 1, family = binomial(), data = ., offset = offset0)
+
+# The prediction for all conventional tests on poly model
+pred_conv_poly <- poly_conv_sim %>%
+  filter(x_dist == "uniform") %>%
+  select(-RESET3_p_value, -(RESET5_p_value:RESET10_p_value), -F_p_value) %>%
+  rename(RESET_p_value = RESET4_p_value) %>%
+  pivot_longer(RESET_p_value:SW_p_value) %>%
+  mutate(name = gsub("_p_value", " test", name)) %>%
+  mutate(reject = value <= 0.05) %>%
+  select(effect_size, name, reject) %>%
+  mutate(offset0 = log(0.05/0.95)) %>%
+  nest(dat = c(effect_size, offset0, reject)) %>%
+  mutate(mod = map(dat, 
+                   ~glm(reject ~ effect_size - 1, 
+                        family = binomial(), 
+                        data = .x,
+                        offset = offset0))) %>%
+  mutate(power = map(mod, function(mod) {
+    result <- data.frame(effect_size = seq(min_poly_es, max_poly_es, 0.1),
+                         offset0 = log(0.05/0.95))
+    result$power <- predict(mod, type = "response", newdata = result)
+    result
+  })) %>%
+  select(-dat, -mod) %>%
+  unnest(power) %>%
+  mutate(log_effect_size = log(effect_size))
+
+# Data needed by the visual test
+visual_poly_dat <- vi_survey %>%
+  filter(!null_lineup, 
+         !attention_check, 
+         type == "polynomial", 
+         x_dist == "uniform") %>%
+  group_by(unique_lineup_id) %>%
+  summarise(across(everything(), first)) %>%
+  mutate(reject = as.numeric(p_value <= 0.05)) %>%
+  mutate(offset0 = log(0.05/0.95)) %>%
+  select(effect_size, offset0, reject)
+
+# The glm model for visual test
+visual_poly_glmmod <- glm(reject ~ effect_size - 1, 
+                          family = binomial(), 
+                          data = visual_poly_dat, 
+                          offset = offset0)
+
+# The prediction of the visual test
+pred_visual_poly <- data.frame(effect_size = seq(min_poly_es, max_poly_es, 0.1),
+                               offset0 = log(0.05/0.95)) %>%
+  mutate(power = predict(visual_poly_glmmod, 
+                         type = "response",
+                         newdata = data.frame(effect_size = effect_size,
+                                              offset0 = offset0))) %>%
+  mutate(log_effect_size = log(effect_size))
+
+# The prediction of the boot visual test
+pred_visual_poly_boot <- map_df(1:500, function(boot_id) {
+  slice_sample(visual_poly_dat, n = nrow(visual_poly_dat), replace = TRUE) %>%
+    nest(dat = c(effect_size, offset0, reject)) %>%
+    mutate(mod = map(dat, 
+                     ~glm(reject ~ effect_size - 1, 
+                          family = binomial(), 
+                          data = .x,
+                          offset = offset0))) %>%
+    mutate(power = map(mod, function(mod) {
+      result <- data.frame(effect_size = seq(min_poly_es, max_poly_es, 0.1),
+                           offset0 = log(0.05/0.95))
+      result$power <- predict(mod, type = "response", newdata = result)
+      result
+    })) %>%
+    select(-dat, -mod) %>%
+    unnest(power) %>%
+    mutate(log_effect_size = log(effect_size)) %>%
+    mutate(boot_id = boot_id)
+  })
+```
+
+Figure \ref{fig:polypower} shows the estimated power of visual test on lineups produced by the non-linearity model with uniform fitted values, against the natural logarithm of the effect $log_e(E)$, with a 5% significance level. At the bottom of the figure \ref{fig:polypower}, there are a sequence of example residual plots with increasing levels of $log_e(E)$. Readers can evaluate them from left to right and determine at which level the departure from a good residual plot becomes detectable.
+
+As discussed in Section \ref{conventionally-testing-for-departures}, many conventionally tests are available for detecting residual departures. Implementation-wise, the built-in R package `stats` provides some commonly used residual-based tests, such as Shapiro-Wilk test. A more comprehensive collection of regression diagnostics tests can be found in the R package `lmtest` [@lmtest]. In terms of heteroskedasticity diagnostics, the R package `skedastic` [@skedastic] collects and implements 25 existing conventional tests published since 1961.
+
+We pick RESET test (`resettest`) and Breusch-Pagan test (`bptest`) from the R package `lmtest`, and Shapiro-Wilk test (`shapiro.test`) from the built-in R package `stats`. Among them, RESET test is the only exact and appropriate test in this scenario. Both the Breusch-Pagan test and the Shapiro-Wilk test are approximate and inappropriate tests. Their estimated power is shown in Figure \ref{fig:polypower}. To set up the RESET test, we include different powers of fitted values as proxies. According to @ramsey_tests_1969, there are no general rules for the power of the fitted values needed by the RESET test, but it finds power up to four is usually sufficient. Thus, we follow this guideline to conduct the RESET test. For the Breusch-Pagan test, the choice of predictors in the auxiliary regression is left to the user [@breusch_simple_1979]. But as @waldman1983note suggested, it is a good choice for the set of auxiliary predictors in the Breusch-Pagan test be the same as the White test. Thus, we include both $x$ and $x^2$ in the auxiliary regression.
+
+Figure \ref{fig:heterpower} is similar to Figure \ref{fig:polypower}, but shows corresponding information on lineups produced by the heteroskedasticity model. In this scenario, the visual test is compared to an approximate test - Breusch-Pagan test, and two other inappropriate tests - RESET test and Shapiro-Wilk test. 
+
+For non-linearity patterns, the power curve of RESET test climbs aggressively from
+`r round(unname(predict(reset_poly_glmmod, newdata = data.frame(effect_size = exp(0), offset0 = log(0.05/0.95)), type = "response")) * 100)`% to `r round(unname(predict(reset_poly_glmmod, newdata = data.frame(effect_size = exp(2.5), offset0 = log(0.05/0.95)), type = "response")) * 100)`% as $log_e(E)$ increases from 0 to 2.5, while power of other tests respond inactively to the change of effect, showing that RESET test is much more sensitive to weak non-linear structure. Meanwhile, no noticeable residual departures can be spotted from the example residual plots.
+
+In terms of heteroskedasticity patterns, the power of Breusch-Pagan test is constantly greater than the power of visual test. At $log_e(E) \approx 2.5$, where the power curve of the visual test remains at a low level, the Breusch-Pagan test has around 50% chance of rejecting $H_0$. Similarly, the visual feature is nearly unobservable from the example residual plots at this level of effect size.
+
+The power of visual test arises steadily as $log_e(E)$ increases from 3 to 5 for both non-linearity patterns and heteroskedasticity patterns, suggesting that the effect starts to make significant impact on the degree of the presence of the designed visual features. This can also be observed from the example residual plots that when $log_e(E) = 3.5$, a weak "S-shape" and a weak "right-triangle" shape are presented in Figure \ref{fig:polypower} and Figure \ref{fig:heterpower} respectively. The visual pattern becomes clearer as $log_e(E)$ increases. At $log_e(E) = 5$, the power of visual tests for both patterns reaches almost 100%.
+
+Power curves of inappropriate tests show improvement as the effect increases but at a lower rate than the visual test in both scenarios. This coincides the point made by @cook1982residuals that residual-based tests for a specific type of model defect may be sensitive to other types of model defects. The power curve of RESET test remains at around 5% in Figure \ref{fig:heterpower} since there are no non-linear terms leave out in the heteroskedasticity model and $H_0$ of the test is always satisfied.
+
+Overall, the power comparison suggests that conventional tests differs significantly from visual tests in two regression diagnostics scenarios designed by us. Visual test have much higher tolerance of the residual departures than the conventional test. Since fail to reject $H_0$ in a visual test literally means that there are no obvious visual discoveries found in the residual plot, analysts and the general public as the consumers of the output may not be convinced of the existence of significant residual departures in spite of the rejection of $H_0$ given by the conventional test. Even if the rejection is accepted, the model violation may be considered as impactless due to the fact that they are not clearly visible. Besides, the sensitivity of the conventional test to weak residual departures could also distract and discourage analysts from finding simple but good linear approximation to the data. The rejection of $H_0$ because of human acceptable and negligible residual departures is not practically meaningful and useful to analysts and decision makers. In contrast, if the strict correctness of the model assumption is of particular interest, conducting a conventional test is still the recommended choice based on the findings.
+
+```{r}
+# Analyse uniform polynomial data
+p <- ggplot() +
+  
+  geom_point(data = visual_poly_dat,
+             aes(log(effect_size), reject),
+             alpha = 0.15) +
+  
+  # Draw conventional test power curve
+  geom_line(data = pred_conv_poly,
+            aes(log_effect_size, power, col = name),
+            size = 1) +
+  
+  # Draw boot visual test curves
+  geom_line(data = pred_visual_poly_boot,
+            aes(log_effect_size, power, col = "Visual test", group = boot_id),
+            size = 1,
+            alpha = 0.01) +
+  
+  # Draw visual test power curve
+  geom_line(data = pred_visual_poly,
+            aes(log_effect_size, power, col = "Visual test"), 
+            size = 1) +
+  
+  # Theme
+  theme_light(base_size = 5) +
+  theme(panel.grid.major.x =  element_line(colour = "grey70", linewidth = 0.5)) +
+  scale_color_manual(values = rev(rcartocolor::carto_pal(4, "Vivid"))) +
+  scale_x_continuous(breaks = seq(0, 5, 0.5), minor_breaks = NULL) +
+  xlab(expression(log[e] (Effect_size))) +
+  ylab("Power") +
+  labs(col = "", size = "# lineups")
+```
+
+
+```{r cache = TRUE}
+# target_sigma is obtained by evaluating a vector of sigma and picking those 
+# with expected effect 0 ~ 5
+
+target_sigma <- c(3.65, 2.84, 2.21, 1.72, 1.34, 1.04, 0.81, 0.63, 0.49, 0.38, 0.3)
+
+# Calculate the effect size 
+es <- map_dbl(target_sigma, 
+              ~log(poly_model(shape = 2, 
+                              x = {raw_x <- rand_normal(sigma = 0.3); closed_form(~stand_dist(raw_x))}, 
+                              sigma = .x)$
+                     average_effect_size(n = 100, type = "kl")
+                   )
+              )
+```
+
+
+```{r polypower, fig.height = 3, fig.width = 5, fig.cap = "Comparison of power between different tests for non-linear patterns (uniform fitted values only). Main plot shows the power curves estimated using logistic regression, with dots indicating human evaluations of lineups. Surrounding lines of the visual test show the estimated power of 500 bootstrap samples. Small row of plots shows typical residual plots corresponding to specific effect sizes, marked by vertical lines in main plot. Where would you draw the line of too much non-linearity in the residuals? For the RESET test this is around log effect size 2, but for the visual test it is around 3.5.", dev = 'png', dpi = 450}
+
+# 106
+# 112
+# 113
+# 115
+# 132
+# 133
+# 144!
+# 147
+set.seed(132)
+
+# Base data
+ex_dat <- poly_model(shape = 2, 
+                     x = rand_uniform(-1, 1), 
+                     sigma = 1)$gen(n = 100)
+plist <- list()
+j <- 0
+
+# Obtain data at different effect. Reuse x and recompute e.
+for (i in target_sigma) {
+  j <- j + 1
+plist[[j]] <- poly_model(shape = 2, 
+                         x = rand_uniform())$
+                  gen(n = 100, 
+                      computed = ex_dat %>%
+                        mutate(e = sqrt(i) * e) %>%
+                        select(x, e)
+                      ) %>%
+  VI_MODEL$plot(theme = theme_light(base_size =  5), 
+                remove_axis = TRUE, 
+                remove_grid_line = TRUE, size = 0.25, stroke = 0.25) +
+    ggtitle(round(es[j], 1)) +
+    theme(aspect.ratio = 0.8)
+}
+
+# Use area() to design layout
+map(1:11, ~patchwork::area(21, .x, 22, .x)) %>%
+  reduce(c) %>%
+  c(patchwork::area(3, 1, 20, 11), .) %>%
+  patchwork::wrap_plots(append(plist, list(p), after = 0), 
+                        design = .)
+```
+  
+
+```{r cache = TRUE}
+# Define the minimum and maximum effect size
+min_heter_es <- vi_survey %>% 
+  filter(!null_lineup, 
+         !attention_check,
+         type == "heteroskedasticity", 
+         x_dist == "uniform") %>%
+  pull(effect_size) %>%
+  min()
+max_heter_es <- vi_survey %>% 
+  filter(!null_lineup, 
+         !attention_check,
+         type == "heteroskedasticity", 
+         x_dist == "uniform") %>%
+  pull(effect_size) %>%
+  max()
+
+# The prediction for all conventional tests on heter model
+pred_conv_heter <- heter_conv_sim %>%
+  filter(x_dist == "uniform") %>%
+  select(-RESET3_p_value, -(RESET5_p_value:RESET10_p_value), -F_p_value) %>%
+  rename(RESET_p_value = RESET4_p_value) %>%
+  pivot_longer(RESET_p_value:SW_p_value) %>%
+  mutate(name = gsub("_p_value", " test", name)) %>%
+  mutate(reject = value <= 0.05) %>%
+  select(effect_size, name, reject) %>%
+  mutate(offset0 = log(0.05/0.95)) %>%
+  nest(dat = c(effect_size, offset0, reject)) %>%
+  mutate(mod = map(dat, 
+                   ~glm(reject ~ effect_size - 1, 
+                        family = binomial(), 
+                        data = .x,
+                        offset = offset0))) %>%
+  mutate(power = map(mod, function(mod) {
+    result <- data.frame(effect_size = seq(min_heter_es, max_heter_es, 0.1),
+                         offset0 = log(0.05/0.95))
+    result$power <- predict(mod, type = "response", newdata = result)
+    result
+  })) %>%
+  select(-dat, -mod) %>%
+  unnest(power) %>%
+  mutate(log_effect_size = log(effect_size))
+
+# Data needed by the visual test
+visual_heter_dat <- vi_survey %>%
+  filter(!null_lineup, 
+         !attention_check, 
+         type == "heteroskedasticity", 
+         x_dist == "uniform") %>%
+  group_by(unique_lineup_id) %>%
+  summarise(across(everything(), first)) %>%
+  mutate(reject = as.numeric(p_value <= 0.05)) %>%
+  mutate(offset0 = log(0.05/0.95)) %>%
+  select(effect_size, offset0, reject)
+
+# The glm model for visual test
+visual_heter_glmmod <- glm(reject ~ effect_size - 1, 
+                           family = binomial(), 
+                           data = visual_heter_dat, 
+                           offset = offset0)
+
+# The prediction of the visual test
+pred_visual_heter <- data.frame(effect_size = seq(min_heter_es, max_heter_es, 0.1),
+                                offset0 = log(0.05/0.95)) %>%
+  mutate(power = predict(visual_heter_glmmod, 
+                         type = "response",
+                         newdata = data.frame(effect_size = effect_size,
+                                              offset0 = offset0))) %>%
+  mutate(log_effect_size = log(effect_size))
+
+# The prediction of the boot visual test
+pred_visual_heter_boot <- map_df(1:500, function(boot_id) {
+  slice_sample(visual_heter_dat, n = nrow(visual_heter_dat), replace = TRUE) %>%
+    nest(dat = c(effect_size, offset0, reject)) %>%
+    mutate(mod = map(dat, 
+                     ~glm(reject ~ effect_size - 1, 
+                          family = binomial(), 
+                          data = .x,
+                          offset = offset0))) %>%
+    mutate(power = map(mod, function(mod) {
+      result <- data.frame(effect_size = seq(min_heter_es, max_heter_es, 0.1),
+                           offset0 = log(0.05/0.95))
+      result$power <- predict(mod, type = "response", newdata = result)
+      result
+    })) %>%
+    select(-dat, -mod) %>%
+    unnest(power) %>%
+    mutate(log_effect_size = log(effect_size)) %>%
+    mutate(boot_id = boot_id)
+  })
+```
+
+```{r}
+# Analyse uniform heteroskedasticity data
+p <- ggplot() +
+  
+  geom_point(data = visual_heter_dat,
+             aes(log(effect_size), reject),
+             alpha = 0.15) +
+  
+  # Draw conventional test power curve
+  geom_line(data = pred_conv_heter,
+            aes(log_effect_size, power, col = name),
+            size = 1) +
+  
+  # Draw boot visual test curves
+  geom_line(data = pred_visual_heter_boot,
+            aes(log_effect_size, power, col = "Visual test", group = boot_id),
+            size = 1,
+            alpha = 0.01) +
+  
+  # Draw visual test power curve
+  geom_line(data = pred_visual_heter,
+            aes(log_effect_size, power, col = "Visual test"), 
+            size = 1) +
+  
+  # Theme
+  theme_light(base_size = 5) +
+  theme(panel.grid.major.x =  element_line(colour = "grey70", linewidth = 0.5)) +
+  scale_color_manual(values = rev(rcartocolor::carto_pal(4, "Vivid"))) +
+  # scale_size_manual(values = seq(1, 9)) +
+  scale_x_continuous(breaks = seq(0, 5, 0.5), minor_breaks = NULL) +
+  xlab(expression(log[e] (Effect_size))) +
+  ylab("Power") +
+  labs(col = "", size = "# lineups")
+```  
+
+  
+```{r cache = TRUE}
+# target_b is obtained by evaluating a vector of b and picking those 
+# with expected effect 0 ~ 5
+
+target_b <- c(0.17, 0.23, 0.32, 0.46, 0.67, 1.04, 1.7, 3, 6.3, 16.2, 61)
+
+# Calculate the effect size 
+es <- map_dbl(target_b, 
+              ~log(heter_model(a = 1, 
+                               b = .x, 
+                               x = {raw_x <- rand_normal(sigma = 0.3);closed_form(~stand_dist(raw_x))})$
+                     average_effect_size(n = 100, type = "kl")
+                   )
+              )
+```
+  
+```{r heterpower, fig.height = 3, fig.width = 5, fig.cap = "Comparison of power between different tests for heteroskedasticity patterns (uniform fitted values only). Main plot shows the power curves, with dots indicating human evaluations of lineups. Surrounding lines of the visual test show the estimated power of 500 bootstrap samples. Small row of plots shows typical residual plots corresponding to specific effect sizes, marked by vertical lines in main plot. Where would you draw the line of too much heteroskedasticity in the residuals? For the BP test this is around log effect size 2.5, but for the visual test it is around 3.5.", dev = 'png', dpi = 450}
+
+# 10091
+# 101
+# 105
+# 106
+# 112
+# 119
+# 133
+set.seed(135)
+
+# Base data
+ex_dat <- heter_model(a = 1, 
+                      x = rand_uniform(-1, 1), 
+                      b = 1)$gen(n = 100)
+plist <- list()
+j <- 0
+
+# Obtain data at different b
+for (i in target_b) {
+  j <- j + 1
+  plist[[j]] <- heter_model(a = 1, 
+                            b = i, 
+                            x = rand_uniform(-1, 1))$
+                  gen(n = 100, computed = select(ex_dat, x, e)) %>%
+  VI_MODEL$plot(theme = theme_light(base_size =  5),
+                remove_axis = TRUE,
+                remove_grid_line = TRUE, size = 0.25, stroke = 0.25) +
+    ggtitle(round(es[j], 1)) +
+    theme(aspect.ratio = 0.8)
+}
+
+# Use area() to design layout
+map(1:11, ~patchwork::area(21, .x, 22, .x)) %>%
+  reduce(c) %>%
+  c(patchwork::area(3, 1, 20, 11), .) %>%
+patchwork::wrap_plots(append(plist, list(p), after = 0), 
+                      design = .)
+```  
+
+
+## Comparison of test decisions based on $p$-values
+
+```{r}
+# Dataset for p-value comparison
+p_value_cmp_dat <- vi_survey %>%
+  filter(!null_lineup) %>%
+  filter(!attention_check) %>%
+  filter(x_dist == "uniform") %>%
+  mutate(type = ifelse(type == "polynomial", "non-linearity", type)) %>%
+  group_by(unique_lineup_id) %>%
+  summarise(across(everything(), first)) %>%
+  mutate(type = factor(type, levels = c("non-linearity", "heteroskedasticity"))) %>%
+  mutate(conv_reject = ifelse(conventional_p_value <= 0.05, "Reject", "Not"),
+         reject = ifelse(p_value <= 0.05, "Reject", "Not")) %>%
+  mutate(conv_reject = factor(conv_reject, levels = c("Reject", "Not")),
+         reject = factor(reject, levels = c("Reject", "Not"))) %>%
+  select(type, conv_reject, reject)
+```
+
+The power comparison illustrates that appropriate conventional tests will reject $H_0$ more aggressively than visual tests. In this section, we explore how often they agree with each other by investigating the rejections for the two model designs based on $p$-values for each lineup.
+
+Figure \ref{fig:p-value-comparison} provides a mosaic plot showing the rejection rate of visual tests and conventional tests for both non-linearity patterns and heteroskedasticity patterns.
+
+For lineups containing non-linearity patterns, conventional tests reject `r p_value_cmp_dat %>% filter(type == "non-linearity") %>% count(conv_reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% and visual tests reject `r p_value_cmp_dat %>% filter(type == "non-linearity") %>% count(reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% of the time. Of the lineups rejected by the conventional test, `r p_value_cmp_dat %>% filter(type == "non-linearity") %>% filter(conv_reject == "Reject") %>% count(reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% are rejected by the visual test, that is, approximately half as many as the conventional test. There are no lineups that are rejected by the visual test but not by the conventional test.
+
+In terms of lineups containing heteroskedasticity patterns, `r p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% count(conv_reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% are rejected by conventional tests, while `r p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% count(reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% are rejected by visual tests. When the conventional test rejects a lineup, there is a great chance (`r p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% filter(conv_reject == "Reject") %>% count(reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`%) the visual test will also reject it.  
+
+```{r}
+nr <- p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% filter(conv_reject == "Not") %>% count(reject)
+```
+
+Surprisingly, the visual test rejects `r nr$n[1]` of the `r nr$n[1]+nr$n[2]` (`r round(nr$n[1]/(nr$n[1]+nr$n[2])*100, 0)`%) of lineups where the conventional test does not reject. Figure \ref{fig:heter-example} shows this lineup. The data plot in position seventeen displays a relatively strong heteroskedasticity pattern, and has a strong effect size ($log_e(E)=4.02$). This is reflected by the visual test $p\text{-value} = 0.026$. But the Breusch-Pagan test $p\text{-value} = 0.056$, is slightly above the significance cutoff of $0.05$. This lineup was evaluated by 11 subjects, it has experimental factors $a = 0$ ("butterfly" shape), $b = 64$ (large variance ratio), $n = 50$ (small sample size), and a uniform distribution for the fitted values. It must be the small sample size that may have resulted in the lack of detection.
+
+```{r p-value-comparison, fig.width = 8, fig.height = 4, fig.cap = "Rejection rate ($p$-value $\\leq0.05$) of visual test conditional on the conventional test decision on non-linearity (left) and heteroskedasticity (right) lineups (uniform fitted values only) displayed using a mosaic plot. The visual test rejects less frequently than the conventional test. We would generally expect the visual test to only reject when the conventional test does. Surprisingly, one lineup containing a heteroskedasticity pattern does not follow this rule. "}
+
+library(ggmosaic)
+
+# Mosaic plot
+p_value_cmp_dat %>%
+  ggplot() +
+  geom_mosaic(aes(x = ggmosaic::product(reject, conv_reject), 
+                  fill = reject)) +
+  facet_grid(~type) +
+  ylab("Visual tests") +
+  xlab("Conventional tests") +
+  labs(fill = "Conventional tests") +
+  scale_fill_brewer("", palette = "Dark2") +
+  theme_bw() +
+  theme(legend.position = "none") +
+  coord_fixed()
+```
+
+```{r heter-example, fig.height = 7, fig.width = 7, fig.cap = 'The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot at panel 17 contains a "butterfly" shape. It has effect size $ = 3.76$, somewhat surprising that it is not detected by the BP test.'}
+# plot heter-331
+VI_MODEL$plot_lineup(vi_lineup$heter_331$data, 
+                     remove_grid_line = TRUE, 
+                     theme = theme_light(),
+                     remove_axis = TRUE)
+```
+
+
+## Effect of shape of non-linearity
+
+A primary factor contributes to the non-linearity model is the shape of the non-linearity pattern. According to Figure \ref{fig:poly-power-uniform-j}, conventional tests have higher power in testing shapes constructed from lower orders of Hermite polynomials. But the chance of detecting the "triple-U" shape drops significantly compared to other shapes. To understand why this is, one needs to return to the way the RESET test is applied. It requires a parameter indicating degree of fitted values to test for, and the recommendation is to generically use four [@ramsey_tests_1969]. However, the "triple-U" shape constructed from the Hermite polynomials use power up to 18. If the RESET test had been applied using a higher power no less than six, the power curve of "triple-U" shape will be only slight lower than the power curve of "M" shape. The recommendation of the polynomial power for the RESET test should be revised, perhaps. This illustrates the sensitivity of conventional testing to the parameters, and it also points to a limitation that one needs to know the data generating process in order to set the parameters for the test.
+
+For visual tests, based on the orders of the Hermite polynomials, we expect the "U" shape will be the easiest one to be detected by subjects followed by the "S", "M" and "triple-U" shape. From Figure \ref{fig:poly-power-uniform-j}, it can be observed that the power curves are mostly aligned with our expectation, except for the "M" shape, which is as easy to be detected as the "S" shape. This implies, unlike the conventional test, the visibility of the shape do not strictly follow the degree of the polynomials.
+
+```{r poly-power-uniform-j, fig.height = 4, fig.cap = 'Power of conventional tests and visual tests on lineups containing four different non-linearity shapes. Power curves with higher order of non-linearity are drawn with deeper colours. The default RESET tests under-perform significantly in detecting "triple-U" shape. To achieve a similar power as other shapes, a higher order polynomial parameter needs to be used for the RESET test. But this means the order needs to be known prior to testing.'}
+
+dat_poly_j <- poly_conv_sim %>%
+  filter(x_dist == "uniform") %>%
+  mutate(reject = as.numeric(RESET4_p_value <= 0.05)) %>%
+  mutate(shape = c("U", "S", "M", "triple-U")[shape]) %>%
+  mutate(conv_or_not = "Conventional") %>%
+  bind_rows(vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(x_dist == "uniform", type == "polynomial") %>%
+  mutate(reject = as.numeric(p_value <= 0.05)) %>%
+  mutate(shape = c("U", "S", "M", "triple-U")[shape]) %>%
+  mutate(conv_or_not = "Visual")) %>%
+  mutate(shape = factor(shape, levels = c("U", "S", "M", "triple-U"))) %>%
+  mutate(offset0 = log(0.05/0.95)) %>%
+  select(shape, effect_size, offset0, reject, conv_or_not)
+
+dat_poly_j %>%
+  nest(dat = c(effect_size, offset0, reject)) %>%
+  mutate(mod = map(dat, 
+                   ~glm(reject ~ effect_size - 1, 
+                        family = binomial(), 
+                        data = .x,
+                        offset = offset0))) %>%
+  mutate(power = map(mod, function(mod) {
+    result <- data.frame(effect_size = seq(min_poly_es, max_poly_es, 0.1),
+                         offset0 = log(0.05/0.95))
+    result$power <- predict(mod, type = "response", newdata = result)
+    result
+  })) %>%
+  select(-dat, -mod) %>%
+  unnest(power) %>%
+  mutate(log_effect_size = log(effect_size)) %>%
+  ggplot() +
+  geom_line(aes(log_effect_size, power, col = shape), size = 1) +
+  xlab(expression(log[e] (Effect_size))) +
+  ylab("Power") +
+  scale_color_manual(values = rcartocolor::carto_pal(4, "TealGrn")) +
+  theme_light() +
+  theme(legend.position = "bottom") +
+  facet_wrap(~conv_or_not) +
+  labs(col = "Non-linearity shape")
+```
+
+
+## Effect of shape of heteroskedasticity
+
+We have also investigated the impact of different heteroskedasticity shapes on power of conventional tests and visual tests. In theory, the "left-triangle" and the "right-triangle" shapes are functionally identical from the point of view of a Breusch-Pagan test. As shown in Figure \ref{fig:heter-power-uniform-a}, this is indeed the case where little difference between the power curves can be perceived. Similarly, visual tests should have the same power in detecting these two shapes if they are equally likely to be identified. However, it can be observed from Figure \ref{fig:heter-power-uniform-a} that the power curve of the "left-triangle" shape is higher than the one of the "right-triangle" shape, indicating a potential favour of orientation by human, which is worth to be explored in future studies. Besides, the chance of detecting the "butterfly" shape are higher than other two shapes in both conventional and visual testing. 
+
+```{r heter-power-uniform-a, fig.height = 4, fig.cap = 'Power of conventional tests and visual tests on lineups produced by the heteroskedasticity model with three different shapes controlled by the parameter $a$. The visual test has an asymmetric power in testing the "left-triangle" shape and "right-triangle" shape, while these two shapes are equivalent in conventional testing.'}
+
+dat_heter_a <- heter_conv_sim %>%
+  filter(x_dist == "uniform") %>%
+  mutate(reject = as.numeric(BP_p_value <= 0.05)) %>%
+  mutate(a = c("left-triangle", "butterfly", "right-triangle")[a + 2]) %>%
+  mutate(conv_or_not = "Conventional") %>%
+  bind_rows(vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(x_dist == "uniform", type == "heteroskedasticity") %>%
+  mutate(reject = as.numeric(p_value <= 0.05)) %>%
+  mutate(a = c("left-triangle", "butterfly", "right-triangle")[a + 2]) %>%
+  mutate(conv_or_not = "Visual")) %>%
+  mutate(a = factor(a, levels = c("left-triangle", "butterfly", "right-triangle"))) %>%
+  mutate(offset0 = log(0.05/0.95)) %>%
+  select(a, effect_size, offset0, reject, conv_or_not)
+
+# Manually fit the model
+dat_heter_a %>%
+  nest(dat = c(effect_size, offset0, reject)) %>%
+  mutate(mod = map(dat, 
+                   ~glm(reject ~ effect_size - 1, 
+                        family = binomial(), 
+                        data = .x,
+                        offset = offset0))) %>%
+  mutate(power = map(mod, function(mod) {
+    result <- data.frame(effect_size = seq(min_heter_es, max_heter_es, 0.1),
+                         offset0 = log(0.05/0.95))
+    result$power <- predict(mod, type = "response", newdata = result)
+    result
+  })) %>%
+  select(-dat, -mod) %>%
+  unnest(power) %>%
+  mutate(log_effect_size = log(effect_size)) %>%
+  ggplot() +
+  geom_line(aes(log_effect_size, power, col = a), size = 1) +
+  xlab(expression(log[e] (Effect_size))) +
+  ylab("Power") +
+  scale_color_manual(values = c(rcartocolor::carto_pal(3, "Earth")[1], "grey", rcartocolor::carto_pal(3, "Earth")[3])) +
+  theme_light() +
+  theme(legend.position = "bottom") +
+  facet_wrap(~conv_or_not) +
+  labs(col = "Heteroskedasticity shape")
+```
+
+
+## Effect of fitted value distributions
+
+The prediction in a regression model is $E(Y|X)$, that is, it is conditional on observed values of the predictors. The distribution of $X$, or consequently $\hat{Y}$, may however affect the ability to read any patterns in the residuals. The four distributions of fitted values, used in this experiment, were designed to examine this.
+
+Figure \ref{fig:different-x-dist-poly-power} illustrates the impact of fitted value distribution on the power of conventional tests and visual tests. For conventional tests, only the power curves of appropriate tests which are RESET tests and Breusch-Pagan tests for non-linearity pattern and heteroskedasticity pattern respectively are shown. For visual tests, note that we have collected more evaluations on lineup with uniform fitted value distribution, and the number of evaluations on a lineup will affect the power of the visual test. To have a fair comparison, for lineups with uniform fitted value distribution, we randomly sample five evaluations from the total eleven evaluations to estimate the power curves. The sampling process is repeated 500 times to produce an indication of the variation of the power.
+
+In terms of visual tests, we do not observe significant difference between the power curve of the uniform distribution and the power curve of the discrete uniform distribution. Normal and lognormal distributions produce lower power than uniform and discrete uniform distributions in regards of residual departure patterns, but the gap is larger when the residual plot contains heteroskedasticity pattern. This suggests that residual departures displayed with evenly distributed fitted values are visually more attractive and effective. Besides, the skewness of the fitted value distribution plays a role in the degree of presence of visual features as lognormal distribution produce the lowest power for both non-linearity and heteroskedasticity patterns. A symmetric fitted value distribution can better reveal the underlying shape.
+
+
+Although it is unusual to consider fitted value distribution or predictor distribution in power analysis, it is not so surprised that the power of conventional tests vary because of fitted value distribution. For instance, the power of the RESET test which is effectively a F test depends on the realizations of the additional predictors included in the auxiliary regression equation [@jamshidian2007study; @olvera2019relationship; @zhang2018practical]. And those additional predictors are linear transformation of random vectors following certain predictor distributions. What is truly unexpected is the huge variability in power of conventional tests compared to visual tests. The discrete uniform distribution constantly produce the highest power while the normal distribution and the lognormal distribution produce the lowest power for non-linearity and heteroskedasticity pattern respectively. The difference in power corresponding to different distributions peak at around 90% when the effect size is at a moderate level. This huge difference is undesirable as is not uncommon for analysts to omit the factor of predictor distribution in power calculation and sample size calculation. 
+
+
+```{r get-5-eval, cache = TRUE}
+dat_uniform_5 <- map_df(1:500, function(boot_id) {
+  vi_survey %>%
+  filter(!null_lineup) %>%
+  filter(!attention_check) %>%
+  filter(x_dist == "uniform") %>%
+  group_by(unique_lineup_id) %>%
+  slice_sample(n = 5) %>%
+  ungroup() %>%
+  calc_p_value_multi(lineup_id = unique_lineup_id,
+                     detect = detect,
+                     n_sel = num_selection,
+                     alpha = alpha) %>%
+  mutate(boot_id = boot_id)
+}) %>%
+  left_join(select(vi_survey, unique_lineup_id, effect_size, x_dist, type)) %>%
+  mutate(type = ifelse(type == "polynomial", "non-linearity", type)) %>%
+  mutate(reject = as.numeric(p_value <= 0.05)) %>%
+  mutate(conv_or_not = "Visual") %>%
+  mutate(offset0 = log(0.05/0.95)) %>%
+  select(-unique_lineup_id, -p_value)
+
+dat_uniform_5_pred <- dat_uniform_5 %>%
+  nest(dat = c(effect_size, offset0, reject)) %>%
+  mutate(mod = map(dat, 
+                   ~glm(reject ~ effect_size - 1, 
+                        family = binomial(), 
+                        data = .x,
+                        offset = offset0))) %>%
+  mutate(power = map2(mod, type, function(mod, type) {
+    this_min_es <- ifelse(type == "heteroskedasticity", min_heter_es, min_poly_es)
+    this_max_es <- ifelse(type == "heteroskedasticity", max_heter_es, max_poly_es)
+    result <- data.frame(effect_size = seq(this_min_es[1], this_max_es[1], 0.1),
+                         offset0 = log(0.05/0.95))
+    result$power <- predict(mod, type = "response", newdata = result)
+    result
+  })) %>%
+  select(-dat, -mod) %>%
+  unnest(power) %>%
+  mutate(log_effect_size = log(effect_size)) %>%
+  mutate(type = factor(stringr::str_to_title(type), 
+                       levels = c("Non-Linearity", "Heteroskedasticity")))
+```
+
+
+```{r different-x-dist-poly-power, fig.height = 6, fig.cap = "Comparison of power on lineups with different fitted value distributions for conventional tests and visual tests. Power curves of conventional tests for non-linearity and heteroskedasticity patterns are produced by RESET tests and Breusch-Pagan tests respectively. Power curves of visual tests are estimated using five evaluations on each lineup. For lineups with uniform fitted value distribution, the five evaluations are randomly sampled from the total eleven evaluations. The sampling process has been repeated for 500 times and the corresponding power curves are drawn with transparent grey lines. The fitted value distribution has greater impact on the power of conventional tests than visual tests. Meanwhile, uneven distributions including normal and lognormal distributions genearlly produce lower power.", dev = 'png', dpi = 450}
+
+
+diff_x_dist_power_pred <- list(
+  # Visual inference data
+  vi_survey %>%
+    filter(!null_lineup) %>%
+    filter(!attention_check) %>%
+    group_by(unique_lineup_id) %>%
+    summarise(across(everything(), first)) %>%
+    filter(x_dist != "uniform") %>%
+    mutate(type = ifelse(type == "polynomial", "non-linearity", type)) %>%
+    mutate(reject = as.numeric(p_value <= 0.05)) %>%
+    mutate(offset0 = log(0.05/0.95)) %>%
+    select(type, x_dist, effect_size, offset0, reject) %>%
+    mutate(conv_or_not = "Visual"),
+  
+  # Conventional simulation (poly)
+  poly_conv_sim %>%
+    mutate(reject = RESET4_p_value < 0.05) %>%
+    mutate(offset0 = log(0.05/0.95)) %>%
+    mutate(type = "non-linearity") %>%
+    select(type, x_dist, effect_size, offset0, reject) %>%
+    mutate(conv_or_not = "Conventional"),
+  
+  # Conventional simulation (heter)
+  heter_conv_sim %>%
+    mutate(reject = BP_p_value < 0.05) %>%
+    mutate(offset0 = log(0.05/0.95)) %>%
+    mutate(type = "heteroskedasticity") %>%
+    select(type, x_dist, effect_size, offset0, reject) %>%
+    mutate(conv_or_not = "Conventional")
+) %>%
+  
+  # Bind rows
+  map_df(~.x) %>%
+  
+  nest(dat = c(effect_size, offset0, reject)) %>%
+  mutate(mod = map(dat, 
+                   ~glm(reject ~ effect_size - 1, 
+                        family = binomial(), 
+                        data = .x,
+                        offset = offset0))) %>%
+  mutate(power = map2(mod, type, function(mod, type) {
+    this_min_es <- ifelse(type == "heteroskedasticity", min_heter_es, min_poly_es)
+    this_max_es <- ifelse(type == "heteroskedasticity", max_heter_es, max_poly_es)
+    result <- data.frame(effect_size = seq(this_min_es[1], this_max_es[1], 0.1),
+                         offset0 = log(0.05/0.95))
+    result$power <- predict(mod, type = "response", newdata = result)
+    result
+  })) %>%
+  select(-dat, -mod) %>%
+  unnest(power) %>%
+  mutate(log_effect_size = log(effect_size))
+
+
+diff_x_dist_power_pred %>%
+  mutate(x_dist = ifelse(x_dist == "even_discrete", 
+                         "Discrete uniform", 
+                         stringr::str_to_title(x_dist))) %>%
+  mutate(type = factor(stringr::str_to_title(type), 
+                       levels = c("Non-Linearity", 
+                                  "Heteroskedasticity"))) %>%
+  mutate(x_dist = factor(x_dist, 
+                         levels = c("Uniform", 
+                                    "Normal", 
+                                    "Lognormal", 
+                                    "Discrete uniform"))) %>%
+  
+  ggplot() +
+  
+  # Draw all smooth lines
+  geom_line(aes(log_effect_size, power, col = x_dist),
+            size = 1) +
+  
+  # Draw boot uniform (5 eval) lines
+  geom_line(data = dat_uniform_5_pred,
+            aes(log_effect_size, power, col = "Uniform", group = boot_id),
+            size = 1,
+            alpha = 0.01) +
+  
+  # Theme
+  theme_light() +
+  scale_color_manual(values = rcartocolor::carto_pal(4, "Safe")[c(4,1,3,2)]) +
+  xlab(expression(log[e] (Effect_size))) +
+  ylab("Power") +
+  labs(col = "", linetype = "Test") +
+  facet_grid(conv_or_not~type, scales = "free_x") +
+  theme(legend.position = "bottom")
+```
+
+
+# Conclusion
+
+Motivated by the advice of regression analysis experts, that residual plots as opposed to conventional tests are an indispensible methods for assessing model fit, a human subjects experiment was conducted using visual inference. The experiment tested two primary departures from good residuals: non-linearity and heteroskedasticity. 
+
+The experiment found that conventional residual-based statistical tests are more sensitive to weak residual departures from model assumptions than visual tests as would be evaluated by humans. That is, conventional tests conclude there are problems with the model fit almost twice as often as humans would. They often reject when departures in the form of non-linearity and heteroskedasticity are not visible to a human. 
+
+One might say that this is correct behaviour, but it can be argued that the conventional tests are rejecting when it is not necessary. Many of these rejections happen even when downstream analysis and results would not be significantly affected by the small departures from a good fit. The results from human evaluations provide a more practical solution, which reinforces the statements from regression experts that residual plots are an indispensible method for model diagnostics.
+
+Now it is important to note that residual plots need to be delivered as a lineup, where it is embedded in a field of null plots. A residual plot may contains many visual features, but some are caused by the characteristics of the predictors and the randomness of the error, not by the violation of the model assumptions. These irrelevant visual features have a chance to be filtered out by subjects with a comparison to null plots, results in a set of more accurate visual findings. This enables a careful calibration for reading structure in residual plots.
+
+However, human evaluation of residuals is expensive. It is time-consuming, laborious and unfriendly to vision-impaired people. This is another reason why it often appears to be ignored. With the availability of sophisticated computer vision algorithms today, the goal of this work is to form the basis of providing automated residual plot reading. The findings suggest the strong demand of graphical inspection in regression diagnostics, so developing an automatic visual inference system to evaluate lineups of residual plots is valuable. We plan to build a completed open-source system in an `R` package and provide a web interface such as a website for public to interact with. Details about this system will be discussed in our next paper.  
+
+The experiment also revealed some interesting details about how residual plots are read. For the most part, the visual test performed very similarly to the appropriate conventional test only with the power curve shifted in the less sensitive direction. Unlike the conventional tests, where one needs to specifically test for non-linearity or heteroskedasticity the visual test operated effectively across the range of departures from good residuals. 
+
+As expected, if the fitted value distribution is not uniform, there is a loss of power in the visual test. Structure is hardest to detect if fitted values are lognormal. Also, complex structure are generally harder to detect, but there are outliers. Under the designed scenarios in this paper, we find the visual test to be a more robust test against the change of fitted value distributions. A surprising finding was that the direction of heteroskedasticity appears to affect the ability to visually detect it, with wedge to the right being less detectable.
+
+
+# Acknowledgements {-}
+
+These `R` packages are used for the work: 
+`cli` [@cli], `curl` [@curl], `dplyr` [@dplyr], `ggplot2` [@ggplot2], `jsonlite` [@jsonlite], `lmtest` [@lmtest], `mpoly` [@mpoly], `progress` [@progress], `tibble` [@tibble], `ggmosaic` [@ggmosaic], `purrr` [@purrr], `tidyr` [@tidyr], `readr` [@readr], `stringr` [@stringr], `here` [@here], `kableExtra` [@kableextra], `patchwork` [@patchwork], `rcartocolor` [@rcartocolor]. The study website is powered by `PythonAnywhere` [@pythonanywhere] and the `Flask` web framework [@flask]. The `jsPsych` framework [@jspsych] is used to create behavioral experiments that run in our study website. 
+
+The article was created with R packages `rticles` [@rticles], `knitr` [@knitr] and `rmarkdown` [@rmarkdown]. The project's Github repository (link here) contains all materials required to reproduce this article.
+
+# Supplementary material {-}
+
+The supplementary material is available at (link here). It includes more details about the experimental setup, the derivation of the effect size, the effect of data collection period, and the estimate of  $\alpha$.
+
+<!-- \newpage -->

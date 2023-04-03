@@ -869,9 +869,7 @@ $\boldsymbol{R}_a = \boldsymbol{I}_n - \boldsymbol{H}_a$ is the residual operato
 In the heteroskedasticity model, the key elements for measuring effect size are sample size, $n$, and the ratio of the biggest variance to smallest variance, $b$. Larger values of both would produce higher effect size. However, it is not clear how to incorporate the additional shape parameter, $a$. Thus the same approach is used here, where the formula can be written as:
 
 $$E = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')|}{|diag(\boldsymbol{R}_a)|} - n + tr(diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')^{-1}diag(\boldsymbol{R}_a))\right)$$
-\noindent where $\boldsymbol{V}$ is the actual covariance matrix of the error term.
-
-Derivations for these equations are provided in the Appendix. 
+\noindent where $\boldsymbol{V}$ is the actual covariance matrix of the error term. (Derivations for these equations are provided in the Appendix.) 
 
 To compute the effect size for each lineup we simulate a sufficient large number of samples from the same model, in each sample, the number of observations $n$ is fixed. We then compute the effect size for each sample and take the average as the final value. This ensures lineups constructed with the same experimental factors will share the same effect size.
 
@@ -882,7 +880,7 @@ As shown in Table \ref{tab:model-factor-table}, there are a total of $4 \times 4
 As mentioned in Section \ref{power-of-the-tests}, $\alpha$ used in Equation \ref{eq:pvalue-beta-binomial} needs to be estimated using null lineups. Three replications are made for $3 \times 4 = 12$ combinations of common factors $n$ and fitted value distribution, results in $12 \times 3 = 36$ lineups included in data collection period III. In these lineups, the data of the data plot is generated from a model with zero effect size, while the data of the 19 null plots are generated using the same simulation method discussed in Section \ref{visual-test-procedure-based-on-lineups}. This generation procedure differs from the canonical Rorschach lineup procedure, which requires that all 20 plots are generated directly from the null model. However, these lineups serve the same fundamental purpose: to assess the number of visually interesting plots generated under $H_0$.
 
 To account for the fact that our simulation method for these lineups is not the Rorschach procedure, we use the method suggested in @vanderplas2021statistical for typical lineups containing a data plot to estimate $\alpha$. 
-We have included a sensitivity analysis in the Appendix to examine the impact of the variance of the $\alpha$ estimate on our findings.
+(We have included a sensitivity analysis in the Appendix to examine the impact of the variance of the $\alpha$ estimate on our findings.)
 
 All lineups consist of only null plots are planned to be evaluated by 20 subjects. 
 However, presenting only these lineups to subjects are considered to be bad practices as subjects will lose interest quickly. 
@@ -1650,8 +1648,6 @@ The article was created with R packages `rticles` [@rticles], `knitr` [@knitr] a
 # Supplementary material {-}
 
 The supplementary material is available at (link here). It includes more details about the experimental setup, the derivation of the effect size, the effect of data collection period, and the estimate of  $\alpha$.
-
-\appendix
 
 
 # Experiment setup

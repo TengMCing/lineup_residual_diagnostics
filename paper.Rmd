@@ -1971,9 +1971,10 @@ upper_lower_p %>%
   geom_point(aes(p_value, diff_p_value), alpha = 0.2) +
   scale_x_log10() +
   facet_wrap(~modified) +
-  ylab("Difference between adjusted p-value and p-value") +
-  xlab("p-value") +
+  ylab(expression("Adjusted"~italic(p)*"-value minus"~italic(p)*"-value")) +
+  xlab(expression(italic(p)*"-value")) +
   theme_light()
+  
 ```
 
 ```{r}

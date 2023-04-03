@@ -1877,7 +1877,8 @@ vi_survey %>%
   scale_fill_manual(labels = c("0.5", "[0.25, 0.75]", "[0.125, 0.875]", "[0.0625, 0.09375]"),
                     values = c("white", rev(RColorBrewer::brewer.pal(5, "Blues")))) +
   ylab("Weighted propotion of detect") +
-  xlab("Data collection period")
+  xlab("Data collection period") +
+  theme(legend.key = element_rect(colour = "black"))
 ```
 
 ```{r heter-boxplot-lineup, fig.cap = 'A lineup of "letter-value" boxplots of weighted propotion of detect for lineups over different data collection periods for heteroskedasticity model. Can you find the most different boxplot? The data plot is positioned in panel $2^4 - 2$.'}
@@ -1906,7 +1907,8 @@ vi_survey %>%
   scale_fill_manual(labels = c("0.5", "[0.25, 0.75]", "[0.125, 0.875]", "[0.0625, 0.09375]"),
                     values = c("white", rev(RColorBrewer::brewer.pal(5, "Blues")))) +
   ylab("Weighted propotion of detect") +
-  xlab("Data collection period")
+  xlab("Data collection period") +
+  theme(legend.key = element_rect(colour = "black"))
 ```
 
 We have the same type of model collected over different data collection periods, that may lead to unexpected batch effect.

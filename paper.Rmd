@@ -1651,4 +1651,500 @@ The article was created with R packages `rticles` [@rticles], `knitr` [@knitr] a
 
 The supplementary material is available at (link here). It includes more details about the experimental setup, the derivation of the effect size, the effect of data collection period, and the estimate of  $\alpha$.
 
-<!-- \newpage -->
+\appendix
+
+
+# Experiment setup
+
+## Mapping of subjects to experimental factors
+
+Mapping of subjects to experimental factors is an important part of experiment design. Essentially, we want to maximum the difference in factors exposed to a subject. For this purpose, we design an algorithm to conduct subject allocation. Let $L$ be a set of available lineups and $S$ be a set of available subjects. According to the experimental design, the availability of a lineup is associated with the number of subjects it can assign to. For lineups with uniform fitted value distribution, this value is 11. And other lineups can be allocated to at most five different subjects. The availability of a subject is associated with the number of lineups that being allocated to this subject. A subject can view at most 18 different lineups. 
+
+The algorithm starts from picking a random subject $s \in S$ with the minimum number of allocated lineups. It then tries to find a lineup $l \in L$ that can maximise the distance metric $D$ and allocate it to subject $s$. Set $L$ and $S$ will be updated and the picking process will be repeated until there is no available lineups or subjects. 
+
+Let $F_1,...,F_q$ be $q$ experimental factors, and $f_1, ...,f_q$ be the corresponding factor values. We say $f_i$ exists in $L_{s}$ if any lineup in $L_{s}$ has this factor value. Similarly, $f_if_j$ exists in $L_{s}$ if any lineup in $L_{s}$ has this pair of factor values. And $f_if_jf_k$ exists in $L_{s}$ if any lineup in $L_{s}$ has this trio of factor values. The distance metric $D$ is defined between a lineup $l$ and a set of lineups $L_{s}$ allocated to a subject $s$ if $L_{s}$ is non-empty: 
+
+\footnotesize
+
+\begin{equation*}
+D =
+C - \sum_{1\leq i \leq q}I(f_i\text{ exists in }L_{s}) - \sum_{\substack{1\leq i \leq q-1 \\ i < j \leq q}}I(f_if_j\text{ exists in }L_{s}) - \sum_{\substack{1\leq i \leq q - 2 \\ i < j \leq q - 1 \\ j < k \leq q}}I(f_if_jf_k\text{ exists in }L_{s})
+\end{equation*}
+
+\normalsize
+where $C$ is a sufficiently large constant such that $D > 0$. If $L_{s}$ is empty, we define $D = 0$.
+
+The distance measures how different a lineup is from the set of lineups allocated to the subject in terms of factor values. Thus, the algorithm will try to allocate the most different lineup to a subject at each step.
+
+
+
+## Data collection process
+
+The survey data is collected via a self-hosted website designed by us. The complete architecture is provided in Figure \ref{fig:tech}. The website is built with the `Flask` [@flask] web framework and hosted on `PythonAnywhere` [@pythonanywhere]. It is configured to handle HTTP requests such that subjects can correctly receive webpages and submit responses. Embedded in the resources sent to subjects, the `jsPsych` front-end framework [@jspsych] instructs subjects' browsers to render an environment for running behavioral experiments. During the experiment, this framework will automatically collect common behavioral data such as response time and clicks on buttons. Subjects' responses are first validated by a scheduled `Python` script run on the server, then push to a Github repository. Lineup images shown to users are saved in multiple Github repositories and hosted in corresponding Github pages. The URLs to these images are resolved by `Flask` and bundled in HTML files. 
+
+Once the participant is recruited from Prolific [@palan2018prolific], it will be redirected to the entry page of our study website. An image of the entry page is provided in Figure \ref{fig:entry-page}. Then, the participant needs to submit the online consent form and fill in the demographic information as shown in \ref{fig:consent-form} and \ref{fig:metadata} respectively. Before evaluating lineups, participant also need to read the training page as provide in Figure \ref{fig:training-page} to understand the process. An example of the lineup page is given in Figure \ref{fig:lineup-page}. A half of the page is taken by the lineup image to attract participant's attention. The button to skip the selections for the current lineup is intentionally put in the corner of the bounding box with smaller font size, such that participants will not misuse this functionality.
+
+```{r tech, out.width = "100%", fig.cap = "Diagram of online experiment setup. The server-side of the study website uses Flask as backend hosted on PythonAnywhere. And the client-side uses jsPsych to run experiment."}
+knitr::include_graphics("figures/experiment_tech.pdf")
+```
+
+
+```{r entry-page, out.width = "100%", fig.cap = "The entry page of the study website."}
+knitr::include_graphics("figures/message.png")
+```
+
+```{r consent-form, out.width = "100%", fig.cap = "The consent form provided in the study website."}
+knitr::include_graphics("figures/consent_form.png")
+```
+
+```{r metadata, out.width = "100%", fig.cap = "The form to provide demographic information."}
+knitr::include_graphics("figures/metadata.png")
+```
+
+```{r training-page, out.width = "100%", fig.cap = "The training page of the study website."}
+knitr::include_graphics("figures/training.png")
+```
+
+```{r lineup-page, out.width = "100%", fig.cap = "The lineup page of the study website."}
+knitr::include_graphics("figures/lineup1.png")
+```
+
+# Demographics
+
+Along with the responses to lineups, we have collected a series of demographic information including age, pronoun, education background and previous experience in studies involved data visualization. Table \ref{tab:pronoun}, \ref{tab:age-group}, \ref{tab:education} and \ref{tab:experience} provide summary of the demographic data. 
+
+It can be observed from the tables that most participants have Diploma or Bachelor degrees, followed by High school or below and the survey data is gender balanced. Majority of participants are between 18 to 39 years old and there are slightly more participants who do not have previous experience than those who have. 
+
+```{r}
+vi_survey %>%
+  mutate(pronoun = ifelse(pronoun == "They", "Other", pronoun)) %>%
+  mutate(pronoun = factor(pronoun, levels = c("He", "She", "Other"))) %>%
+  group_by(exp, set) %>%
+  summarise(across(everything(), first)) %>%
+  count(pronoun) %>%
+  mutate(exp = paste("Period", c("I", "II", "III")[exp - 2])) %>%
+  pivot_wider(values_from = n, names_from = exp) %>%
+  mutate(Total = `Period I` + `Period II` + `Period III`) %>%
+  rename(Pronoun = pronoun) %>%
+  add_row(Pronoun = "",
+          `Period I` = sum(.$`Period I`),
+          `Period II` = sum(.$`Period II`),
+          `Period III` = sum(.$`Period III`),
+          Total = sum(.$Total)) %>%
+  mutate(`Period I %` = round(`Period I`/443*100, 1)) %>%
+  mutate(`Period II %` = round(`Period II`/443*100, 1)) %>%
+  mutate(`Period III %` = round(`Period III`/443*100, 1)) %>%
+  mutate(`Total %` = round(Total/443*100, 1)) %>%
+  select(Pronoun, 
+         `Period I`, `Period I %`, 
+         `Period II`, `Period II %`,
+         `Period III`, `Period III %`,
+         Total, `Total %`) %>%
+  kableExtra::kable(format = "latex", 
+                    col.names = c("Pronoun", 
+                                  "Period I", "%", 
+                                  "Period II", "%",
+                                  "Period III", "%",
+                                  "Total", "%"), 
+                    booktabs = TRUE, label = "pronoun", caption = "Summary of pronoun distribution of subjects recuritted in this study.")
+```
+
+
+```{r}
+vi_survey %>%
+  mutate(pronoun = ifelse(pronoun == "They", "Other", pronoun)) %>%
+  mutate(pronoun = factor(pronoun, levels = c("He", "She", "Other"))) %>%
+  group_by(exp, set) %>%
+  summarise(across(everything(), first)) %>%
+  count(age_group) %>%
+  mutate(exp = paste("Period", c("I", "II", "III")[exp - 2])) %>%
+  pivot_wider(values_from = n, names_from = exp) %>%
+  mutate(Total = `Period I` + `Period II` + `Period III`) %>%
+  rename(`Age group` = age_group) %>%
+  kableExtra::kable(format = "latex", booktabs = TRUE, label = "age-group", caption = "Summary of age distribution of subjects recuritted in this study.")
+```
+
+```{r}
+vi_survey %>%
+  mutate(pronoun = ifelse(pronoun == "They", "Other", pronoun)) %>%
+  mutate(pronoun = factor(pronoun, levels = c("He", "She", "Other"))) %>%
+  group_by(exp, set) %>%
+  summarise(across(everything(), first)) %>%
+  count(education) %>%
+  mutate(exp = paste("Period", c("I", "II", "III")[exp - 2])) %>%
+  pivot_wider(values_from = n, names_from = exp, values_fill = 0) %>%
+  mutate(Total = `Period I` + `Period II` + `Period III`) %>%
+  slice(c(2, 1, 3, 4, 5)) %>%
+  rename(`Education` = education) %>%
+  add_row(`Education` = "",
+          `Period I` = sum(.$`Period I`),
+          `Period II` = sum(.$`Period II`),
+          `Period III` = sum(.$`Period III`),
+          Total = sum(.$Total)) %>%
+  mutate(`Period I` = paste0(`Period I`, " (", round(`Period I`/443*100, 1), "%)")) %>%
+  mutate(`Period II` = paste0(`Period II`, " (", round(`Period II`/443*100, 1), "%)")) %>%
+  mutate(`Period III` = paste0(`Period III`, " (", round(`Period III`/443*100, 1), "%)")) %>%
+  mutate(Total = paste0(Total, " (", round(Total/443*100, 1), "%)")) %>%
+  kableExtra::kable(format = "latex", booktabs = TRUE, label = "education", caption = "Summary of education distribution of subjects recuritted in this study.")
+```
+
+```{r}
+vi_survey %>%
+  mutate(pronoun = ifelse(pronoun == "They", "Other", pronoun)) %>%
+  mutate(pronoun = factor(pronoun, levels = c("He", "She", "Other"))) %>%
+  group_by(exp, set) %>%
+  summarise(across(everything(), first)) %>%
+  count(previous_experience) %>%
+  mutate(exp = paste("Period", c("I", "II", "III")[exp - 2])) %>%
+  pivot_wider(values_from = n, names_from = exp) %>%
+  mutate(Total = `Period I` + `Period II` + `Period III`) %>%
+  rename(`Previous experience` = previous_experience) %>%
+  kableExtra::kable(format = "latex", booktabs = TRUE, label = "experience", caption = "Summary of previous experience distribution of subjects recuritted in this study.")
+```
+
+
+# Effect size derivation
+
+Effect size can be defined as the difference of a parameter for a particular model or distribution,  or a statistic derived from a sample. Importantly, it needs to reflect the treatment we try to measure. Centred on a conventional statistical test, we usually can deduce the effect size from the test statistic by substituting the null parameter value. When considering the diagnostics of residual departures, there exist many possibilities of test statistics for a variety of model assumptions. Meanwhile, diagnostic plots such as the residual plot have no general agreement on measuring how strong a model violation pattern is. To build a bridge between various residual-based tests, and the visual test, we focus on the shared information embedded in the testing procedures, which is the distribution of residuals. When comes to comparison of distribution, Kullback-Leibler divergence [@kullback1951information] is a classical way to represent the information loss or entropy increase caused by the approximation to the true distribution, which in our case, the inefficiency due to the use of false model assumptions.
+
+Following the terminology introduced by @kullback1951information, $P$ represents the measured probability distribution, and $Q$ represents the assumed probability distribution. The Kullback-Leibler divergence is defined as $\int_{-\infty}^{\infty}log(p(x)/q(x))p(x)dx$, where $p(.)$ and $q(.)$ denote probability densities of $P$ and $Q$. 
+
+Let $\boldsymbol{X}_a = (\boldsymbol{1}, \boldsymbol{X})$ denotes the $p$ regressors with $n$ observations, $\boldsymbol{R}_a = \boldsymbol{I} -\boldsymbol{X}(\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'$ denotes the residual operator, and let $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0},\sigma^2\boldsymbol{I})$ denotes the error. Using the Frisch–Waugh–Lovell theorem, residuals $\boldsymbol{e} = \boldsymbol{R}_a\boldsymbol{\varepsilon}$. Because $rank(\boldsymbol{R}_a) = n - p < n$, $e$ follows a degenerate multivariate normal distribution and does not have a density. Since the Kullback-Leibler divergence requires a proper density function, we need to simplify the covariance matrix of $\boldsymbol{e}$ by setting all the off-diagonal elements to 0. Then, the residuals will assumed to follow $N(\boldsymbol{0}, diag(\boldsymbol{R}_a\sigma^2))$ under the null hypothesis that the model is correctly specified. If the model is however misspecified due to omitted variables $\boldsymbol{Z}$, or a non-constant variance $\boldsymbol{V}$, the distribution of residuals can be derived as $N(\boldsymbol{R}_a\boldsymbol{Z}\boldsymbol{\beta}_z, diag(\boldsymbol{R}_a\sigma^2))$ and $N(\boldsymbol{0}, diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a'))$ respectively.
+
+By assuming both $P$ and $Q$ are multivariate normal density functions, the Kullback-Leibler divergence can be rewritten as 
+$$KL = \frac{1}{2}\left(log\frac{|\Sigma_p|}{|\Sigma_q|} - n + tr(\Sigma_p^{-1}\Sigma_q) + (\mu_p - \mu_q)'\Sigma_p^{-1}(\mu_p - \mu_q)\right).$$
+
+Then, we can combine the two residual departures into one formula
+
+\small
+
+\begin{equation}
+\label{eq:effect-size}
+KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')|}{|diag(\boldsymbol{R}_a\sigma^2)|} - n + tr(diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')^{-1}diag(\boldsymbol{R}_a\sigma^2)) + \boldsymbol{\mu}_z^{T}(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')^{-1}\boldsymbol{\mu}_z\right).
+\end{equation}
+
+\normalsize
+
+When there are omitted variables but constant error variance, the formula can be reduced to
+
+$$KL = \frac{1}{2}\left(\boldsymbol{\mu}_z^{T}(diag(\boldsymbol{R}_a\sigma^2))^{-1}\boldsymbol{\mu}_z\right).$$
+
+And when the model equation is correctly specified but the error variance is non-constant, the formula can be reduced to
+
+$$KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')|}{|diag(\boldsymbol{R}_a\sigma^2)|} - n + tr(diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')^{-1}diag(\boldsymbol{R}_a\sigma^2))\right).$$
+Since we assume $\sigma = 1$ for the heteroskedasticity model, the final form of the formula is 
+
+$$KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')|}{|diag(\boldsymbol{R}_a)|} - n + tr(diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')^{-1}diag(\boldsymbol{R}_a))\right).$$
+
+
+# Effect of data collection period
+
+```{r poly-boxplot-lineup, fig.cap = 'A lineup of "letter-value" boxplots of weighted propotion of detect for lineups over different data collection periods for non-linearity model. Can you find the most different boxplot? The data plot is positioned in panel $2^3 - 1$.'}
+library(lvplot)
+sample_from_null <- function(dat, true_position) {
+  dat %>%
+    mutate(k = true_position) %>%
+    bind_rows(map_df((1:20)[-true_position], function(k) {
+    dat %>%
+      mutate(exp = sample(exp),
+             k = k)
+  }))
+}
+
+vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(x_dist == "uniform") %>%
+  mutate(type = ifelse(type == "polynomial", "non-linearity", type)) %>%
+  mutate(type = factor(type, levels = c("non-linearity", "heteroskedasticity"))) %>%
+  mutate(exp = exp - 2) %>%
+  group_by(exp, unique_lineup_id) %>%
+  mutate(prop_detect = mean(weighted_detect)) %>%
+  group_by(exp, unique_lineup_id) %>%
+  summarise(across(everything(), first)) %>%
+  ungroup() %>%
+  filter(type == "non-linearity") %>%
+  select(type, exp, prop_detect) %>%
+  mutate(exp = as.character(exp)) %>%
+  sample_from_null(7) %>%
+  ggplot() +
+  geom_lv(aes(x = exp, y = prop_detect, fill = after_stat(LV)), varwidth = TRUE, k = 4) +
+  scale_alpha_discrete(range = c(0.7, 0)) +
+  facet_wrap(~k, ncol = 5) +
+  theme_light() +
+  scale_x_discrete(labels = c("I", "III")) +
+  labs(fill = "Quantiles") +
+  scale_fill_manual(labels = c("0.5", "[0.25, 0.75]", "[0.125, 0.875]", "[0.0625, 0.09375]"),
+                    values = c("white", rev(RColorBrewer::brewer.pal(5, "Blues")))) +
+  ylab("Weighted propotion of detect") +
+  xlab("Data collection period")
+```
+
+```{r heter-boxplot-lineup, fig.cap = 'A lineup of "letter-value" boxplots of weighted propotion of detect for lineups over different data collection periods for heteroskedasticity model. Can you find the most different boxplot? The data plot is positioned in panel $2^4 - 2$.'}
+vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(x_dist == "uniform") %>%
+  mutate(type = ifelse(type == "polynomial", "non-linearity", type)) %>%
+  mutate(type = factor(type, levels = c("non-linearity", "heteroskedasticity"))) %>%
+  mutate(exp = exp - 2) %>%
+  group_by(exp, unique_lineup_id) %>%
+  mutate(prop_detect = mean(weighted_detect)) %>%
+  group_by(exp, unique_lineup_id) %>%
+  summarise(across(everything(), first)) %>%
+  ungroup() %>%
+  filter(type != "non-linearity") %>%
+  select(type, exp, prop_detect) %>%
+  mutate(exp = as.character(exp)) %>%
+  sample_from_null(14) %>%
+  ggplot() +
+  geom_lv(aes(x = exp, y = prop_detect, fill = after_stat(LV)), varwidth = TRUE, k = 4) +
+  facet_wrap(~k, ncol = 5) +
+  theme_light() +
+  scale_x_discrete(labels = c("II", "III")) +
+  labs(fill = "Quantiles") +
+  scale_fill_manual(labels = c("0.5", "[0.25, 0.75]", "[0.125, 0.875]", "[0.0625, 0.09375]"),
+                    values = c("white", rev(RColorBrewer::brewer.pal(5, "Blues")))) +
+  ylab("Weighted propotion of detect") +
+  xlab("Data collection period")
+```
+
+We have the same type of model collected over different data collection periods, that may lead to unexpected batch effect.
+Figure \ref{fig:poly-boxplot-lineup} and \ref{fig:heter-boxplot-lineup} provide two lineups to examine whether there is an actual difference across data collection periods for non-linearity model and heteroskedasticity model respectively. To emphasize the tail behaviour and display fewer outliers, we use the "letter-value" boxplot [@hofmann2017value] which is an extension of the number of "letter value" statistics to check the weighed proportion of detect over different data collection period. The weighted proportion of detect is calculated by taking the average of $c_i$ of a lineup over a data collection period. Within our research team, we can not identify the data plot from the null plots for these two lineups, result in $p$-values much greater than $5$%. Thus, there is no clear evidence of batch effect.
+
+
+# Sensitivity analysis for $\alpha$
+
+The parameter $\alpha$ used for the $p$-value calculation needs to be estimated from responses to null lineups. With a greater value of $\hat{\alpha}$, the $p$-value will be smaller, resulting in more lineups being rejected. However, The way we generate Rorschach lineup is not strictly the same as what suggested in @vanderplas2021statistical and @buja_statistical_2009. Therefore, we conduct a sensitivity analysis in this section to examine the impact of the variation of the estimator $\alpha$ on our primary findings.
+
+The analysis is conducted by setting up several scenarios, where the $\alpha$ is under or overestimated by 12.5%, 25% and 50%. Using the adjusted $\hat{\alpha}$, we recalculate the $p$-value for every lineup and show the results in Figure \ref{fig:sensitivity}. It can be observed that there are some changes to $p$-values, especially when the $\hat{\alpha}$ is multiplied by 50%. However, Table \ref{tab:sensitivity} shows that adjusting $\hat{\alpha}$ will not result in a huge difference in rejection decisions. There are only a small percentage of cases where the rejection decision change. It is very unlikely the downstream findings will be affected because of the estimate of $\alpha$. 
+
+```{r}
+upper_p <- map_df(c(0.125, 0.25, 0.5), function(modified) {
+  calc_p_value_multi(vi_survey %>%
+                       filter(!attention_check) %>%
+                       filter(!null_lineup) %>%
+                       filter(x_dist == "uniform") %>%
+                       mutate(alpha_upper = alpha * (1 + modified)),
+                     lineup_id = unique_lineup_id,
+                     detect = detect,
+                     n_sel = num_selection,
+                     alpha = alpha_upper) %>%
+  mutate(modified = 1 + modified) %>%
+  mutate(adjusted_p_value = p_value)
+}) 
+
+lower_p <- map_df(c(0.125, 0.25, 0.5), function(modified) {
+  calc_p_value_multi(vi_survey %>%
+                       filter(!attention_check) %>%
+                       filter(!null_lineup) %>%
+                       filter(x_dist == "uniform") %>%
+                       mutate(alpha_lower = alpha * (1 - modified)),
+                     lineup_id = unique_lineup_id,
+                     detect = detect,
+                     n_sel = num_selection,
+                     alpha = alpha_lower) %>%
+  mutate(modified = 1 - modified) %>%
+  mutate(adjusted_p_value = p_value)
+})
+
+upper_lower_p <- upper_p %>%
+  bind_rows(lower_p) %>%
+  select(-p_value)
+```
+
+
+```{r sensitivity, fig.cap = "Change of $p$-values with $\\hat{\\alpha}$ multiplied by $0.5$, $0.75$, $0.875$, $1.125$, $1.25$ and $1.5$. The vertical dashed line is to indicate $p\\text{-value} = 0.05$. The x-axis is drawn on logarithmic scale. For multiplier smaller than $1$, the adjusted $p$-value will incrase then decrase as $p$-value increases. The trend is the opposite for multiplier greater than $1$, but the difference will eventually reach $0$."}
+upper_lower_p %>%
+  left_join(vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(x_dist == "uniform") %>%
+  group_by(unique_lineup_id) %>%
+  summarise(p_value = first(p_value))) %>%
+  mutate(diff_p_value = adjusted_p_value - p_value) %>%
+  ggplot() +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0.05, col = "red", linetype = 2) +
+  geom_point(aes(p_value, diff_p_value), alpha = 0.2) +
+  scale_x_log10() +
+  facet_wrap(~modified) +
+  ylab("Difference between adjusted p-value and p-value") +
+  xlab("p-value") +
+  theme_light()
+```
+
+```{r}
+upper_lower_p %>%
+  left_join(vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(x_dist == "uniform") %>%
+  group_by(unique_lineup_id) %>%
+  summarise(p_value = first(p_value))) %>%
+  group_by(modified) %>%
+  count(adjusted_reject = adjusted_p_value <= 0.05, reject = p_value <= 0.05) %>%
+  complete(adjusted_reject, reject, fill = list(n = 0)) %>%
+  ungroup() %>%
+  filter(adjusted_reject != reject) %>%
+  mutate(case = ifelse(!adjusted_reject, 'Proportion of lineups transforms to "not reject"', 'Proportion of lineups transforms to "reject"')) %>%
+  rename(multiplier = modified) %>%
+  mutate(n = paste0(round(n/279 * 100, 2), "\\%")) %>%
+  select(-adjusted_reject, -reject) %>%
+  pivot_wider(names_from = case, values_from = n) %>%
+  kableExtra::kable(format = "latex", booktabs = TRUE, label = "sensitivity", 
+                    escape = FALSE,
+                    caption = "Change of rejection decision because of the modification of $\\hat{\\alpha}$.")
+```
+
+
+# Effect of number of evaluations on the power of a visual test
+
+When comparing power of visual tests across different fitted value distributions, we have discussed the number of evaluations on a lineup will affect the power of the visual test. Using the lineups with uniform fitted value distribution, we show in Figure \ref{fig:n_eval} the change of power of visual tests due to different number of evaluations. It can be learned that as the number of evaluations increases, the power will increase but the margin will decrease. Considering we have eleven evaluations on lineups with uniform fitted value distribution, and five evaluations on other lineups, it is necessary to use the same number of evaluations for each lineup in comparison.
+
+```{r}
+min_poly_es <- vi_survey %>% 
+  filter(!null_lineup, 
+         !attention_check,
+         type == "polynomial", 
+         x_dist == "uniform") %>%
+  pull(effect_size) %>%
+  min()
+max_poly_es <- vi_survey %>% 
+  filter(!null_lineup, 
+         !attention_check,
+         type == "polynomial", 
+         x_dist == "uniform") %>%
+  pull(effect_size) %>%
+  max()
+```
+
+
+```{r n_eval, fig.cap = "Change of power of visual tests for different number of evalutions on lineups with uniform fitted value distribution. The power will incrase as the number of evaluations increases, but the margin will decrase."}
+eval_n <- function(n_eval, boot) {
+  map_df(1:boot, function(boot_id) {
+  vi_survey %>%
+  filter(!null_lineup) %>%
+  filter(!attention_check) %>%
+  filter(x_dist == "uniform") %>%
+  filter(type == "polynomial") %>%
+  group_by(unique_lineup_id) %>%
+  slice_sample(n = n_eval) %>%
+  ungroup() %>%
+  calc_p_value_multi(lineup_id = unique_lineup_id,
+                     detect = detect,
+                     n_sel = num_selection,
+                     alpha = alpha) %>%
+  mutate(boot_id = boot_id)
+}) %>%
+  left_join(select(vi_survey, unique_lineup_id, effect_size)) %>%
+  mutate(reject = as.numeric(p_value <= 0.05)) %>%
+  mutate(offset0 = log(0.05/0.95)) %>%
+  select(-unique_lineup_id, -p_value) %>%
+  mutate(n_eval = n_eval)
+}
+
+
+
+map_df(seq(1, 11, 2), ~eval_n(.x, 1)) %>%
+  select(-boot_id) %>%
+  nest(c(effect_size, reject, offset0)) %>%
+  mutate(mod = map(data, 
+                   ~glm(reject ~ effect_size - 1, 
+                        family = binomial(), 
+                        data = .x,
+                        offset = offset0))) %>%
+  mutate(power = map(mod, function(mod) {
+    result <- data.frame(effect_size = seq(min_poly_es, max_poly_es, 0.1),
+                         offset0 = log(0.05/0.95))
+    result$power <- predict(mod, type = "response", newdata = result)
+    result
+  })) %>%
+  select(-data, -mod) %>%
+  unnest(power) %>%
+  mutate(log_effect_size = log(effect_size)) %>%
+  ggplot() +
+  geom_line(aes(log_effect_size, power, col = factor(n_eval)),
+            size = 1) +
+  labs(col = "Number of evalutaions") +
+  xlab(expression(log[e] (Effect_size))) +
+  theme_light() +
+  scale_color_brewer(palette = "Reds")
+```
+
+
+# Power of a RESET test under different auxiliary regression formulas
+
+It is found in the result that the power of a RESET test will be affected by the highest order of fitted values included in the auxiliary formula. And we suspect that the current recommendation of the highest order - four, is insufficient to test complex non-linear structures such as the "Triple-U" shape designed in this paper. Figure \ref{fig:reset} illustrates the change of power of RESET test while testing the "U" shape and the "Triple-U" shape with different highest orders. Clearly, when testing a simple shape like the "U" shape, the highest order has very little impact on the power. But for testing the "Triple-U" shape, there will be a loss of power if the recommended order is used. To avoid the loss of power, the highest order needs to be set to at least six. 
+
+```{r cache = TRUE}
+reset_diff_dat <- poly_conv_sim %>%
+  filter(x_dist == "uniform") %>%
+  filter(shape == 4) %>%
+  select(-F_p_value, -BP_p_value, -SW_p_value) %>%
+  pivot_longer(RESET3_p_value:RESET10_p_value) %>%
+  mutate(name = gsub("RESET(.*)_p_value", "\\1", name)) %>%
+  mutate(reject = value <= 0.05) %>%
+  select(effect_size, name, reject) %>%
+  mutate(offset0 = log(0.05/0.95)) %>%
+  nest(dat = c(effect_size, offset0, reject)) %>%
+  mutate(mod = map(dat, 
+                   ~glm(reject ~ effect_size - 1, 
+                        family = binomial(), 
+                        data = .x,
+                        offset = offset0))) %>%
+  mutate(power = map(mod, function(mod) {
+    result <- data.frame(effect_size = seq(min_poly_es, max_poly_es, 0.1),
+                         offset0 = log(0.05/0.95))
+    result$power <- predict(mod, type = "response", newdata = result)
+    result
+  })) %>%
+  select(-dat, -mod) %>%
+  unnest(power) %>%
+  mutate(log_effect_size = log(effect_size)) %>%
+  mutate(shape = 4)
+```
+
+```{r cache = TRUE}
+reset_diff_dat2 <- poly_conv_sim %>%
+  filter(x_dist == "uniform") %>%
+  filter(shape == 1) %>%
+  select(-F_p_value, -BP_p_value, -SW_p_value) %>%
+  pivot_longer(RESET3_p_value:RESET10_p_value) %>%
+  mutate(name = gsub("RESET(.*)_p_value", "\\1", name)) %>%
+  mutate(reject = value <= 0.05) %>%
+  select(effect_size, name, reject) %>%
+  mutate(offset0 = log(0.05/0.95)) %>%
+  nest(dat = c(effect_size, offset0, reject)) %>%
+  mutate(mod = map(dat, 
+                   ~glm(reject ~ effect_size - 1, 
+                        family = binomial(), 
+                        data = .x,
+                        offset = offset0))) %>%
+  mutate(power = map(mod, function(mod) {
+    result <- data.frame(effect_size = seq(min_poly_es, max_poly_es, 0.1),
+                         offset0 = log(0.05/0.95))
+    result$power <- predict(mod, type = "response", newdata = result)
+    result
+  })) %>%
+  select(-dat, -mod) %>%
+  unnest(power) %>%
+  mutate(log_effect_size = log(effect_size)) %>%
+  mutate(shape = 1)
+```
+
+```{r reset, fig.cap = 'Change of power of RESET tests for different orders of fitted values included in the auxiliary formula. The left panel is the power of testing the "U" shape and the right panel is the power of testing the "Triple-U" shape. The power will not be greatly affected by the highest order in the case of testing the "U" shape. In the case of testing the "Triple-U" shape, the highest order needs to be set to at least six to avoid the loss of power.', fig.height = 4}
+reset_diff_dat %>%
+  bind_rows(reset_diff_dat2) %>%
+  mutate(shape = factor(ifelse(shape == 1, "U", "Triple-U"), levels = c("U", "Triple-U"))) %>%
+  ggplot() +
+  geom_line(aes(log_effect_size, power, col = as.factor(as.integer(name))),
+            size = 1) +
+  theme_light() +
+  labs(col = "Highest order") +
+  xlab(expression(log[e] (Effect_size))) +
+  scale_color_brewer(palette = "Reds") +
+  facet_wrap(~shape)
+```
+
+\clearpage

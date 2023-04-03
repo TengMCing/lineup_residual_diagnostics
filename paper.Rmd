@@ -53,7 +53,7 @@ knitr::opts_chunk$set(
 # remotes::install_github("TengMCing/bandicoot")
 # 
 # Visual inference models and p-value calculation
-# remotes::install_github("TengMCing/visage")
+# remotes::install_url("https://github.com/TengMCing/visage/raw/master/built/visage_0.1.0.tar.gz")
 
 library(tidyverse)
 library(visage)
@@ -1965,12 +1965,14 @@ upper_lower_p %>%
   geom_hline(yintercept = 0) +
   geom_vline(xintercept = 0.05, col = "red", linetype = 2) +
   geom_point(aes(p_value, diff_p_value), alpha = 0.2) +
-  scale_x_log10() +
   facet_wrap(~modified) +
   ylab(expression("Adjusted"~italic(p)*"-value minus"~italic(p)*"-value")) +
   xlab(expression(italic(p)*"-value")) +
-  theme_light()
-  
+  theme_light() +
+  scale_x_continuous(breaks = c(0.0001, 0.001, 0.01, 0.1, 1),
+                     minor_breaks = NULL,
+                     trans = "log10",
+                     labels = c("0.01%", "0.1%", "1%", "10%", "100%"))
 ```
 
 ```{r}
@@ -2019,7 +2021,7 @@ max_poly_es <- vi_survey %>%
 ```
 
 
-```{r n_eval, fig.cap = "Change of power of visual tests for different number of evalutions on lineups with uniform fitted value distribution. The power will incrase as the number of evaluations increases, but the margin will decrase."}
+```{r n_eval, fig.cap = "Change of power of visual tests for different number of evalutions on lineups with uniform fitted value distribution. The power will incrase as the number of evaluations increases, but the margin will decrase.", fig.height = 4}
 eval_n <- function(n_eval, boot) {
   map_df(1:boot, function(boot_id) {
   vi_survey %>%

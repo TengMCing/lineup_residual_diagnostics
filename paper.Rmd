@@ -904,7 +904,7 @@ There are `r 160 * 18`, `r 150 * 18` and `r 133 * 18 - nrow(filter(vi_survey, nu
 
 In the following analysis, lineups with uniform fitted values will be the focus. Visual patterns are more likely to be revealed under a uniform distribution. Additionally, we have collected extra evaluations on these lineups, which will result in a more reliable analysis. Analysis of lineups with other fitted value distributions can be found in Section \ref{effect-of-fitted-value-distributions}.  
 
-## Power comparison of different tests 
+## Power comparison of the tests 
 
 ```{r cache = TRUE}
 # Define the minimum and maximum effect size

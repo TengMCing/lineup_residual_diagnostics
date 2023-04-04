@@ -112,26 +112,38 @@ divergence is defined as
 \(\int_{-\infty}^{\infty}log(p(x)/q(x))p(x)dx\), where \(p(.)\) and
 \(q(.)\) denote probability densities of \(P\) and \(Q\).
 
-Let \(\boldsymbol{X}_a = (\boldsymbol{1}, \boldsymbol{X})\) denotes the
-\(p\) regressors with \(n\) observations,
-\(\boldsymbol{R}_a = \boldsymbol{I} -\boldsymbol{X}(\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'\)
+Let \(\boldsymbol{X}\) denotes the \(p + 1\) regressors with \(n\)
+observations,
+\(\boldsymbol{b} = (\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'\boldsymbol{y}\)
+denotes the OLS solution,
+\(\boldsymbol{R} = \boldsymbol{I}_n -\boldsymbol{X}(\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'\)
 denotes the residual operator, and let
 \(\boldsymbol{\varepsilon} \sim N(\boldsymbol{0},\sigma^2\boldsymbol{I})\)
-denotes the error. Using the Frisch--Waugh--Lovell theorem, residuals
-\(\boldsymbol{e} = \boldsymbol{R}_a\boldsymbol{\varepsilon}\). Because
-\(rank(\boldsymbol{R}_a) = n - p < n\), \(e\) follows a degenerate
-multivariate normal distribution and does not have a density. Since the
-Kullback-Leibler divergence requires a proper density function, we need
-to simplify the covariance matrix of \(\boldsymbol{e}\) by setting all
-the off-diagonal elements to 0. Then, the residuals will assumed to
-follow \(N(\boldsymbol{0}, diag(\boldsymbol{R}_a\sigma^2))\) under the
-null hypothesis that the model is correctly specified. If the model is
+denotes the error. The residual vector
+
+\begin{align*}
+\boldsymbol{e} &= \boldsymbol{y} - \boldsymbol{X}\boldsymbol{b} \\
+               &= \boldsymbol{y} - \boldsymbol{X}(\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'\boldsymbol{y} \\
+               &= (\boldsymbol{I} -\boldsymbol{X}(\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}')\boldsymbol{y} \\
+               &= \boldsymbol{R}\boldsymbol{y} \\
+               &= \boldsymbol{R}(\boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}) \\
+               &= \boldsymbol{R}\boldsymbol{\varepsilon}.
+\end{align*}
+
+Because \(rank(\boldsymbol{R}) = n - p - 1 < n\), \(\boldsymbol{e}\)
+follows a degenerate multivariate normal distribution and does not have
+a density. Since the Kullback-Leibler divergence requires a proper
+density function, we need to simplify the covariance matrix of
+\(\boldsymbol{e}\) by setting all the off-diagonal elements to 0. Then,
+the residuals will assumed to follow
+\(N(\boldsymbol{0}, diag(\boldsymbol{R}\sigma^2))\) under the null
+hypothesis that the model is correctly specified. If the model is
 however misspecified due to omitted variables \(\boldsymbol{Z}\), or a
 non-constant variance \(\boldsymbol{V}\), the distribution of residuals
 can be derived as
-\(N(\boldsymbol{R}_a\boldsymbol{Z}\boldsymbol{\beta}_z, diag(\boldsymbol{R}_a\sigma^2))\)
+\(N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, diag(\boldsymbol{R}\sigma^2))\)
 and
-\(N(\boldsymbol{0}, diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a'))\)
+\(N(\boldsymbol{0}, diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}'))\)
 respectively.
 
 By assuming both \(P\) and \(Q\) are multivariate normal density
@@ -144,7 +156,7 @@ Then, we can combine the two residual departures into one formula
 
 \begin{equation}
 \label{eq:effect-size}
-KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')|}{|diag(\boldsymbol{R}_a\sigma^2)|} - n + tr(diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')^{-1}diag(\boldsymbol{R}_a\sigma^2)) + \boldsymbol{\mu}_z^{T}(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')^{-1}\boldsymbol{\mu}_z\right).
+KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|diag(\boldsymbol{R}\sigma^2)|} - n + tr(diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}diag(\boldsymbol{R}\sigma^2)) + \boldsymbol{\mu}_z^{T}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}\boldsymbol{\mu}_z\right).
 \end{equation}
 
 \normalsize
@@ -152,16 +164,16 @@ KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R
 When there are omitted variables but constant error variance, the
 formula can be reduced to
 
-\[KL = \frac{1}{2}\left(\boldsymbol{\mu}_z^{T}(diag(\boldsymbol{R}_a\sigma^2))^{-1}\boldsymbol{\mu}_z\right).\]
+\[KL = \frac{1}{2}\left(\boldsymbol{\mu}_z^{T}(diag(\boldsymbol{R}\sigma^2))^{-1}\boldsymbol{\mu}_z\right).\]
 
 And when the model equation is correctly specified but the error
 variance is non-constant, the formula can be reduced to
 
-\[KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')|}{|diag(\boldsymbol{R}_a\sigma^2)|} - n + tr(diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')^{-1}diag(\boldsymbol{R}_a\sigma^2))\right).\]
+\[KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|diag(\boldsymbol{R}\sigma^2)|} - n + tr(diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}diag(\boldsymbol{R}\sigma^2))\right).\]
 Since we assume \(\sigma = 1\) for the heteroskedasticity model, the
 final form of the formula is
 
-\[KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')|}{|diag(\boldsymbol{R}_a)|} - n + tr(diag(\boldsymbol{R}_a\boldsymbol{V}\boldsymbol{R}_a')^{-1}diag(\boldsymbol{R}_a))\right).\]
+\[KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|diag(\boldsymbol{R})|} - n + tr(diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}diag(\boldsymbol{R}))\right).\]
 
 \hypertarget{sensitivity-analysis-for-alpha}{%
 \subsection{\texorpdfstring{Sensitivity analysis for

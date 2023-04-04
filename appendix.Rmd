@@ -370,7 +370,7 @@ upper_lower_p <- upper_p %>%
 ```
 
 
-```{r sensitivity, fig.cap = "Change of $p$-values with $\\hat{\\alpha}$ multiplied by $0.5$, $0.75$, $0.875$, $1.125$, $1.25$ and $1.5$. The vertical dashed line indicates $p\\text{-value} = 0.05$. The area coloured in red indicates $\\text{adjusted }p\\text{-value} < 0.05$. The x-axis is drawn on logarithmic scale. For multipliers smaller than 1, the adjusted $p\\text{-value}$ will initially increase and decline when the $p\\text{-value}$ increases. The trend is opposite with multipliers greater than $1$, but the difference eventually reaches $0$."}
+```{r sensitivity, fig.cap = "Change of $p$-values with $\\hat{\\alpha}$ multiplied by $0.5$, $0.75$, $0.875$, $1.125$, $1.25$ and $1.5$. Only lineups with uniform fitted value distribution is used. The vertical dashed line indicates $p\\text{-value} = 0.05$. The area coloured in red indicates $\\text{adjusted }p\\text{-value} < 0.05$. The x-axis is drawn on logarithmic scale. For multipliers smaller than 1, the adjusted $p\\text{-value}$ will initially increase and decline when the $p\\text{-value}$ increases. The trend is opposite with multipliers greater than $1$, but the difference eventually reaches $0$."}
 
 smallest_p_value <- vi_survey %>%
   filter(!attention_check) %>%
@@ -425,13 +425,26 @@ upper_lower_p %>%
   ungroup() %>%
   filter(adjusted_reject != reject) %>%
   mutate(case = ifelse(!adjusted_reject, "reject to not reject", "not reject to reject")) %>%
-  rename(fraction = modified) %>%
-  mutate(n = paste0(round(n/279 * 100, 2))) %>%
+  rename(multiplier = modified) %>%
   select(-adjusted_reject, -reject) %>%
   pivot_wider(names_from = case, values_from = n) %>%
-  kableExtra::kable(format = "latex", booktabs = TRUE, label = "sensitivity", 
-                    escape = FALSE,
-                    caption = "Examining how decisions might change if $\\hat{\\alpha}$ was different. Percentage of lineups that where the $p$-value would switch to above or below 0.05, when $\\hat{\\alpha}$ is varied by a fractional amount.")
+  mutate(reject_not_reject_per = round(`reject to not reject`/279*100, 2)) %>%
+  mutate(not_reject_reject_per = round(`not reject to reject`/279*100, 2)) %>%
+  select(multiplier,
+         `reject to not reject`,
+         reject_not_reject_per,
+         `not reject to reject`,
+         not_reject_reject_per) %>%
+  kableExtra::kable(format = "latex", 
+                    booktabs = TRUE,
+                    col.names = c("Multiplier",
+                                  "Reject to not reject",
+                                  "%",
+                                  "Not reject to reject",
+                                  "%"),
+                    label = "sensitivity", 
+                    caption = "Examining how decisions might change if $\\hat{\\alpha}$ was different. Percentage of lineups that where the $p$-value would switch to above or below 0.05, when $\\hat{\\alpha}$ is multiplied by a multiplier.") %>%
+  kableExtra::kable_styling(latex_options = "scale_down")
 ```
 
 
@@ -503,7 +516,8 @@ map_df(seq(1, 11, 2), ~eval_n(.x, 1)) %>%
   ggplot() +
   geom_line(aes(log_effect_size, power, col = factor(n_eval)),
             size = 1) +
-  labs(col = "N. evals") +
+  labs(col = "#Evaluations") +
+  ylab("Power") +
   xlab(expression(log[e] (Effect_size))) +
   theme_light() +
   scale_color_brewer(palette = "Reds")

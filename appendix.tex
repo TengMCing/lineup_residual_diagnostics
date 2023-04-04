@@ -207,26 +207,27 @@ estimate of \(\alpha\).
 
 }
 
-\caption{Change of $p$-values with $\hat{\alpha}$ multiplied by $0.5$, $0.75$, $0.875$, $1.125$, $1.25$ and $1.5$. The vertical dashed line indicates $p\text{-value} = 0.05$. The area coloured in red indicates $\text{adjusted }p\text{-value} < 0.05$. The x-axis is drawn on logarithmic scale. For multipliers smaller than 1, the adjusted $p\text{-value}$ will initially increase and decline when the $p\text{-value}$ increases. The trend is opposite with multipliers greater than $1$, but the difference eventually reaches $0$.}\label{fig:sensitivity}
+\caption{Change of $p$-values with $\hat{\alpha}$ multiplied by $0.5$, $0.75$, $0.875$, $1.125$, $1.25$ and $1.5$. Only lineups with uniform fitted value distribution is used. The vertical dashed line indicates $p\text{-value} = 0.05$. The area coloured in red indicates $\text{adjusted }p\text{-value} < 0.05$. The x-axis is drawn on logarithmic scale. For multipliers smaller than 1, the adjusted $p\text{-value}$ will initially increase and decline when the $p\text{-value}$ increases. The trend is opposite with multipliers greater than $1$, but the difference eventually reaches $0$.}\label{fig:sensitivity}
 \end{figure}
 
 \begin{table}
 
-\caption{\label{tab:sensitivity}Examining how decisions might change if $\hat{\alpha}$ was different. Percentage of lineups that where the $p$-value would switch to above or below 0.05, when $\hat{\alpha}$ is varied by a fractional amount.}
+\caption{\label{tab:sensitivity}Examining how decisions might change if $\hat{\alpha}$ was different. Percentage of lineups that where the $p$-value would switch to above or below 0.05, when $\hat{\alpha}$ is multiplied by a multiplier.}
 \centering
-\begin{tabular}[t]{rll}
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{rrrrr}
 \toprule
-fraction & reject to not reject & not reject to reject\\
+Multiplier & Reject to not reject & \% & Not reject to reject & \%\\
 \midrule
-0.500 & 2.51 & 0\\
-0.750 & 1.43 & 0\\
-0.875 & 1.08 & 0\\
-1.125 & 0 & 1.08\\
-1.250 & 0 & 1.43\\
+0.500 & 7 & 2.51 & 0 & 0.00\\
+0.750 & 4 & 1.43 & 0 & 0.00\\
+0.875 & 3 & 1.08 & 0 & 0.00\\
+1.125 & 0 & 0.00 & 3 & 1.08\\
+1.250 & 0 & 0.00 & 4 & 1.43\\
 \addlinespace
-1.500 & 0 & 1.79\\
+1.500 & 0 & 0.00 & 5 & 1.79\\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \hypertarget{effect-of-number-of-evaluations-on-the-power-of-a-visual-test}{%

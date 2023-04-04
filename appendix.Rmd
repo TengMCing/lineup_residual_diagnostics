@@ -650,9 +650,11 @@ vi_survey %>%
                                   "Period II", "%",
                                   "Period III", "%",
                                   "Total", "%"), 
-                    booktabs = TRUE, label = "pronoun", caption = "Summary of pronoun distribution of subjects recuritted in this study.")
+                    booktabs = TRUE, 
+                    label = "pronoun", 
+                    caption = "Summary of pronoun distribution of subjects recuritted in this study.") %>%
+  kableExtra::kable_styling(latex_options = "scale_down")
 ```
-
 
 ```{r}
 vi_survey %>%
@@ -665,8 +667,33 @@ vi_survey %>%
   pivot_wider(values_from = n, names_from = exp) %>%
   mutate(Total = `Period I` + `Period II` + `Period III`) %>%
   rename(`Age group` = age_group) %>%
-  kableExtra::kable(format = "latex", booktabs = TRUE, label = "age-group", caption = "Summary of age distribution of subjects recuritted in this study.")
+  add_row(`Age group` = "",
+          `Period I` = sum(.$`Period I`),
+          `Period II` = sum(.$`Period II`),
+          `Period III` = sum(.$`Period III`),
+          Total = sum(.$Total)) %>%
+  mutate(`Period I %` = round(`Period I`/443*100, 1)) %>%
+  mutate(`Period II %` = round(`Period II`/443*100, 1)) %>%
+  mutate(`Period III %` = round(`Period III`/443*100, 1)) %>%
+  mutate(`Total %` = round(Total/443*100, 1)) %>%
+  select(`Age group`, 
+         `Period I`, `Period I %`, 
+         `Period II`, `Period II %`,
+         `Period III`, `Period III %`,
+         Total, `Total %`) %>%
+  kableExtra::kable(format = "latex", 
+                    col.names = c("Age group", 
+                                  "Period I", "%", 
+                                  "Period II", "%",
+                                  "Period III", "%",
+                                  "Total", "%"),
+                    booktabs = TRUE, 
+                    label = "age-group", 
+                    caption = "Summary of age distribution of subjects recuritted in this study.") %>%
+  kableExtra::kable_styling(latex_options = "scale_down")
 ```
+
+
 
 ```{r}
 vi_survey %>%
@@ -680,17 +707,32 @@ vi_survey %>%
   mutate(Total = `Period I` + `Period II` + `Period III`) %>%
   slice(c(2, 1, 3, 4, 5)) %>%
   rename(`Education` = education) %>%
-  add_row(`Education` = "",
+  add_row(Education = "",
           `Period I` = sum(.$`Period I`),
           `Period II` = sum(.$`Period II`),
           `Period III` = sum(.$`Period III`),
           Total = sum(.$Total)) %>%
-  mutate(`Period I` = paste0(`Period I`, " (", round(`Period I`/443*100, 1), "%)")) %>%
-  mutate(`Period II` = paste0(`Period II`, " (", round(`Period II`/443*100, 1), "%)")) %>%
-  mutate(`Period III` = paste0(`Period III`, " (", round(`Period III`/443*100, 1), "%)")) %>%
-  mutate(Total = paste0(Total, " (", round(Total/443*100, 1), "%)")) %>%
-  kableExtra::kable(format = "latex", booktabs = TRUE, label = "education", caption = "Summary of education distribution of subjects recuritted in this study.")
+  mutate(`Period I %` = round(`Period I`/443*100, 1)) %>%
+  mutate(`Period II %` = round(`Period II`/443*100, 1)) %>%
+  mutate(`Period III %` = round(`Period III`/443*100, 1)) %>%
+  mutate(`Total %` = round(Total/443*100, 1)) %>%
+  select(Education, 
+         `Period I`, `Period I %`, 
+         `Period II`, `Period II %`,
+         `Period III`, `Period III %`,
+         Total, `Total %`) %>%
+  kableExtra::kable(format = "latex", 
+                    col.names = c("Education", 
+                                  "Period I", "%", 
+                                  "Period II", "%",
+                                  "Period III", "%",
+                                  "Total", "%"),
+                    booktabs = TRUE, 
+                    label = "education", 
+                    caption = "Summary of education distribution of subjects recuritted in this study.") %>%
+  kableExtra::kable_styling(latex_options = "scale_down")
 ```
+
 
 ```{r}
 vi_survey %>%
@@ -703,7 +745,30 @@ vi_survey %>%
   pivot_wider(values_from = n, names_from = exp) %>%
   mutate(Total = `Period I` + `Period II` + `Period III`) %>%
   rename(`Previous experience` = previous_experience) %>%
-  kableExtra::kable(format = "latex", booktabs = TRUE, label = "experience", caption = "Summary of previous experience distribution of subjects recuritted in this study.")
+  add_row(`Previous experience` = "",
+          `Period I` = sum(.$`Period I`),
+          `Period II` = sum(.$`Period II`),
+          `Period III` = sum(.$`Period III`),
+          Total = sum(.$Total)) %>%
+  mutate(`Period I %` = round(`Period I`/443*100, 1)) %>%
+  mutate(`Period II %` = round(`Period II`/443*100, 1)) %>%
+  mutate(`Period III %` = round(`Period III`/443*100, 1)) %>%
+  mutate(`Total %` = round(Total/443*100, 1)) %>%
+  select(`Previous experience`, 
+         `Period I`, `Period I %`, 
+         `Period II`, `Period II %`,
+         `Period III`, `Period III %`,
+         Total, `Total %`) %>%
+  kableExtra::kable(format = "latex", 
+                    col.names = c("Previous experience", 
+                                  "Period I", "%", 
+                                  "Period II", "%",
+                                  "Period III", "%",
+                                  "Total", "%"),
+                    booktabs = TRUE, 
+                    label = "experience", 
+                    caption = "Summary of previous experience distribution of subjects recuritted in this study.") %>%
+  kableExtra::kable_styling(latex_options = "scale_down")
 ```
 
 ## Data collection periods
@@ -738,7 +803,6 @@ vi_survey %>%
   sample_from_null(7) %>%
   ggplot() +
   geom_lv(aes(x = exp, y = prop_detect, fill = after_stat(LV)), varwidth = TRUE, k = 4) +
-  scale_alpha_discrete(range = c(0.7, 0)) +
   facet_wrap(~k, ncol = 5) +
   theme_light() +
   scale_x_discrete(labels = c("I", "III")) +

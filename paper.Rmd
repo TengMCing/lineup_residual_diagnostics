@@ -21,10 +21,10 @@ affiliation:
       Department of Econometrics and Business Statistics, Monash University, Clayton, VIC, Australia
   - num: b
     address: |
-      Biological Data Science Institute, Australian National Institute, Acton, ACT, Australia
+      Biological Data Science Institute, Australian National University, Acton, ACT, Australia
   - num: c
     address: |
-      Research School of Finance, Actuarial Studies and Statistics, Australian National Institute, Acton, ACT, Australia
+      Research School of Finance, Actuarial Studies and Statistics, Australian National University, Acton, ACT, Australia
   - num: d
     address: |
       Department of Statistics, University of Nebraska, Lincoln, Nebraska, USA

@@ -154,10 +154,10 @@ Then, we can combine the two residual departures into one formula
 
 \small
 
-\begin{equation}
+\begin{equation*}
 \label{eq:effect-size}
 KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|diag(\boldsymbol{R}\sigma^2)|} - n + tr(diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}diag(\boldsymbol{R}\sigma^2)) + \boldsymbol{\mu}_z^{T}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}\boldsymbol{\mu}_z\right).
-\end{equation}
+\end{equation*}
 
 \normalsize
 
@@ -207,7 +207,7 @@ estimate of \(\alpha\).
 
 }
 
-\caption{Change of $p$-values with $\hat{\alpha}$ multiplied by $0.5$, $0.75$, $0.875$, $1.125$, $1.25$ and $1.5$. The vertical dashed line indicates $p\text{-value} = 0.05$. The area coloured in red indicates $\text{adjusted }p\text{-value} < 0.05$. The x-axis is drawn on logarithmic scale. For multiplier smaller than $1$, the adjusted $p$-value will incrase then decrase as $p$-value increases. The trend is the opposite for multiplier greater than $1$, but the difference will eventually reach $0$.}\label{fig:sensitivity}
+\caption{Change of $p$-values with $\hat{\alpha}$ multiplied by $0.5$, $0.75$, $0.875$, $1.125$, $1.25$ and $1.5$. The vertical dashed line indicates $p\text{-value} = 0.05$. The area coloured in red indicates $\text{adjusted }p\text{-value} < 0.05$. The x-axis is drawn on logarithmic scale. For multipliers smaller than 1, the adjusted $p\text{-value}$ will initially increase and decline when the $p\text{-value}$ increases. The trend is opposite with multipliers greater than $1$, but the difference eventually reaches $0$.}\label{fig:sensitivity}
 \end{figure}
 
 \begin{table}

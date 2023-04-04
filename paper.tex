@@ -1151,36 +1151,39 @@ resulted in the lack of detection.
 \caption{The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot at panel 17 contains a "butterfly" shape. It has effect size $ = 3.76$, somewhat surprising that it is not detected by the BP test.}\label{fig:heter-example}
 \end{figure}
 
-\hypertarget{effect-of-shape-of-non-linearity}{%
-\subsection{Effect of shape of
-non-linearity}\label{effect-of-shape-of-non-linearity}}
+\hypertarget{effect-of-amount-of-non-linearity}{%
+\subsection{Effect of amount of
+non-linearity}\label{effect-of-amount-of-non-linearity}}
 
-A primary factor contributes to the non-linearity model is the shape of
-the non-linearity pattern. According to Figure
-\ref{fig:poly-power-uniform-j}, conventional tests have higher power in
-testing shapes constructed from lower orders of Hermite polynomials. But
-the chance of detecting the ``triple-U'' shape drops significantly
-compared to other shapes. To understand why this is, one needs to return
-to the way the RESET test is applied. It requires a parameter indicating
-degree of fitted values to test for, and the recommendation is to
-generically use four \citep{ramsey_tests_1969}. However, the
-``triple-U'' shape constructed from the Hermite polynomials use power up
-to 18. If the RESET test had been applied using a higher power no less
-than six, the power curve of ``triple-U'' shape will be only slight
-lower than the power curve of ``M'' shape. The recommendation of the
-polynomial power for the RESET test should be revised, perhaps. This
-illustrates the sensitivity of conventional testing to the parameters,
-and it also points to a limitation that one needs to know the data
-generating process in order to set the parameters for the test.
+The order of the polynomial is a primary factor contributing to the
+pattern produced by the non-linearity model. Figure
+\ref{fig:poly-power-uniform-j} explores the relationship between
+polynomial order and power of the tests. The conventional tests have
+higher power for lower orders of Hermite polynomials, and it drops
+substantially for the ``triple-U'' shape. To understand why this is, one
+needs to return to the way the RESET test is applied. It requires a
+parameter indicating degree of fitted values to test for, and the
+recommendation is to generically use four \citep{ramsey_tests_1969}.
+However, the ``triple-U'' shape is constructed from the Hermite
+polynomials using power up to 18. If the RESET test had been applied
+using a higher power no less than six, the power curve of ``triple-U''
+shape will be closer to other power curves. This illustrates the
+sensitivity of the conventional test to the parameter choice, and
+highlights a limitation that it helps to know the data generating
+process to set the parameters for the test, which is unrealistic.
+However, we examined this in more detail (see Appendix) and found that
+there is no harm for setting the parameter higher than four on the
+tests' operation for lower order polynomial shapes. Using a parameter
+value of six, instead of four, yields higher power regardless of
+generating process, and would be recommended.
 
-For visual tests, based on the orders of the Hermite polynomials, we
-expect the ``U'' shape will be the easiest one to be detected by
-subjects followed by the ``S'', ``M'' and ``triple-U'' shape. From
-Figure \ref{fig:poly-power-uniform-j}, it can be observed that the power
-curves are mostly aligned with our expectation, except for the ``M''
-shape, which is as easy to be detected as the ``S'' shape. This implies,
-unlike the conventional test, the visibility of the shape do not
-strictly follow the degree of the polynomials.
+For visual tests, we expect the ``U'' shape to be detected more readily,
+followed by the ``S'', ``M'' and ``triple-U'' shape. From Figure
+\ref{fig:poly-power-uniform-j}, it can be observed that the power curves
+mostly align with these expectations, except for the ``M'' shape, which
+is as easy to be detected as the ``S'' shape. This suggests a benefit of
+the visual test, the knowing the shape ahead of time is not needed for
+its application.
 
 \begin{figure}
 
@@ -1188,7 +1191,7 @@ strictly follow the degree of the polynomials.
 
 }
 
-\caption{Power of conventional tests and visual tests on lineups containing four different non-linearity shapes. Power curves with higher order of non-linearity are drawn with deeper colours. The default RESET tests under-perform significantly in detecting "triple-U" shape. To achieve a similar power as other shapes, a higher order polynomial parameter needs to be used for the RESET test. But this means the order needs to be known prior to testing.}\label{fig:poly-power-uniform-j}
+\caption{The effect of the order of the polynomial on the power of conventional and visual tests. Deeper colour indicates higher order. The default RESET tests under-performs significantly in detecting the "triple-U" shape. To achieve a similar power as other shapes, a higher order polynomial parameter needs to be used for the RESET test, but this higher than the recommended value.}\label{fig:poly-power-uniform-j}
 \end{figure}
 
 \hypertarget{effect-of-shape-of-heteroskedasticity}{%

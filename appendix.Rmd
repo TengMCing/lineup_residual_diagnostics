@@ -359,7 +359,15 @@ upper_lower_p <- upper_p %>%
 ```
 
 
-```{r sensitivity, fig.cap = "Change of $p$-values with $\\hat{\\alpha}$ multiplied by $0.5$, $0.75$, $0.875$, $1.125$, $1.25$ and $1.5$. The vertical dashed line is to indicate $p\\text{-value} = 0.05$. The x-axis is drawn on logarithmic scale. For multiplier smaller than $1$, the adjusted $p$-value will incrase then decrase as $p$-value increases. The trend is the opposite for multiplier greater than $1$, but the difference will eventually reach $0$."}
+```{r sensitivity, fig.cap = "Change of $p$-values with $\\hat{\\alpha}$ multiplied by $0.5$, $0.75$, $0.875$, $1.125$, $1.25$ and $1.5$. The vertical dashed line indicates $p\\text{-value} = 0.05$. The area coloured in red indicates $\\text{adjusted }p\\text{-value} < 0.05$. The x-axis is drawn on logarithmic scale. For multiplier smaller than $1$, the adjusted $p$-value will incrase then decrase as $p$-value increases. The trend is the opposite for multiplier greater than $1$, but the difference will eventually reach $0$."}
+
+smallest_p_value <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(x_dist == "uniform") %>%
+  pull(p_value) %>%
+  min()
+
 upper_lower_p %>%
   left_join(vi_survey %>%
   filter(!attention_check) %>%
@@ -370,14 +378,32 @@ upper_lower_p %>%
   mutate(diff_p_value = adjusted_p_value - p_value) %>%
   ggplot() +
   geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0.05, col = "red", linetype = 2) +
+  geom_vline(xintercept = 0.05, col = "black", linetype = 2, alpha = 0.7) +
+  geom_ribbon(data = expand.grid(x = 10^seq(-10, 0, 0.01),
+                                y = seq(-0.1, 0.1, 0.0001)) %>%
+              filter(x + y < 0.05) %>%
+              group_by(x) %>%
+              summarise(y = max(y)),
+            aes(x, ymax = y, ymin = -0.06),
+            fill = "red",
+            alpha = 0.2) +
+  annotate("text", 
+           x = 0.0005, 
+           y = -0.03, 
+           label = '"Adjusted"~italic(p)*"-value"~"< 5%"', 
+           parse = TRUE,
+           col = "red") +
   geom_point(aes(p_value, diff_p_value), alpha = 0.2) +
-  scale_x_log10() +
   facet_wrap(~modified) +
   ylab(expression("Adjusted"~italic(p)*"-value minus"~italic(p)*"-value")) +
   xlab(expression(italic(p)*"-value")) +
-  theme_light()
-  
+  theme_light() +
+  scale_x_continuous(breaks = c(0.0001, 0.001, 0.01, 0.1, 1),
+                     minor_breaks = NULL,
+                     trans = "log10",
+                     labels = c("0.01%", "0.1%", "1%", "10%", "100%"),
+                     limits = c(smallest_p_value, 1)) +
+  scale_y_continuous(limits = c(-0.06, 0.06))
 ```
 
 ```{r}

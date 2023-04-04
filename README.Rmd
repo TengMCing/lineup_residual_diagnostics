@@ -1,0 +1,27 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+metadata <- rmarkdown::yaml_front_matter("paper.Rmd")
+```
+
+# `r metadata$title`
+
+
+This repo contains the materials to fully reproduce the paper titled "`r metadata$title`" by `r knitr::combine_words(purrr::map_chr(metadata$author, ~.x$name))`.
+
+
+
+## Citation 
+
+Please cite the paper as:
+
+
+Li et al. (2023) `r metadata$title`. URL:  https://github.com/TengMCing/lineup_residual_diagnostics

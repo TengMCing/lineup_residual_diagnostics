@@ -903,13 +903,11 @@ In every lineup evaluation, the subject is asked to select one or more plots tha
 
 # Results 
 
-## Overview
+Data collection resulted in a total of `r nrow(filter(vi_survey, !attention_check))` lineup evaluations, `r nrow(filter(vi_survey, type == "polynomial", !attention_check))` for the non-linearity model, and `r nrow(filter(vi_survey, type == "heteroskedasticity", !attention_check))` for the heteroskedasticity model. This was done in three collection periods, called I, II, III, with `r 160 * 18`, `r 150 * 18` and `r 133 * 18 - nrow(filter(vi_survey, null_lineup, !attention_check))` lineups evaluated by 160, 150 and 133 participants, respectively. There were `r nrow(filter(vi_survey, attention_check))` attention check lineups used to filter false participant attempts. To estimate $\alpha$ for calculating statistical significance there were `r nrow(filter(vi_survey, null_lineup, !attention_check))` evaluations of null lineups. Neither the attention checks nor null lineups were used for the subsequent analysis. The de-identified data, `vi_survey`,  is made available in the R package, `visage`. 
 
-There are `r 160 * 18`, `r 150 * 18` and `r 133 * 18 - nrow(filter(vi_survey, null_lineup, !attention_check))` lineups evaluation made by 160, 150 and 133 subjects recruited for data collection periods I, II and III respectively. In the total of `r nrow(filter(vi_survey, !attention_check))` lineup evaluations, `r nrow(filter(vi_survey, type == "polynomial", !attention_check))` use lineups produced by the non-linearity model, and `r nrow(filter(vi_survey, type == "heteroskedasticity", !attention_check))` use lineups produced by the heteroskedasticity model. Besides, there are `r nrow(filter(vi_survey, attention_check))` attention checks and `r nrow(filter(vi_survey, null_lineup, !attention_check))` evaluations on null lineups needed for the estimate of $\alpha$ not included in the analysis. The collated dataset is provided in `vi_survey` of the `visage` `R` package. 
+For clarity and consistency, the analysis in Sections \ref{power-analysis}-\ref{hetero-analysis}, uses only on results from lineups generated with uniform fitted values, a total of `r nrow(filter(vi_survey, x_dist == "uniform"))` lineups and XXX evaluation. More evaluations were made using the uniform fitted value distribution, and it avoids potentially confounding results of the analysis by combining values from different power curves. We also expect that visual patterns are more clearly visible when the fitted value distribution is uniform. Section \ref{effect-of-fitted-value-distributions} contains comparison of the effect of fitted value distribution on power.  
 
-In the following analysis, lineups with uniform fitted values will be the focus. Visual patterns are more likely to be revealed under a uniform distribution. Additionally, we have collected extra evaluations on these lineups, which will result in a more reliable analysis. Analysis of lineups with other fitted value distributions can be found in Section \ref{effect-of-fitted-value-distributions}.  
-
-## Power comparison of the tests 
+## Power comparison of the tests~\label{power-analysis}
 
 ```{r cache = TRUE}
 # Define the minimum and maximum effect size
@@ -1313,7 +1311,7 @@ patchwork::wrap_plots(append(plist, list(p), after = 0),
 ```  
 
 
-## Comparison of test decisions based on $p$-values
+## Comparison of test decisions based on $p$-values~\label{p-value}
 
 ```{r}
 # Dataset for p-value comparison
@@ -1374,7 +1372,7 @@ VI_MODEL$plot_lineup(vi_lineup$heter_331$data,
 ```
 
 
-## Effect of amount of non-linearity
+## Effect of amount of non-linearity~\label{nonlin-analysis}
 
 The order of the polynomial is a primary factor contributing to the pattern produced by the non-linearity model. Figure \ref{fig:poly-power-uniform-j} explores the relationship between polynomial order and power of the tests. The conventional tests have higher power for lower orders of Hermite polynomials, and it drops substantially for the "triple-U" shape. To understand why this is, one needs to return to the way the RESET test is applied. It requires a parameter indicating degree of fitted values to test for, and the recommendation is to generically use four [@ramsey_tests_1969]. However, the "triple-U" shape is constructed from the Hermite polynomials using power up to 18. If the RESET test had been applied using a higher power no less than six, the power curve of "triple-U" shape will be closer to other power curves. This illustrates the sensitivity of the conventional test to the parameter choice, and highlights a limitation that it helps to know the data generating process to set the parameters for the test, which is unrealistic. However, we examined this in more detail (see Appendix) and found that there is no harm for setting the parameter higher than four on the tests' operation for lower order polynomial shapes. Using a parameter value of six, instead of four, yields higher power regardless of generating process, and would be recommended. 
 
@@ -1426,7 +1424,7 @@ dat_poly_j %>%
 ```
 
 
-## Effect of shape of heteroskedasticity
+## Effect of shape of heteroskedasticity~\label{hetero-analysis}
 
 Figure \ref{fig:heter-power-uniform-a} examines the impact of the shape of the heteroskedasticity on the power of of both tests. The butterfly shape has higher power on both types of tests. The "left-triangle" and the "right-triangle" shapes are functionally identical, and this is observed for the conventional test, where the power curves are identical. Interestingly there is a difference for the visual test, where the power curve of the "left-triangle" shape is slightly higher than that of the "right-triangle" shape. This indicates a bias in perceiving heteroskedasticity depending on the direction. This would be worth investigating further. 
 

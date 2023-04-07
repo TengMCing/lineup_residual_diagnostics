@@ -61,17 +61,21 @@
 with the Lineup Protocol}
 
 
-\author{\name{Weihao Li$^{a}$, Dianne Cook$^{a}$, Emi
-Tanaka$^{a}$, Susan VanderPlas$^{b}$}
+\author{\name{Weihao Li$^{a}$, Dianne Cook$^{a}$, Emi Tanaka$^{a, b,
+c}$, Susan VanderPlas$^{d}$}
 \affil{$^{a}$Department of Econometrics and Business Statistics, Monash
-University, Clayton, VIC, Australia; $^{b}$Department of Statistics,
-University of Nebraska, Lincoln, Nebraska, USA}
+University, Clayton, VIC, Australia; $^{b}$Biological Data Science
+Institute, Australian National University, Acton, ACT,
+Australia; $^{c}$Research School of Finance, Actuarial Studies and
+Statistics, Australian National University, Acton, ACT,
+Australia; $^{d}$Department of Statistics, University of Nebraska,
+Lincoln, Nebraska, USA}
 }
 
 \thanks{CONTACT Weihao
 Li. Email: \href{mailto:weihao.li@monash.edu}{\nolinkurl{weihao.li@monash.edu}}, Dianne
 Cook. Email: \href{mailto:dicook@monash.edu}{\nolinkurl{dicook@monash.edu}}, Emi
-Tanaka. Email: \href{mailto:emi.tanaka@monash.edu}{\nolinkurl{emi.tanaka@monash.edu}}, Susan
+Tanaka. Email: \href{mailto:emi.tanaka@anu.edu.au}{\nolinkurl{emi.tanaka@anu.edu.au}}, Susan
 VanderPlas. Email: \href{mailto:susan.vanderplas@unl.edu}{\nolinkurl{susan.vanderplas@unl.edu}}}
 
 \maketitle
@@ -276,37 +280,37 @@ D & Non-normality & 0.863 & 0.736 & \em{0.000}\\
 \subsection{Visual test procedure based on
 lineups}\label{visual-test-procedure-based-on-lineups}}
 
-One may argue that reading diagnostic plots is to some extent subjective
-and indecisive compared to those rigorous statistical procedures as it
-relies on graphical perception - human ability to interpret and decode
-the information embedded in graph \citep{cleveland_graphical_1984}.
-Further, the degree of the presence of the visual features typically can
-not be measured quantitatively and objectively, which may lead to over
-or under-interpretations of the data. For instance, people
-over-interpret the separation between gene groups in a two-dimensional
-projection from a linear discriminant analysis when in fact there are no
-differences in the expression levels between the gene groups and
-separation is not an uncommon occurrence
-\citep{roy_chowdhury_using_2015}.
+The examination of data plots to infer signal or patterns (or lack
+thereof) is fraught with variation in the human ability to interpret and
+decode the information embedded in graph
+\citep{cleveland_graphical_1984}. Such examination thus feels there is a
+subjective nature to evaluate, say, diagnostic plots to infer
+appropriateness of statistical models, although arguably we would expect
+such evaluation should be done objectively and such human-to-human
+variation in ``reading'' data plots should be minimised.
 
-Visual inference was first introduced in a 1999 Joint Statistical
-Meetings (JSM) talk with the title ``Inference for Data Visualization''
-by \citet{buja_inference_1999} as an idea to address the issue of valid
-inference for visual discoveries of data plots. Later,
-\citet{buja_statistical_2009} proposed the lineup protocol as a visual
-test inspired by the ``police lineup'' or ``identity parade'' which is
-the act of asking the eyewitness to identify criminal suspect from a
-group of irrelevant people. The protocol consists of \(m\) randomly
-placed plots, where one plot is the data plot, and the remaining
-\(m - 1\) null plots have the identical graphical procedure except the
-data has been replaced with data consistent with \(H_0\), that the model
-is correctly specified. Then, an observer who have not seen the data
-plot will be asked to point out the most different plot from the lineup.
-Under \(H_0\), it is expected that the data plot would have no
-distinguishable difference from the null plots, and the probability that
-the observer correctly picks the data plot is \(1/m\). If one rejects
-\(H_0\) as the observer correctly picks the data plot, then the Type I
-error of this test is \(1/m\).
+In practice, over-interpretation of a single plot is common. For
+instance, in \citet{roy_chowdhury_using_2015}, some over-interpreted the
+separation between gene groups in a two-dimensional projection of a
+linear discriminant analysis when in fact there are no differences in
+the expression levels between the gene groups. To mitigate this
+over-interpretation, \citet{buja_statistical_2009} proposed a line-up
+protocol to assess plots in a manner analogous to the null hypothesis
+significance testing (NHST) framework. More specifically, the protocol
+consists of \(m\) randomly placed plots, where one plot is the data
+plot, and the remaining \(m - 1\) plots, referred to as the \emph{null
+plots}, have the identical graphical procedure as the data plot except
+the data is replaced with a data generation mechanism that is consistent
+with the null hypothesis, \(H_0\). Then, an observer who have not seen
+the data plot will be asked to point out the most different plot from
+the lineup. Under \(H_0\), it is expected that the data plot would have
+no distinguishable difference from the null plots, and the probability
+that the observer correctly picks the data plot is \(1/m\). If one
+rejects \(H_0\) as the observer correctly picks the data plot, then the
+Type I error of this test is \(1/m\). This protocol requires apriori
+specification of \(H_0\) (or at least a null data generating mechanism)
+much like the requirement of knowing the distribution of the test
+statistic in NHST.
 
 \begin{figure}
 
@@ -956,29 +960,31 @@ maintain the overall data quality.
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
-\hypertarget{overview}{%
-\subsection{Overview}\label{overview}}
+Data collection resulted in a total of 7974 lineup evaluations, 3744 for
+the non-linearity model, and 4230 for the heteroskedasticity model. This
+was done in three collection periods, called I, II, III, with 2880, 2700
+and 1674 lineups evaluated by 160, 150 and 133 participants,
+respectively. There were 886 attention check lineups used to filter
+false participant attempts. To estimate \(\alpha\) for calculating
+statistical significance there were 720 evaluations of null lineups.
+Neither the attention checks nor null lineups were used for the
+subsequent analysis. The de-identified data, \texttt{vi\_survey}, is
+made available in the R package, \texttt{visage}.
 
-There are 2880, 2700 and 1674 lineups evaluation made by 160, 150 and
-133 subjects recruited for data collection periods I, II and III
-respectively. In the total of 7974 lineup evaluations, 3744 use lineups
-produced by the non-linearity model, and 4230 use lineups produced by
-the heteroskedasticity model. Besides, there are 886 attention checks
-and 720 evaluations on null lineups needed for the estimate of
-\(\alpha\) not included in the analysis. The collated dataset is
-provided in \texttt{vi\_survey} of the \texttt{visage} \texttt{R}
-package.
-
-In the following analysis, lineups with uniform fitted values will be
-the focus. Visual patterns are more likely to be revealed under a
-uniform distribution. Additionally, we have collected extra evaluations
-on these lineups, which will result in a more reliable analysis.
-Analysis of lineups with other fitted value distributions can be found
-in Section \ref{effect-of-fitted-value-distributions}.
+For clarity and consistency, the analysis in Sections
+\ref{power-analysis}-\ref{hetero-analysis}, uses only on results from
+lineups generated with uniform fitted values, a total of 4135 lineups
+and XXX evaluation. More evaluations were made using the uniform fitted
+value distribution, and it avoids potentially confounding results of the
+analysis by combining values from different power curves. We also expect
+that visual patterns are more clearly visible when the fitted value
+distribution is uniform. Section
+\ref{effect-of-fitted-value-distributions} contains comparison of the
+effect of fitted value distribution on power.
 
 \hypertarget{power-comparison-of-the-tests}{%
-\subsection{Power comparison of the
-tests}\label{power-comparison-of-the-tests}}
+\subsection{\texorpdfstring{Power comparison of the
+tests\textasciitilde{}\label{power-analysis}}{Power comparison of the tests\textasciitilde{}}}\label{power-comparison-of-the-tests}}
 
 Figure \ref{fig:polypower} shows the estimated power of visual test on
 lineups produced by the non-linearity model with uniform fitted values,
@@ -1096,7 +1102,7 @@ conventional test is still the recommended choice based on the findings.
 
 \hypertarget{comparison-of-test-decisions-based-on-p-values}{%
 \subsection{\texorpdfstring{Comparison of test decisions based on
-\(p\)-values}{Comparison of test decisions based on p-values}}\label{comparison-of-test-decisions-based-on-p-values}}
+\(p\)-values\textasciitilde{}\label{p-value}}{Comparison of test decisions based on p-values\textasciitilde{}}}\label{comparison-of-test-decisions-based-on-p-values}}
 
 The power comparison illustrates that appropriate conventional tests
 will reject \(H_0\) more aggressively than visual tests. In this
@@ -1152,8 +1158,8 @@ resulted in the lack of detection.
 \end{figure}
 
 \hypertarget{effect-of-amount-of-non-linearity}{%
-\subsection{Effect of amount of
-non-linearity}\label{effect-of-amount-of-non-linearity}}
+\subsection{\texorpdfstring{Effect of amount of
+non-linearity\textasciitilde{}\label{nonlin-analysis}}{Effect of amount of non-linearity\textasciitilde{}}}\label{effect-of-amount-of-non-linearity}}
 
 The order of the polynomial is a primary factor contributing to the
 pattern produced by the non-linearity model. Figure
@@ -1195,8 +1201,8 @@ its application.
 \end{figure}
 
 \hypertarget{effect-of-shape-of-heteroskedasticity}{%
-\subsection{Effect of shape of
-heteroskedasticity}\label{effect-of-shape-of-heteroskedasticity}}
+\subsection{\texorpdfstring{Effect of shape of
+heteroskedasticity\textasciitilde{}\label{hetero-analysis}}{Effect of shape of heteroskedasticity\textasciitilde{}}}\label{effect-of-shape-of-heteroskedasticity}}
 
 Figure \ref{fig:heter-power-uniform-a} examines the impact of the shape
 of the heteroskedasticity on the power of of both tests. The butterfly

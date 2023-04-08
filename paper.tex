@@ -221,32 +221,40 @@ side of the horizontal axis as shown in Figure
 \subsection{Conventionally testing for
 departures}\label{conventionally-testing-for-departures}}
 
-Other than checking diagnostic plots, analysts may perform formal
-hypothesis testing to detect model defects. A variety of tests can be
-applied; each testing for a specific violation of the null hypothesis.
-For example, the presence of heteroskedasticity can usually be tested by
-applying the White test \citep{white_heteroskedasticity-consistent_1980}
-or the Breusch-Pagan test \citep{breusch_simple_1979}, which are both
-derived from the Lagrange multiplier test \citep{silvey1959lagrangian}
-principle that relies on the asymptotic properties of the null
-distribution. To test specific forms of non-linearity, one may apply the
-F-test as a model structural test to examine the significance of
-specific polynomial and non-linear forms of the predictors, or the
-significance of proxy variables as in the Ramsey Regression Equation
-Specification Error Test (RESET) \citep{ramsey_tests_1969}. The
-Shapiro-Wilk test \citep{shapiro1965analysis} is the most widely used
-test of non-normality included by many of the statistical software
-programs. The Jarque--Bera test \citep{jarque1980efficient} is also used
-to directly check whether the sample skewness and kurtosis match a
-normal distribution.
+Many different hypothesis tests are available to detect specific model
+defects. For example, the presence of heteroskedasticity can usually be
+tested by applying the White test
+\citep{white_heteroskedasticity-consistent_1980} or the Breusch-Pagan
+test \citep{breusch_simple_1979}, which are both derived from the
+Lagrange multiplier test \citep{silvey1959lagrangian} principle that
+relies on the asymptotic properties of the null distribution. To test
+specific forms of non-linearity, one may apply the F-test as a model
+structural test to examine the significance of specific polynomial and
+non-linear forms of the predictors, or the significance of proxy
+variables as in the Ramsey Regression Equation Specification Error Test
+(RESET) \citep{ramsey_tests_1969}. The Shapiro-Wilk test
+\citep{shapiro1965analysis} is the most widely used test of
+non-normality included by many of the statistical software programs. The
+Jarque--Bera test \citep{jarque1980efficient} is also used to directly
+check whether the sample skewness and kurtosis match a normal
+distribution.
 
-We apply the RESET test, Breusch-Pagan test and Shapiro-Wilk test to the
-residual plots shown in Figure
-\ref{fig:residual-plot-common-departures}; the results of this is shown
-in Table \ref{tab:example-residual-plot-table}. The Breusch-Pagan test
-and the Shapiro-Wilk test both reject \(H_0\) for residual plots that
-display non-linearity and heteroscedasticity, even though these are not
-the original intention of the test. As discussed in
+Table \ref{tab:example-residual-plot-table} shows the RESET,
+Breusch-Pagan and Shapiro-Wilk test results for the residual plots shown
+in Figure \ref{fig:residual-plot-common-departures}. The RESET test and
+Breusch-Pagan test were computed using the \texttt{resettest} and
+\texttt{bptest} functions from R package \texttt{lmtest}, respectively.
+The Shapiro-Wilk test was computed using the \texttt{shapiro.test} from
+the core R package \texttt{stats}. (The the R package \texttt{skedastic}
+\citep{skedastic} contains a large collection of tests for
+heteroskedasticity.) The RESET test is exact, but the power parameter
+must be chosen. \citet{ramsey_tests_1969} suggests using a power of
+four, which is what we used. The Breusch-Pagan and Shapiro-Wilk tests
+are approximate.
+
+The Breusch-Pagan test and the Shapiro-Wilk test both reject \(H_0\) for
+residual plots that display non-linearity and heteroscedasticity, even
+though these are not the original intention of the test. As discussed in
 \citet{cook1982residuals}, most residual-based tests for a particular
 type of departure from model assumptions are also sensitive to other
 types of departures. It is likely \(H_0\) is correctly rejected but for
@@ -997,34 +1005,6 @@ significance level. The small plots at the bottom of this figure shows a
 sequence of example residual plots of increasing effect size. These are
 for the readers to compare what a residual plot might look like at
 particular effect sizes.
-
-As discussed in Section \ref{conventionally-testing-for-departures},
-many conventional tests are available for detecting residual departures.
-Implementation-wise, the built-in R package \texttt{stats} provides some
-commonly used residual-based tests, such as Shapiro-Wilk test. A more
-comprehensive collection of regression diagnostics tests can be found in
-the R package \texttt{lmtest} \citep{lmtest}. In terms of
-heteroskedasticity diagnostics, the R package \texttt{skedastic}
-\citep{skedastic} collects and implements 25 existing conventional tests
-published since 1961.
-
-We pick RESET test (\texttt{resettest}) and Breusch-Pagan test
-(\texttt{bptest}) from the R package \texttt{lmtest}, and Shapiro-Wilk
-test (\texttt{shapiro.test}) from the built-in R package \texttt{stats}.
-Among them, RESET test is the only exact and appropriate test in this
-scenario. Both the Breusch-Pagan test and the Shapiro-Wilk test are
-approximate and inappropriate tests. Their estimated power is shown in
-Figure \ref{fig:polypower}. To set up the RESET test, we include
-different powers of fitted values as proxies. According to
-\citet{ramsey_tests_1969}, there are no general rules for the power of
-the fitted values needed by the RESET test, but it finds power up to
-four is usually sufficient. Thus, we follow this guideline to conduct
-the RESET test. For the Breusch-Pagan test, the choice of predictors in
-the auxiliary regression is left to the user
-\citep{breusch_simple_1979}. But as \citet{waldman1983note} suggested,
-it is a good choice for the set of auxiliary predictors in the
-Breusch-Pagan test be the same as the White test. Thus, we include both
-\(x\) and \(x^2\) in the auxiliary regression.
 
 Figure \ref{fig:heterpower} is similar to Figure \ref{fig:polypower},
 but shows corresponding information on lineups produced by the

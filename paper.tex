@@ -240,8 +240,9 @@ check whether the sample skewness and kurtosis match a normal
 distribution.
 
 Table \ref{tab:example-residual-plot-table} shows the RESET,
-Breusch-Pagan and Shapiro-Wilk test results for the residual plots shown
-in Figure \ref{fig:residual-plot-common-departures}. The RESET test and
+Breusch-Pagan and Shapiro-Wilk test results (\(p\)-values) for the
+residual plots shown in Figure
+\ref{fig:residual-plot-common-departures}. The RESET test and
 Breusch-Pagan test were computed using the \texttt{resettest} and
 \texttt{bptest} functions from R package \texttt{lmtest}, respectively.
 The Shapiro-Wilk test was computed using the \texttt{shapiro.test} from
@@ -252,21 +253,25 @@ must be chosen. \citet{ramsey_tests_1969} suggests using a power of
 four, which is what we used. The Breusch-Pagan and Shapiro-Wilk tests
 are approximate.
 
-The Breusch-Pagan test and the Shapiro-Wilk test both reject \(H_0\) for
-residual plots that display non-linearity and heteroscedasticity, even
-though these are not the original intention of the test. As discussed in
-\citet{cook1982residuals}, most residual-based tests for a particular
-type of departure from model assumptions are also sensitive to other
-types of departures. It is likely \(H_0\) is correctly rejected but for
-the wrong reason, a phenomenon known as the ``Type III error''.
-Additionally, outliers will often incorrectly trigger the rejection of
-\(H_0\) despite when majority of the residuals are well-behaved
-\citep{cook_applied_1999}. Furthermore, with a sufficiently large sample
-size, residual-based tests may reject \(H_0\) due to a slight departure
-that is of little practical significance. These can be largely avoided
-in diagnostic plots as experienced analysts can evaluate the
-acceptability of assumptions flexibly, even in the presence of outliers
-and slight departures.
+We would expect the RESET test for non-linearity to reject residual plot
+B, the Breusch-Pagan test for heteroskedasticity to reject the residual
+plot C, and Shapiro-Wilk test for non-normality to reject residual plot
+D, which they all do and correctly fail to reject residual plot A.
+Interestingly, the Breusch-Pagan and Shapiro-Wilk tests also reject the
+residual plots exhibiting structure that they weren't designed for.
+\citet{cook1982residuals} discusses that most residual-based tests for
+particular types of departure from model assumptions are also sensitive
+to other types of departures, that is, correctly rejected but for the
+wrong reason, a phenomenon known as the ``Type III error''. Also, some
+types of departure can also have elements of other types of departure,
+for example, non-linearity could be viewed as heteroskedasticity.
+Additionally, other problesms such as outliers can trigger the rejection
+\citep{cook_applied_1999}. With a sufficiently large sample size,
+residual-based tests may reject when there is only a slight departure.
+This is a situation that is addressed by the results in this paper
+because from a practical perspective we would only want to flag the
+model as problematic when ther is a XXX diagnostic practical
+significance. XXX check heteroscedastic spelling
 
 \begin{table}
 

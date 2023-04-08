@@ -553,7 +553,7 @@ data.frame(j = c("2", "3", "6", "18", ""),
            a = c("-1", "0", "1", "", ""),
            b = c("0.25", "1.00", "4.00", "16.00", "64.00"),
            n = c("50", "100", "300", "", ""), 
-           x_dist = c("Uniform", "Normal", "Skewed", "Discrete uniform", "")) %>%
+           x_dist = c("Uniform", "Normal", "Skewed", "Discrete", "")) %>%
   knitr::kable(col.names = NULL,
                align = "rr|rr|rc",
                escape = FALSE,
@@ -760,10 +760,10 @@ An example lineup of this model used in data collection period II is shown in Fi
 ### Factors common to both data collection periods
 
 
-Fitted values are a function of the independent variables, and the distribution of the observed values affects the distribution of the fitted values. In the best case scenario the fitted values will have a uniform distribution, which means that there is even coverage of possible observed values across all of the predictors. This is not always present in the collected data. Sometimes the fitted values are discrete because one or more predictors were measured discretely. The distribution may be relatively Gaussian, reflecting a linear combinatio of many predictors, adhering to the Central Limit Theorem. It is also common to see a skewed distribution of fitted values, if one or more of the predictors has a skewed distribution. This latter problem is usually corrected before modelling using a variable transformation. Our simulation assess this by using four different distributions to represent fitted values: (1) uniform, (2) normal, (3) skewed and (4) discrete uniform. This is constructed by defining the raw predictor $X_{raw}$ in four corresponding distributions: 
+Fitted values are a function of the independent variables, and the distribution of the observed values affects the distribution of the fitted values. In the best case scenario the fitted values will have a uniform distribution, which means that there is even coverage of possible observed values across all of the predictors. This is not always present in the collected data. Sometimes the fitted values are discrete because one or more predictors were measured discretely. The distribution may be relatively Gaussian, reflecting a linear combinatio of many predictors, adhering to the Central Limit Theorem. It is also common to see a skewed distribution of fitted values, if one or more of the predictors has a skewed distribution. This latter problem is usually corrected before modelling using a variable transformation. Our simulation assess this by using four different distributions to represent fitted values: (1) uniform, (2) normal, (3) skewed and (4) discrete. This is constructed by defining the raw predictor $X_{raw}$ in four corresponding distributions: 
 (1) $U(-1, 1)$, (2) $N(0, 0.3^2)$, (3) $lognormal(0, 0.6^2)/3$ and (4) $u\{1, 5\}$. We would expect that the best reading of residual plots occurs when the fitted values are uniformly distributed.
 
-Three different sample sizes are used, $n=50, 100, 300$ across the experiments. We would expect considerable variation in the signal strength in the simulated data plots with smaller $n$. A sample size of 300 is typically enough for structure to be visible in a scatter plot reliably.
+Three different sample sizes are used, $n = 50, 100, 300$ across the experiments. We would expect considerable variation in the signal strength in the simulated data plots with smaller $n$. A sample size of 300 is typically enough for structure to be visible in a scatter plot reliably.
 
 
 ```{r different-dist, fig.height = 2, fig.cap = "Variations in fitted values, that might affect perception of residual plots. Four different distributions are used."}
@@ -803,7 +803,7 @@ dat_dist_4 <- poly_model(shape = 1,
                            }, 
                          sigma = 0.5)$
   gen(300, computed = select(dat_dist_1, e)) %>%
-  mutate(x_dist = "Discrete uniform")
+  mutate(x_dist = "Discrete")
 
 # Generate and plot data for discrete uniform distribution
 bind_rows(dat_dist_1, dat_dist_2, dat_dist_3, dat_dist_4) %>%
@@ -811,7 +811,7 @@ bind_rows(dat_dist_1, dat_dist_2, dat_dist_3, dat_dist_4) %>%
                          levels = c("Uniform", 
                                     "Normal", 
                                     "Skewed", 
-                                    "Discrete uniform"))) %>%
+                                    "Discrete"))) %>%
   VI_MODEL$plot(remove_axis = TRUE, remove_grid_line = TRUE, theme = theme_light()) +
   xlab("Fitted values") +
   ylab("Residuals") +
@@ -1378,7 +1378,7 @@ VI_MODEL$plot_lineup(vi_lineup$heter_331$data,
 
 The order of the polynomial is a primary factor contributing to the pattern produced by the non-linearity model. Figure \ref{fig:poly-power-uniform-j} explores the relationship between polynomial order and power of the tests. The conventional tests have higher power for lower orders of Hermite polynomials, and it drops substantially for the "triple-U" shape. To understand why this is, one needs to return to the way the RESET test is applied. It requires a parameter indicating degree of fitted values to test for, and the recommendation is to generically use four [@ramsey_tests_1969]. However, the "triple-U" shape is constructed from the Hermite polynomials using power up to 18. If the RESET test had been applied using a higher power no less than six, the power curve of "triple-U" shape will be closer to other power curves. This illustrates the sensitivity of the conventional test to the parameter choice, and highlights a limitation that it helps to know the data generating process to set the parameters for the test, which is unrealistic. However, we examined this in more detail (see Appendix) and found that there is no harm for setting the parameter higher than four on the tests' operation for lower order polynomial shapes. Using a parameter value of six, instead of four, yields higher power regardless of generating process, and would be recommended. 
 
-For visual tests, we expect the "U" shape to be detected more readily, followed by the "S", "M" and "triple-U" shape. From Figure \ref{fig:poly-power-uniform-j}, it can be observed that the power curves mostly align with these expectations, except for the "M" shape, which is as easy to be detected as the "S" shape. This suggests a benefit of  the visual test, the knowing the shape ahead of time is not needed for its application.
+For visual tests, we expect the "U" shape to be detected more readily, followed by the "S", "M" and "triple-U" shape. From Figure \ref{fig:poly-power-uniform-j}, it can be observed that the power curves mostly align with these expectations, except for the "M" shape, which is as easy to be detected as the "S" shape. This suggests a benefit of the visual test, the knowing the shape ahead of time is not needed for its application.
 
 ```{r poly-power-uniform-j, fig.height = 4, fig.cap = 'The effect of the order of the polynomial on the power of conventional and visual tests. Deeper colour indicates higher order. The default RESET tests under-performs significantly in detecting the "triple-U" shape. To achieve a similar power as other shapes, a higher order polynomial parameter needs to be used for the RESET test, but this higher than the recommended value.'}
 
@@ -1585,7 +1585,7 @@ diff_x_dist_power_pred <- list(
 
 diff_x_dist_power_pred %>%
   mutate(x_dist = ifelse(x_dist == "even_discrete", 
-                         "Discrete uniform", 
+                         "Discrete", 
                          stringr::str_to_title(x_dist))) %>%
   mutate(type = factor(stringr::str_to_title(type), 
                        levels = c("Non-Linearity", 
@@ -1594,7 +1594,7 @@ diff_x_dist_power_pred %>%
                          levels = c("Uniform", 
                                     "Normal", 
                                     "Lognormal", 
-                                    "Discrete uniform"))) %>%
+                                    "Discrete"))) %>%
   
   ggplot() +
   

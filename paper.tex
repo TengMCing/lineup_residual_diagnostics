@@ -653,7 +653,7 @@ this lineup.
 2 & 0.25 & -1 & 0.25 & 50 & Uniform\\
 3 & 1.00 & 0 & 1.00 & 100 & Normal\\
 6 & 2.00 & 1 & 4.00 & 300 & Skewed\\
-18 & 4.00 &  & 16.00 &  & Discrete uniform\\
+18 & 4.00 &  & 16.00 &  & Discrete\\
  &  &  & 64.00 &  & \\
 \bottomrule
 \end{tabular}}
@@ -770,13 +770,13 @@ the predictors has a skewed distribution. This latter problem is usually
 corrected before modelling using a variable transformation. Our
 simulation assess this by using four different distributions to
 represent fitted values: (1) uniform, (2) normal, (3) skewed and (4)
-discrete uniform. This is constructed by defining the raw predictor
-\(X_{raw}\) in four corresponding distributions: (1) \(U(-1, 1)\), (2)
+discrete. This is constructed by defining the raw predictor \(X_{raw}\)
+in four corresponding distributions: (1) \(U(-1, 1)\), (2)
 \(N(0, 0.3^2)\), (3) \(lognormal(0, 0.6^2)/3\) and (4) \(u\{1, 5\}\). We
 would expect that the best reading of residual plots occurs when the
 fitted values are uniformly distributed.
 
-Three different sample sizes are used, \(n=50, 100, 300\) across the
+Three different sample sizes are used, \(n = 50, 100, 300\) across the
 experiments. We would expect considerable variation in the signal
 strength in the simulated data plots with smaller \(n\). A sample size
 of 300 is typically enough for structure to be visible in a scatter plot

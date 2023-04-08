@@ -1083,7 +1083,7 @@ es <- map_dbl(target_sigma,
 ```
 
 
-```{r polypower, fig.height = 3, fig.width = 5, fig.cap = "Comparison of power between different tests for non-linear patterns (uniform fitted values only). The power curves are estimated using logistic regression, and the horizontal lines of dots represent human evaluations of lineups, with 0, 1 indicating non-detect and detect, respectively.  lines The visual test has multiple power curves estimated from bootstrap samples. The row of scatterplots plots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.", dev = 'png', dpi = 450}
+```{r polypower, fig.height = 3, fig.width = 5, fig.cap = "Comparison of power between different tests for non-linear patterns (uniform fitted values only). The power curves are estimated using logistic regression, and the horizontal lines of dots represent decisions made by visual tests, with 0, 1 indicating non-reject and reject, respectively. The visual test has multiple power curves estimated from bootstrap samples. The row of scatterplots plots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.", dev = 'png', dpi = 450}
 
 # 106
 # 112

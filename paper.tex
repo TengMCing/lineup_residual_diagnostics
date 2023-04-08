@@ -239,19 +239,19 @@ Jarque--Bera test \citep{jarque1980efficient} is also used to directly
 check whether the sample skewness and kurtosis match a normal
 distribution.
 
-Table \ref{tab:example-residual-plot-table} shows the RESET,
-Breusch-Pagan and Shapiro-Wilk test results (\(p\)-values) for the
-residual plots shown in Figure
-\ref{fig:residual-plot-common-departures}. The RESET test and
-Breusch-Pagan test were computed using the \texttt{resettest} and
-\texttt{bptest} functions from R package \texttt{lmtest}, respectively.
-The Shapiro-Wilk test was computed using the \texttt{shapiro.test} from
-the core R package \texttt{stats}. (The the R package \texttt{skedastic}
-\citep{skedastic} contains a large collection of tests for
-heteroskedasticity.) The RESET test is exact, but the power parameter
-must be chosen. \citet{ramsey_tests_1969} suggests using a power of
-four, which is what we used. The Breusch-Pagan and Shapiro-Wilk tests
-are approximate.
+Table \ref{tab:example-residual-plot-table} displays the \(p\)-values
+from the RESET, Breusch-Pagan and Shapiro-Wilk tests applied to the
+residual plots in Figure \ref{fig:residual-plot-common-departures}. The
+RESET test and Breusch-Pagan test were computed using the
+\texttt{resettest} and \texttt{bptest} functions from the R package
+\texttt{lmtest}, respectively. The Shapiro-Wilk test was computed using
+the \texttt{shapiro.test} from the core R package \texttt{stats}. (The
+the R package \texttt{skedastic} \citep{skedastic} contains a large
+collection of tests for heteroskedasticity.) Although, the RESET test is
+exact, it requires the selection of a power parameter. According to
+\citet{ramsey_tests_1969}, a power of four is recommended, which we
+adopted in our analysis. The Breusch-Pagan and Shapiro-Wilk tests are
+approximate.
 
 We would expect the RESET test for non-linearity to reject residual plot
 B, the Breusch-Pagan test for heteroskedasticity to reject the residual
@@ -266,12 +266,17 @@ wrong reason, a phenomenon known as the ``Type III error''. Also, some
 types of departure can also have elements of other types of departure,
 for example, non-linearity could be viewed as heteroskedasticity.
 Additionally, other problesms such as outliers can trigger the rejection
-\citep{cook_applied_1999}. With a sufficiently large sample size,
-residual-based tests may reject when there is only a slight departure.
-This is a situation that is addressed by the results in this paper
-because from a practical perspective we would only want to flag the
-model as problematic when ther is a XXX diagnostic practical
-significance. XXX check heteroscedastic spelling
+\citep{cook_applied_1999}.
+
+With large sample sizes, hypothesis tests are may reject a residual plot
+when there is only a slight departure (XXX is there a reference for this
+statement?). While such rejections may be statistically correct, their
+sensitivity may render the results impractical. Therefore, a key goal of
+residual plot diagnostics is to identify potential issues that could
+lead to incorrect conclusions or errors in subsequent analyses. However,
+minor defects in the model are unlikely to have a significant impact and
+may be best disregarded for practical purposes. In fact, the experiment
+discussed in this paper specifically addresses this.
 
 \begin{table}
 

@@ -426,7 +426,7 @@ The examination of data plots to infer signal or patterns (or lack thereof) is f
 
 In practice, over-interpretation of a single plot is common.  For instance, in @roy_chowdhury_using_2015, some over-interpreted the separation between gene groups in a two-dimensional projection of a linear discriminant analysis when in fact there are no differences in the expression levels between the gene groups. To mitigate this over-interpretation, @buja_statistical_2009 proposed a line-up protocol to assess plots in a manner analogous to the null hypothesis significance testing (NHST) framework. More specifically, the protocol consists of $m$ randomly placed plots, where one plot is the data plot, and the remaining $m - 1$ plots, referred to as the _null plots_, have the identical graphical procedure as the data plot except the data is replaced with a data generation mechanism that is consistent with the null hypothesis, $H_0$. Then, an observer who have not seen the data plot will be asked to point out the most different plot from the lineup. Under $H_0$, it is expected that the data plot would have no distinguishable difference from the null plots, and the probability that the observer correctly picks the data plot is $1/m$. If one rejects $H_0$ as the observer correctly picks the data plot, then the Type I error of this test is $1/m$. This protocol requires apriori specification of $H_0$ (or at least a null data generating mechanism) much like the requirement of knowing the distribution of the test statistic in NHST. 
 
-```{r first-example-lineup, fig.height = 7, fig.width = 7, fig.cap = "Visual testing is conducted using a lineup, as in the example here. The residual plot computed from the observed data (plot $2^2 + 2$, exhibiting non-linearity) is embedded among 19 null plots, where the residuals are simulated from a standard error model. Computing the $p$-value requires that the lineup be examined by a number of human judges, each asked to select the most different plot. A small $p$-value would result from a substantial number selecting plot $2^2 + 2$."}
+```{r first-example-lineup, fig.pos="t!", fig.height = 7, fig.width = 7, fig.cap = "Visual testing is conducted using a lineup, as in the example here. The residual plot computed from the observed data (plot $2^2 + 2$, exhibiting non-linearity) is embedded among 19 null plots, where the residuals are simulated from a standard error model. Computing the $p$-value requires that the lineup be examined by a number of human judges, each asked to select the most different plot. A small $p$-value would result from a substantial number selecting plot $2^2 + 2$."}
 
 vi_lineup$poly_300$data %>%
   VI_MODEL$plot_lineup(theme = theme_light(), remove_axis = TRUE, remove_grid_line = TRUE)
@@ -659,7 +659,7 @@ map(c(1, 2, 4), function(sigma) {
   ylab("Residuals")
 ```
 
-```{r example-poly-lineup, fig.height = 7, fig.width = 7, fig.cap = "One of the lineups containing non-linearity patterns used in data collection period I. Can you spot the most different plot? The data plot is positioned at $2^3 + 1$."}
+```{r example-poly-lineup, fig.pos="t!", fig.height = 7, fig.width = 7, fig.cap = "One of the lineups containing non-linearity patterns used in data collection period I. Can you spot the most different plot? The data plot is positioned at $2^3 + 1$."}
 VI_MODEL$plot_lineup(vi_lineup$poly_24$data, 
                      remove_grid_line = TRUE, 
                      theme = theme_light(),
@@ -756,7 +756,7 @@ map(c(1, 4, 16, 64), function(b) {
 ```
 
 
-```{r example-heter-lineup, fig.height = 7, fig.width = 7, fig.cap = "One of the lineups containing heteroskedasticity pattern used in data collection period II. Can you spot the most different plot? The data plot is positioned at $3^3 - 3^2$"}
+```{r example-heter-lineup, fig.pos="t!", fig.height = 7, fig.width = 7, fig.cap = "One of the lineups containing heteroskedasticity pattern used in data collection period II. Can you spot the most different plot? The data plot is positioned at $3^3 - 3^2$"}
 
 VI_MODEL$plot_lineup(vi_lineup$heter_471$data, 
                      remove_grid_line = TRUE, 
@@ -1331,19 +1331,19 @@ p_value_cmp_dat <- vi_survey %>%
   select(type, conv_reject, reject)
 ```
 
-The power comparison illustrates that appropriate conventional tests will reject $H_0$ more aggressively than visual tests. In this section, we explore how often they agree with each other by investigating the rejections for the two model designs based on $p$-values for each lineup.
+The power comparison demonstrated that the appropriate conventional tests will reject more aggressively than visual tests, but we don't know how the decisions for each lineup would agree or disagree. Here we compare the reject or fail to reject decisions of these tests, across all the lineups. Figure \ref{fig:p-value-comparison} shows the agreement of the conventional and visual tests using a mosaic plot for both non-linearity patterns and heteroskedasticity patterns.
 
-Figure \ref{fig:p-value-comparison} provides a mosaic plot showing the rejection rate of visual tests and conventional tests for both non-linearity patterns and heteroskedasticity patterns.
+For both patterns the lineups resulting in a rejection by the visual test are *all* also rejected by the conventional test, except for one from the heteroskedasticity model. This reflects exactly the story from the previous section, that the conventional tests reject more aggressively than the visual test. 
 
 For lineups containing non-linearity patterns, conventional tests reject `r p_value_cmp_dat %>% filter(type == "non-linearity") %>% count(conv_reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% and visual tests reject `r p_value_cmp_dat %>% filter(type == "non-linearity") %>% count(reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% of the time. Of the lineups rejected by the conventional test, `r p_value_cmp_dat %>% filter(type == "non-linearity") %>% filter(conv_reject == "Reject") %>% count(reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% are rejected by the visual test, that is, approximately half as many as the conventional test. There are no lineups that are rejected by the visual test but not by the conventional test.
 
-In terms of lineups containing heteroskedasticity patterns, `r p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% count(conv_reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% are rejected by conventional tests, while `r p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% count(reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% are rejected by visual tests. When the conventional test rejects a lineup, there is a great chance (`r p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% filter(conv_reject == "Reject") %>% count(reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`%) the visual test will also reject it.  
+In terms of lineups containing heteroskedasticity patterns, `r p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% count(conv_reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% are rejected by conventional tests, while `r p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% count(reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`% are rejected by visual tests. When the conventional test rejects a lineup, there is a good chance (`r p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% filter(conv_reject == "Reject") %>% count(reject) %>% summarise(pct=round(n[1]/(n[1]+n[2])*100, 0))`%) the visual test will also reject it.  
 
 ```{r}
 nr <- p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% filter(conv_reject == "Not") %>% count(reject)
 ```
 
-Surprisingly, the visual test rejects `r nr$n[1]` of the `r nr$n[1]+nr$n[2]` (`r round(nr$n[1]/(nr$n[1]+nr$n[2])*100, 0)`%) of lineups where the conventional test does not reject. Figure \ref{fig:heter-example} shows this lineup. The data plot in position seventeen displays a relatively strong heteroskedasticity pattern, and has a strong effect size ($log_e(E)=4.02$). This is reflected by the visual test $p\text{-value} = 0.026$. But the Breusch-Pagan test $p\text{-value} = 0.056$, is slightly above the significance cutoff of $0.05$. This lineup was evaluated by 11 subjects, it has experimental factors $a = 0$ ("butterfly" shape), $b = 64$ (large variance ratio), $n = 50$ (small sample size), and a uniform distribution for the fitted values. It must be the small sample size that may have resulted in the lack of detection.
+Surprisingly, the visual test rejects `r nr$n[1]` of the `r nr$n[1]+nr$n[2]` (`r round(nr$n[1]/(nr$n[1]+nr$n[2])*100, 0)`%) of lineups where the conventional test does not reject. Figure \ref{fig:heter-example} shows this lineup. The data plot in position seventeen displays a relatively strong heteroskedasticity pattern, and has a strong effect size ($log_e(E)=4.02$). This is reflected by the visual test $p\text{-value} = 0.026$. But the Breusch-Pagan test $p\text{-value} = 0.056$, is slightly above the significance cutoff of $0.05$. This lineup was evaluated by 11 subjects, it has experimental factors $a = 0$ ("butterfly" shape), $b = 64$ (large variance ratio), $n = 50$ (small sample size), and a uniform distribution for the fitted values. It may have been the small sample size and the presence of a few outliers that may have resulted in the lack of detection by the conventional test.
 
 ```{r p-value-comparison, fig.width = 8, fig.height = 4, fig.cap = "Rejection rate ($p$-value $\\leq0.05$) of visual test conditional on the conventional test decision on non-linearity (left) and heteroskedasticity (right) lineups (uniform fitted values only) displayed using a mosaic plot. The visual test rejects less frequently than the conventional test. We would generally expect the visual test to only reject when the conventional test does. Surprisingly, one lineup containing a heteroskedasticity pattern does not follow this rule. "}
 
@@ -1364,7 +1364,7 @@ p_value_cmp_dat %>%
   coord_fixed()
 ```
 
-```{r heter-example, fig.height = 7, fig.width = 7, fig.cap = 'The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot at panel 17 contains a "butterfly" shape. It has effect size $ = 3.76$, somewhat surprising that it is not detected by the BP test.'}
+```{r heter-example, fig.pos="t!", fig.height = 7, fig.width = 7, fig.cap = 'The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot at panel 17 contains a "butterfly" shape. It has effect size $ = 3.76$, somewhat surprising that it is not detected by the BP test.'}
 # plot heter-331
 VI_MODEL$plot_lineup(vi_lineup$heter_331$data, 
                      remove_grid_line = TRUE, 
@@ -1526,7 +1526,7 @@ dat_uniform_5_pred <- dat_uniform_5 %>%
 ```
 
 
-```{r different-x-dist-poly-power, fig.height = 6, fig.cap = "Comparison of power on lineups with different fitted value distributions for conventional and visual tests for non-linearity and heteroskedasticity patterns. The power curves of conventional tests for non-linearity and heteroskedasticity patterns are produced by RESET tests and Breusch-Pagan tests, respectively. Power curves of visual tests are estimated using five evaluations on each lineup. For lineups with a uniform fitted value distribution, the five evaluations are repeatedly sampled from the total eleven evaluations to give multiple power curves (grey). Surprisingly, the fitted value distribution has produces more variability in the power of conventional tests than visual tests. Uneven distributions, normal and lognormal distributions, tend to yield lower power.", dev = 'png', dpi = 450, fig.pos="t"}
+```{r different-x-dist-poly-power, fig.pos="t!", fig.height = 6, fig.cap = "Comparison of power on lineups with different fitted value distributions for conventional and visual tests for non-linearity and heteroskedasticity patterns. The power curves of conventional tests for non-linearity and heteroskedasticity patterns are produced by RESET tests and Breusch-Pagan tests, respectively. Power curves of visual tests are estimated using five evaluations on each lineup. For lineups with a uniform fitted value distribution, the five evaluations are repeatedly sampled from the total eleven evaluations to give multiple power curves (grey). Surprisingly, the fitted value distribution has produces more variability in the power of conventional tests than visual tests. Uneven distributions, normal and lognormal distributions, tend to yield lower power.", dev = 'png', dpi = 450}
 
 
 diff_x_dist_power_pred <- list(

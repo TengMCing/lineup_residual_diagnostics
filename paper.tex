@@ -330,7 +330,7 @@ specification of \(H_0\) (or at least a null data generating mechanism)
 much like the requirement of knowing the distribution of the test
 statistic in NHST.
 
-\begin{figure}
+\begin{figure}[t!]
 
 {\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/first-example-lineup-1} 
 
@@ -695,7 +695,7 @@ this lineup.
 \caption{Examining the effect of $\sigma$ on the signal strength in the non-linearity detection, for $n=300$, uniform fitted value distribution and the "U" shape. As $\sigma$ increases the signal strength decreases, to the point that the "U" is almost unrecognisable when $\sigma=4$.}\label{fig:different-sigma}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[t!]
 
 {\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/example-poly-lineup-1} 
 
@@ -756,7 +756,7 @@ magnitude of residuals across different values of \(a\).
 \caption{Five different values of $b$ are used in heteroskedasticity simulation to control the strength of the signal. Larger values of $b$ yield a bigger difference in variation, and stus stronger heteroskedasticity signal.}\label{fig:different-b}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[t!]
 
 {\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/example-heter-lineup-1} 
 
@@ -1088,15 +1088,19 @@ good residual plots, then no discernible problem with the model exists.
 \subsection{\texorpdfstring{Comparison of test decisions based on
 \(p\)-values\textasciitilde{}\label{p-value}}{Comparison of test decisions based on p-values\textasciitilde{}}}\label{comparison-of-test-decisions-based-on-p-values}}
 
-The power comparison illustrates that appropriate conventional tests
-will reject \(H_0\) more aggressively than visual tests. In this
-section, we explore how often they agree with each other by
-investigating the rejections for the two model designs based on
-\(p\)-values for each lineup.
-
-Figure \ref{fig:p-value-comparison} provides a mosaic plot showing the
-rejection rate of visual tests and conventional tests for both
+The power comparison demonstrated that the appropriate conventional
+tests will reject more aggressively than visual tests, but we don't know
+how the decisions for each lineup would agree or disagree. Here we
+compare the reject or fail to reject decisions of these tests, across
+all the lineups. Figure \ref{fig:p-value-comparison} shows the agreement
+of the conventional and visual tests using a mosaic plot for both
 non-linearity patterns and heteroskedasticity patterns.
+
+For both patterns the lineups resulting in a rejection by the visual
+test are \emph{all} also rejected by the conventional test, except for
+one from the heteroskedasticity model. This reflects exactly the story
+from the previous section, that the conventional tests reject more
+aggressively than the visual test.
 
 For lineups containing non-linearity patterns, conventional tests reject
 69\% and visual tests reject 32\% of the time. Of the lineups rejected
@@ -1107,7 +1111,7 @@ test.
 
 In terms of lineups containing heteroskedasticity patterns, 76\% are
 rejected by conventional tests, while 56\% are rejected by visual tests.
-When the conventional test rejects a lineup, there is a great chance
+When the conventional test rejects a lineup, there is a good chance
 (73\%) the visual test will also reject it.
 
 Surprisingly, the visual test rejects 1 of the 33 (3\%) of lineups where
@@ -1120,8 +1124,9 @@ size (\(log_e(E)=4.02\)). This is reflected by the visual test
 \(0.05\). This lineup was evaluated by 11 subjects, it has experimental
 factors \(a = 0\) (``butterfly'' shape), \(b = 64\) (large variance
 ratio), \(n = 50\) (small sample size), and a uniform distribution for
-the fitted values. It must be the small sample size that may have
-resulted in the lack of detection.
+the fitted values. It may have been the small sample size and the
+presence of a few outliers that may have resulted in the lack of
+detection by the conventional test.
 
 \begin{figure}
 
@@ -1132,7 +1137,7 @@ resulted in the lack of detection.
 \caption{Rejection rate ($p$-value $\leq0.05$) of visual test conditional on the conventional test decision on non-linearity (left) and heteroskedasticity (right) lineups (uniform fitted values only) displayed using a mosaic plot. The visual test rejects less frequently than the conventional test. We would generally expect the visual test to only reject when the conventional test does. Surprisingly, one lineup containing a heteroskedasticity pattern does not follow this rule. }\label{fig:p-value-comparison}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[t!]
 
 {\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/heter-example-1} 
 
@@ -1225,7 +1230,7 @@ lognormal (skewed). We would expect that if \(\hat{Y}\) has a uniform
 distribution, this would make it easier to read the relationship with
 the residuals.
 
-\begin{figure}[t]
+\begin{figure}[t!]
 
 {\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/different-x-dist-poly-power-1} 
 

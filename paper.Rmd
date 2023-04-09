@@ -449,7 +449,7 @@ Similarly, the BP test is designed to specifically test $H_0:$ *error variances 
 
 One of the potential benefits of the visual test, based on the lineup protocol, is that it works as an omnibus test,  able to detect a range of departures from good residuals. 
 
-## Statistical significance~\label{sig}
+## Statistical significance\label{sig}
 
 In hypothesis testing, a $p$-value is defined as the probability of observing test results as least as extreme as the observed result given $H_0$ is true. Conventional hypothesis tests usually have an existing method to derive or compute $p$-value based on the null distribution. What we need to discuss in the following is the method to estimate $p$-value for a visual test.
 
@@ -918,7 +918,7 @@ Data collection used a total of `r filter(vi_survey, !attention_check) %>% count
 
 The data was collected on lineups constructed from four different fitted value distributions: uniform, normal, skewed and discrete. More data was collected on the uniform (each evaluated by 11 participants) than the others (each evaluated by 5 participants). The analysis in Sections \ref{power-analysis}-\ref{hetero-analysis}, uses only results from lineups generated with uniform fitted values, a total `r nrow(filter(vi_survey, !attention_check, !null_lineup, x_dist == "uniform"))` lineup evaluations. This was decided in order to compare the conventional and visual test performance for an optimal scenario. Section \ref{effect-of-fitted-value-distributions} examines how the results may be affected if the fitted value distribution was different.  
 
-## Power comparison of the tests~\label{power-analysis}
+## Power comparison of the tests\label{power-analysis}
 
 
 Figures \ref{fig:polypower} and \ref{fig:heterpower} present the power curves of various tests plotted against the effect size in the residuals, for non-linearity and heteroskedasticity, respectively. In each case the power of visual test is re-calculated for multiple bootstrap samples leading to the many (orange) curves. The effect size was computed at a 5% significance level and plotted on a natural logarithmic scale. To facilitate visual calibration of effect size values with the corresponding diagnostic plots, a sequence of example residual plots with increasing effect sizes is provided at the bottom of these figures. These plots serve as a visual aid to help readers understand how different effect size values translate to changes in the diagnostic plots. The horizontal lines of dots at 0 and 1 represent the detects or non-detects made by human observers for each lineup.
@@ -1313,7 +1313,7 @@ For the heteroskedasticity pattern, the power of BP test, designed for detecting
 Overall, the results show that the conventional tests are more sensitive than the visual test. The conventional tests do have higher power for the patterns they are designed to detect, and are generally unable to detect other patterns. The visual test doesn't require specifying the pattern ahead of time, relying purely on whether the observed residual plot is detectably different from "good" residual plots. They will perform equally well regardless of the type of model defect. This aligns with the advice of experts on residual analysis, who consider residual plot analysis to be an indispensable tool for diagnosing model problems. What we gain from using a visual test for this purpose is the removal of any subjective arguments about whether a pattern is visible or not. The lineup protocol provides the calibration for detecting patterns: that if the pattern in the data plot cannot be distinguished from patterns in good residual plots, then no discernible problem with the model exists.
 
 
-## Comparison of test decisions based on $p$-values~\label{p-value}
+## Comparison of test decisions based on $p$-values\label{p-value}
 
 ```{r}
 # Dataset for p-value comparison
@@ -1374,11 +1374,11 @@ VI_MODEL$plot_lineup(vi_lineup$heter_331$data,
 ```
 
 
-## Effect of amount of non-linearity~\label{nonlin-analysis}
+## Effect of amount of non-linearity\label{nonlin-analysis}
 
 The order of the polynomial is a primary factor contributing to the pattern produced by the non-linearity model. Figure \ref{fig:poly-power-uniform-j} explores the relationship between polynomial order and power of the tests. The conventional tests have higher power for lower orders of Hermite polynomials, and it drops substantially for the "triple-U" shape. To understand why this is, one needs to return to the way the RESET test is applied. It requires a parameter indicating degree of fitted values to test for, and the recommendation is to generically use four [@ramsey_tests_1969]. However, the "triple-U" shape is constructed from the Hermite polynomials using power up to 18. If the RESET test had been applied using a higher power no less than six, the power curve of "triple-U" shape will be closer to other power curves. This illustrates the sensitivity of the conventional test to the parameter choice, and highlights a limitation that it helps to know the data generating process to set the parameters for the test, which is unrealistic. However, we examined this in more detail (see Appendix) and found that there is no harm for setting the parameter higher than four on the tests' operation for lower order polynomial shapes. Using a parameter value of six, instead of four, yields higher power regardless of generating process, and would be recommended. 
 
-For visual tests, we expect the "U" shape to be detected more readily, followed by the "S", "M" and "triple-U" shape. From Figure \ref{fig:poly-power-uniform-j}, it can be observed that the power curves mostly align with these expectations, except for the "M" shape, which is as easy to be detected as the "S" shape. This suggests a benefit of the visual test, the knowing the shape ahead of time is not needed for its application.
+For visual tests, we expect the "U" shape to be detected more readily, followed by the "S", "M" and "triple-U" shape. From Figure \ref{fig:poly-power-uniform-j}, it can be observed that the power curves mostly align with these expectations, except for the "M" shape, which is as easy to be detected as the "S" shape. This suggests a benefit of the visual test: knowing the shape ahead of time is *not* needed for its application.
 
 ```{r poly-power-uniform-j, fig.height = 4, fig.cap = 'The effect of the order of the polynomial on the power of conventional and visual tests. Deeper colour indicates higher order. The default RESET tests under-performs significantly in detecting the "triple-U" shape. To achieve a similar power as other shapes, a higher order polynomial parameter needs to be used for the RESET test, but this higher than the recommended value.'}
 
@@ -1426,7 +1426,7 @@ dat_poly_j %>%
 ```
 
 
-## Effect of shape of heteroskedasticity~\label{hetero-analysis}
+## Effect of shape of heteroskedasticity\label{hetero-analysis}
 
 Figure \ref{fig:heter-power-uniform-a} examines the impact of the shape of the heteroskedasticity on the power of of both tests. The butterfly shape has higher power on both types of tests. The "left-triangle" and the "right-triangle" shapes are functionally identical, and this is observed for the conventional test, where the power curves are identical. Interestingly there is a difference for the visual test, where the power curve of the "left-triangle" shape is slightly higher than that of the "right-triangle" shape. This indicates a bias in perceiving heteroskedasticity depending on the direction. This would be worth investigating further. 
 

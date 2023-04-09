@@ -920,6 +920,9 @@ The data was collected on lineups constructed from four different fitted value d
 
 ## Power comparison of the tests~\label{power-analysis}
 
+
+Figures \ref{fig:polypower} and \ref{fig:heterpower} present the power curves of various tests plotted against the effect size in the residuals, for non-linearity and heteroskedasticity, respectively. In each case the power of visual test is re-calculated for multiple bootstrap samples leading to the many (orange) curves. The effect size was computed at a 5% significance level and plotted on a natural logarithmic scale. To facilitate visual calibration of effect size values with the corresponding diagnostic plots, a sequence of example residual plots with increasing effect sizes is provided at the bottom of these figures. These plots serve as a visual aid to help readers understand how different effect size values translate to changes in the diagnostic plots. The horizontal lines of dots at 0 and 1 represent the detects or non-detects made by human observers for each lineup.
+
 ```{r cache = TRUE}
 # Define the minimum and maximum effect size
 min_poly_es <- vi_survey %>% 
@@ -1302,8 +1305,6 @@ map(1:11, ~patchwork::area(21, .x, 22, .x)) %>%
 patchwork::wrap_plots(append(plist, list(p), after = 0), 
                       design = .)
 ```  
-
-Figures \ref{fig:polypower} and \ref{fig:heterpower} present the power curves of various tests plotted against the effect size in the residuals, for non-linearity and heteroskedasticity, respectively. In each case the power of visual test is re-calculated for multiple bootstrap samples leading to the many (orange) curves. The effect size was computed at a 5% significance level and plotted on a natural logarithmic scale. To facilitate visual calibration of effect size values with the corresponding diagnostic plots, a sequence of example residual plots with increasing effect sizes is provided at the bottom of these figures. These plots serve as a visual aid to help readers understand how different effect size values translate to changes in the diagnostic plots. The horizontal lines of dots at 0 and 1 represent the detects or non-detects made by human observers for each lineup.
 
 Figures \ref{fig:polypower} compares the power for the different tests for non-linear structure in the residuals. The test with the uniformly higher power is the RESET test, one that specifically tests for non-linearity. The power curves for the visual test are effectively a shift right from that of the RESET test. This means that the RESET test will reject a lower effect size (less structure) than the visual test, but otherwise the performance will be similar. In other words, the RESET test is more sensitive than the visual test. This is not necessarily a good feature, for the purposes of diagnosing model defects. If one scans the residual plot examples at the bottom, we might argue that the non-linearity is not sufficiently problematic until an effect size of around 3 or 3.5. The RESET test would reject closer to an effect size of 2, but the visual test would reject closer 3.25. As expected the Breusch-Pagan and Shapiro-Wilk tests have much lower power - they are not designed to detect non-linearity.
 

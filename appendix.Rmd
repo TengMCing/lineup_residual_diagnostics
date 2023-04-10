@@ -660,6 +660,23 @@ knitr::include_graphics("figures/lineup1.png")
 
 ## Demographics
 
+Throughout the study, we have collected `r vi_survey %>% filter(!attention_check, !null_lineup) %>% nrow()` evaluations on `r vi_survey %>% filter(!attention_check, !null_lineup) %>% count(unique_lineup_id) %>% nrow()` non-null lineups. Table \ref{tab:count-lineup} gives further details about the number of evaluations and lineups over departure types and data collection periods. 
+
+```{r}
+matrix(c(c(576, 0, 144, 0, 540, 135, 1116),
+         c(2880, 0, 864, 0, 2700, 810, 7254)),
+       ncol = 7,
+       byrow = TRUE) %>%
+  data.frame() %>%
+  add_column(name = c("Lineups", "Evaluations"), .before = 1) %>%
+  kableExtra::kable(format = "latex", 
+                    booktabs = TRUE,
+                    label = "count-lineup",
+                    caption = "Count of lineups and evaluations over departure types and data collection periods.",
+                    col.names = c("Number", "I", "II", "III", "I", "II", "II", "Total")) %>%
+  kableExtra::add_header_above(c(" " = 1, "Non-linearity" = 3, "Heteroskedasticity" = 3))
+```
+
 Along with the responses to lineups, we have collected a series of demographic information including age, pronoun, education background and previous experience in studies involved data visualization. Table \ref{tab:pronoun}, \ref{tab:age-group}, \ref{tab:education} and \ref{tab:experience} provide summary of the demographic data. 
 
 It can be observed from the tables that most participants have Diploma or Bachelor degrees, followed by High school or below and the survey data is gender balanced. Majority of participants are between 18 to 39 years old and there are slightly more participants who do not have previous experience than those who have. 

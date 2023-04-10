@@ -1653,9 +1653,9 @@ As expected, if the fitted value distribution is not uniform, there is a loss of
 These `R` packages are used for the work: 
 `cli` [@cli], `curl` [@curl], `dplyr` [@dplyr], `ggplot2` [@ggplot2], `jsonlite` [@jsonlite], `lmtest` [@lmtest], `mpoly` [@mpoly], `progress` [@progress], `tibble` [@tibble], `ggmosaic` [@ggmosaic], `purrr` [@purrr], `tidyr` [@tidyr], `readr` [@readr], `stringr` [@stringr], `here` [@here], `kableExtra` [@kableextra], `patchwork` [@patchwork], `rcartocolor` [@rcartocolor]. The study website is powered by `PythonAnywhere` [@pythonanywhere] and the `Flask` web framework [@flask]. The `jsPsych` framework [@jspsych] is used to create behavioral experiments that run in our study website. 
 
-The article was created with R packages `rticles` [@rticles], `knitr` [@knitr] and `rmarkdown` [@rmarkdown]. The project's Github repository (link here) contains all materials required to reproduce this article.
+The article was created with R packages `rticles` [@rticles], `knitr` [@knitr] and `rmarkdown` [@rmarkdown]. The project's Github repository (https://github.com/TengMCing/lineup_residual_diagnostics) contains all materials required to reproduce this article.
 
 # Supplementary material {-}
 
-The supplementary material is available at (link here). It includes more details about the experimental setup, the derivation of the effect size, the effect of data collection period, and the estimate of  $\alpha$.
+The supplementary material is available at https://github.com/TengMCing/lineup_residual_diagnostics/blob/master/appendix.pdf. It includes more details about the experimental setup, the derivation of the effect size, the effect of data collection period, and the estimate of $\alpha$.
 

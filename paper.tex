@@ -111,7 +111,7 @@ distribution is symmetric and unimodal, we consider it to be well
 behaved. However, if the distribution is skewed, bimodal, multimodal, or
 contains outliers, there is a cause for concern. One could also inspect
 the distribution by conducting a goodness of fit test, such as the
-Shapiro-Wilk Normality test \citep{shapiro1965analysis}.
+Shapiro-Wilk (SW) Normality test \citep{shapiro1965analysis}.
 
 More typically, residuals will be plotted, as a scatter plot against the
 predicted values and each of the explanatory variables to scrutinize
@@ -124,7 +124,8 @@ especially common, particularly among students, to misinterpret patterns
 that are random noise and random deviation from a model
 \citep{loy2021bringing}. It is also possible to conduct hypothesis tests
 for non-linear dependence \citep{ramsey_tests_1969}, and use a
-Breusch-Pagan test \citep{breusch_simple_1979} for heteroskedasticity.
+Breusch-Pagan (BP) test \citep{breusch_simple_1979} for
+heteroskedasticity.
 
 Abundance of literature describe appropriate diagnostic methods for
 linear regression, e.g. \citet{draper1998applied},
@@ -224,49 +225,45 @@ departures}\label{conventionally-testing-for-departures}}
 Many different hypothesis tests are available to detect specific model
 defects. For example, the presence of heteroskedasticity can usually be
 tested by applying the White test
-\citep{white_heteroskedasticity-consistent_1980} or the Breusch-Pagan
-test \citep{breusch_simple_1979}, which are both derived from the
-Lagrange multiplier test \citep{silvey1959lagrangian} principle that
-relies on the asymptotic properties of the null distribution. To test
-specific forms of non-linearity, one may apply the F-test as a model
-structural test to examine the significance of specific polynomial and
-non-linear forms of the predictors, or the significance of proxy
-variables as in the Ramsey Regression Equation Specification Error Test
-(RESET) \citep{ramsey_tests_1969}. The Shapiro-Wilk test
-\citep{shapiro1965analysis} is the most widely used test of
-non-normality included by many of the statistical software programs. The
-Jarque--Bera test \citep{jarque1980efficient} is also used to directly
-check whether the sample skewness and kurtosis match a normal
-distribution.
+\citep{white_heteroskedasticity-consistent_1980} or the BP test
+\citep{breusch_simple_1979}, which are both derived from the Lagrange
+multiplier test \citep{silvey1959lagrangian} principle that relies on
+the asymptotic properties of the null distribution. To test specific
+forms of non-linearity, one may apply the F-test as a model structural
+test to examine the significance of specific polynomial and non-linear
+forms of the predictors, or the significance of proxy variables as in
+the Ramsey Regression Equation Specification Error Test (RESET)
+\citep{ramsey_tests_1969}. The SW test \citep{shapiro1965analysis} is
+the most widely used test of non-normality included by many of the
+statistical software programs. The Jarque--Bera test
+\citep{jarque1980efficient} is also used to directly check whether the
+sample skewness and kurtosis match a normal distribution.
 
 Table \ref{tab:example-residual-plot-table} displays the \(p\)-values
-from the RESET, Breusch-Pagan and Shapiro-Wilk tests applied to the
-residual plots in Figure \ref{fig:residual-plot-common-departures}. The
-RESET test and Breusch-Pagan test were computed using the
-\texttt{resettest} and \texttt{bptest} functions from the R package
-\texttt{lmtest}, respectively. The Shapiro-Wilk test was computed using
-the \texttt{shapiro.test} from the core R package \texttt{stats}. (The
-the R package \texttt{skedastic} \citep{skedastic} contains a large
-collection of tests for heteroskedasticity.) Although, the RESET test is
-exact, it requires the selection of a power parameter. According to
-\citet{ramsey_tests_1969}, a power of four is recommended, which we
-adopted in our analysis. The Breusch-Pagan and Shapiro-Wilk tests are
-approximate.
+from the RESET, BP and SW tests applied to the residual plots in Figure
+\ref{fig:residual-plot-common-departures}. The RESET test and BP test
+were computed using the \texttt{resettest} and \texttt{bptest} functions
+from the R package \texttt{lmtest}, respectively. The SW test was
+computed using the \texttt{shapiro.test} from the core R package
+\texttt{stats}. (The the R package \texttt{skedastic} \citep{skedastic}
+contains a large collection of tests for heteroskedasticity.) Although,
+the RESET test is exact, it requires the selection of a power parameter.
+According to \citet{ramsey_tests_1969}, a power of four is recommended,
+which we adopted in our analysis. The BP and SW tests are approximate.
 
 We would expect the RESET test for non-linearity to reject residual plot
-B, the Breusch-Pagan test for heteroskedasticity to reject the residual
-plot C, and Shapiro-Wilk test for non-normality to reject residual plot
-D, which they all do and correctly fail to reject residual plot A.
-Interestingly, the Breusch-Pagan and Shapiro-Wilk tests also reject the
-residual plots exhibiting structure that they weren't designed for.
-\citet{cook1982residuals} discusses that most residual-based tests for
-particular types of departure from model assumptions are also sensitive
-to other types of departures, that is, correctly rejected but for the
-wrong reason, a phenomenon known as the ``Type III error''. Also, some
-types of departure can also have elements of other types of departure,
-for example, non-linearity could be viewed as heteroskedasticity.
-Additionally, other problesms such as outliers can trigger the rejection
-\citep{cook_applied_1999}.
+B, the BP test for heteroskedasticity to reject the residual plot C, and
+SW test for non-normality to reject residual plot D, which they all do
+and correctly fail to reject residual plot A. Interestingly, the BP and
+SW tests also reject the residual plots exhibiting structure that they
+weren't designed for. \citet{cook1982residuals} discusses that most
+residual-based tests for particular types of departure from model
+assumptions are also sensitive to other types of departures, that is,
+correctly rejected but for the wrong reason, a phenomenon known as the
+``Type III error''. Also, some types of departure can also have elements
+of other types of departure, for example, non-linearity could be viewed
+as heteroskedasticity. Additionally, other problesms such as outliers
+can trigger the rejection \citep{cook_applied_1999}.
 
 With large sample sizes, hypothesis tests are may reject a residual plot
 when there is only a slight departure (XXX is there a reference for this
@@ -280,11 +277,11 @@ discussed in this paper specifically addresses this.
 
 \begin{table}
 
-\caption{\label{tab:example-residual-plot-table}Statistical significance testing for departures from good residuals for plots in Figure \ref{fig:residual-plot-common-departures}. Shown are the $p$-values calculated for the RESET, the Breusch-Pagan and the Shapiro–Wilk tests. The good residual plot (A) is judged a good residual plot, as expected, by all tests. The non-linearity (B) is detected by all tests, as might be expected given the extreme structure.}
+\caption{\label{tab:example-residual-plot-table}Statistical significance testing for departures from good residuals for plots in Figure \ref{fig:residual-plot-common-departures}. Shown are the $p$-values calculated for the RESET, the BP and the SW tests. The good residual plot (A) is judged a good residual plot, as expected, by all tests. The non-linearity (B) is detected by all tests, as might be expected given the extreme structure.}
 \centering
 \begin{tabular}[t]{llrrr}
 \toprule
-Plot & Departures & RESET & Breusch-Pagan & Shapiro–Wilk\\
+Plot & Departures & RESET & BP & SW\\
 \midrule
 A & None & 0.779 & 0.133 & 0.728\\
 B & Non-linearity & \em{0.000} & \em{0.000} & \em{0.039}\\
@@ -398,8 +395,8 @@ departures. For example, the RESET test is formulated as
 \(H_a: \gamma_1 \neq 0 \text{ or } \gamma_2 \neq 0 \text{ or } \gamma_3 \neq 0\),
 from
 \(y = \tau_0 + \sum_{i=1}^{p}\tau_px_p +\gamma_1\hat{y}^2 + \gamma_2\hat{y}^3 + \gamma_3\hat{y}^4 + u, ~~u \sim N(0, \sigma_u^2)\).
-Similarly, the Breusch-Pagan test is designed to specifically test
-\(H_0:\) \emph{error variances are all equal}
+Similarly, the BP test is designed to specifically test \(H_0:\)
+\emph{error variances are all equal}
 (\(\zeta_i=0 \text{ for } i=1,..,p\)) versus the alternative \(H_a:\)
 \emph{that the error variances are a multiplicative function of one or
 more variables} (\(\text{at least one } \zeta_i\neq 0\)) from
@@ -1051,23 +1048,22 @@ good feature, for the purposes of diagnosing model defects. If one scans
 the residual plot examples at the bottom, we might argue that the
 non-linearity is not sufficiently problematic until an effect size of
 around 3 or 3.5. The RESET test would reject closer to an effect size of
-2, but the visual test would reject closer 3.25. As expected the
-Breusch-Pagan and Shapiro-Wilk tests have much lower power - they are
-not designed to detect non-linearity.
+2, but the visual test would reject closer 3.25. As expected the BP and
+SW tests have much lower power - they are not designed to detect
+non-linearity.
 
-For the heteroskedasticity pattern, the power of Breusch-Pagan test,
-designed for detecting heteroskedasticity, is uniformly higher than the
-other tests. The visual test power curve is a right shift. This shows a
-similar story to the power curves for non-linearity pattern - the
-conventional test is more sensitive than the visual test. From the
-example residual plots at the bottom we might argue that the
-heteroskedasticity becomes noticeably visible around an effect size of 3
-or 3.5. However the Breusch-Pagan test would reject at around effect
-size 2.5. Interestingly, the power curve for the Shapiro-Wilk test (for
-non-normality) is only sighly different to that of the visual test,
-suggesting that it performs reasonably for detecting heteroskedasticity,
-too. The power curve for the Breusch-Pagan test suggests it is not
-useful for detecting heteroskeadsticity, as expected.
+For the heteroskedasticity pattern, the power of BP test, designed for
+detecting heteroskedasticity, is uniformly higher than the other tests.
+The visual test power curve is a right shift. This shows a similar story
+to the power curves for non-linearity pattern - the conventional test is
+more sensitive than the visual test. From the example residual plots at
+the bottom we might argue that the heteroskedasticity becomes noticeably
+visible around an effect size of 3 or 3.5. However the BP test would
+reject at around effect size 2.5. Interestingly, the power curve for the
+SW test (for non-normality) is only sighly different to that of the
+visual test, suggesting that it performs reasonably for detecting
+heteroskedasticity, too. The power curve for the BP test suggests it is
+not useful for detecting heteroskeadsticity, as expected.
 
 Overall, the results show that the conventional tests are more sensitive
 than the visual test. The conventional tests do have higher power for
@@ -1119,14 +1115,14 @@ the conventional test does not reject. Figure \ref{fig:heter-example}
 shows this lineup. The data plot in position seventeen displays a
 relatively strong heteroskedasticity pattern, and has a strong effect
 size (\(log_e(E)=4.02\)). This is reflected by the visual test
-\(p\text{-value} = 0.026\). But the Breusch-Pagan test
-\(p\text{-value} = 0.056\), is slightly above the significance cutoff of
-\(0.05\). This lineup was evaluated by 11 subjects, it has experimental
-factors \(a = 0\) (``butterfly'' shape), \(b = 64\) (large variance
-ratio), \(n = 50\) (small sample size), and a uniform distribution for
-the fitted values. It may have been the small sample size and the
-presence of a few outliers that may have resulted in the lack of
-detection by the conventional test.
+\(p\text{-value} = 0.026\). But the BP test \(p\text{-value} = 0.056\),
+is slightly above the significance cutoff of \(0.05\). This lineup was
+evaluated by 11 subjects, it has experimental factors \(a = 0\)
+(``butterfly'' shape), \(b = 64\) (large variance ratio), \(n = 50\)
+(small sample size), and a uniform distribution for the fitted values.
+It may have been the small sample size and the presence of a few
+outliers that may have resulted in the lack of detection by the
+conventional test.
 
 \begin{figure}
 
@@ -1236,21 +1232,20 @@ the residuals.
 
 }
 
-\caption{Comparison of power on lineups with different fitted value distributions for conventional and visual tests for non-linearity and heteroskedasticity patterns. The power curves of conventional tests for non-linearity and heteroskedasticity patterns are produced by RESET tests and Breusch-Pagan tests, respectively. Power curves of visual tests are estimated using five evaluations on each lineup. For lineups with a uniform fitted value distribution, the five evaluations are repeatedly sampled from the total eleven evaluations to give multiple power curves (grey). Surprisingly, the fitted value distribution has produces more variability in the power of conventional tests than visual tests. Uneven distributions, normal and lognormal distributions, tend to yield lower power.}\label{fig:different-x-dist-poly-power}
+\caption{Comparison of power on lineups with different fitted value distributions for conventional and visual tests for non-linearity and heteroskedasticity patterns. The power curves of conventional tests for non-linearity and heteroskedasticity patterns are produced by RESET tests and BP tests, respectively. Power curves of visual tests are estimated using five evaluations on each lineup. For lineups with a uniform fitted value distribution, the five evaluations are repeatedly sampled from the total eleven evaluations to give multiple power curves (grey). Surprisingly, the fitted value distribution has produces more variability in the power of conventional tests than visual tests. Uneven distributions, normal and lognormal distributions, tend to yield lower power.}\label{fig:different-x-dist-poly-power}
 \end{figure}
 
 Figure \ref{fig:different-x-dist-poly-power} examines the impact of the
 fitted value distribution on the power of conventional (top row) and
 visual (bottom row) tests for both the non-linearity (left column) and
 heteroskedasticity (right column) patterns. For conventional tests, only
-the power curves of appropriate tests which are RESET tests and
-Breusch-Pagan tests for non-linearity pattern and heteroskedasticity
-pattern respectively are shown. For visual tests, note that, more
-evaluations on lineup with uniform fitted value distribution were
-collected, so to have a fair comparison, we randomly sample five from
-the total eleven evaluations to estimate the power curves. Re-sampling
-produces the multiple curves for the uniform, and provides an indication
-of the variation of the power.
+the power curves of appropriate tests which are RESET tests and BP tests
+for non-linearity pattern and heteroskedasticity pattern respectively
+are shown. For visual tests, note that, more evaluations on lineup with
+uniform fitted value distribution were collected, so to have a fair
+comparison, we randomly sample five from the total eleven evaluations to
+estimate the power curves. Re-sampling produces the multiple curves for
+the uniform, and provides an indication of the variation of the power.
 
 Perhaps surprisingly, the visual tests have more consistent power across
 the different fitted value distributions. For the non-linear pattern,
@@ -1352,16 +1347,19 @@ run in our study website.
 
 The article was created with R packages \texttt{rticles}
 \citep{rticles}, \texttt{knitr} \citep{knitr} and \texttt{rmarkdown}
-\citep{rmarkdown}. The project's Github repository (link here) contains
-all materials required to reproduce this article.
+\citep{rmarkdown}. The project's Github repository
+(\url{https://github.com/TengMCing/lineup_residual_diagnostics})
+contains all materials required to reproduce this article.
 
 \hypertarget{supplementary-material}{%
 \section*{Supplementary material}\label{supplementary-material}}
 \addcontentsline{toc}{section}{Supplementary material}
 
-The supplementary material is available at (link here). It includes more
-details about the experimental setup, the derivation of the effect size,
-the effect of data collection period, and the estimate of \(\alpha\).
+The supplementary material is available at
+\url{https://github.com/TengMCing/lineup_residual_diagnostics/blob/master/appendix.pdf}.
+It includes more details about the experimental setup, the derivation of
+the effect size, the effect of data collection period, and the estimate
+of \(\alpha\).
 
 \bibliographystyle{tfcad}
 \bibliography{paper.bib}

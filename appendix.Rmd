@@ -660,10 +660,11 @@ knitr::include_graphics("figures/lineup1.png")
 
 ## Demographics
 
-Throughout the study, we have collected `r vi_survey %>% filter(!attention_check, !null_lineup) %>% nrow()` evaluations on `r vi_survey %>% filter(!attention_check, !null_lineup) %>% count(unique_lineup_id) %>% nrow()` non-null lineups. Table \ref{tab:count-lineup} gives further details about the number of evaluations, lineups and participants over departure types and data collection periods. 
+Throughout the study, we have collected `r vi_survey %>% filter(!attention_check, !null_lineup) %>% nrow()` evaluations on `r vi_survey %>% filter(!attention_check, !null_lineup) %>% count(unique_lineup_id) %>% nrow()` non-null lineups. Table \ref{tab:count-lineup} gives further details about the number of evaluations, lineups and participants over pattern types and data collection periods. 
 
 
 ```{r}
+# Calculate these numbers
 matrix(c(c(576, 0, 144, 0, 540, 135, 1116),
          c(2880, 0, 864, 0, 2700, 810, 7254),
          c(160, 0, 123, 0, 160, 123, 443)),

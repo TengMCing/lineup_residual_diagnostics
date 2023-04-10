@@ -660,19 +660,21 @@ knitr::include_graphics("figures/lineup1.png")
 
 ## Demographics
 
-Throughout the study, we have collected `r vi_survey %>% filter(!attention_check, !null_lineup) %>% nrow()` evaluations on `r vi_survey %>% filter(!attention_check, !null_lineup) %>% count(unique_lineup_id) %>% nrow()` non-null lineups. Table \ref{tab:count-lineup} gives further details about the number of evaluations and lineups over departure types and data collection periods. 
+Throughout the study, we have collected `r vi_survey %>% filter(!attention_check, !null_lineup) %>% nrow()` evaluations on `r vi_survey %>% filter(!attention_check, !null_lineup) %>% count(unique_lineup_id) %>% nrow()` non-null lineups. Table \ref{tab:count-lineup} gives further details about the number of evaluations, lineups and participants over departure types and data collection periods. 
+
 
 ```{r}
 matrix(c(c(576, 0, 144, 0, 540, 135, 1116),
-         c(2880, 0, 864, 0, 2700, 810, 7254)),
+         c(2880, 0, 864, 0, 2700, 810, 7254),
+         c(160, 0, 123, 0, 160, 123, 443)),
        ncol = 7,
        byrow = TRUE) %>%
   data.frame() %>%
-  add_column(name = c("Lineups", "Evaluations"), .before = 1) %>%
+  add_column(name = c("Lineups", "Evaluations", "Participants"), .before = 1) %>%
   kableExtra::kable(format = "latex", 
                     booktabs = TRUE,
                     label = "count-lineup",
-                    caption = "Count of lineups and evaluations over departure types and data collection periods.",
+                    caption = "Count of lineups, evaluations and participants over departure types and data collection periods.",
                     col.names = c("Number", "I", "II", "III", "I", "II", "II", "Total")) %>%
   kableExtra::add_header_above(c(" " = 1, "Non-linearity" = 3, "Heteroskedasticity" = 3))
 ```

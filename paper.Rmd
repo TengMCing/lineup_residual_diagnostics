@@ -921,7 +921,7 @@ The data was collected on lineups constructed from four different fitted value d
 ## Power comparison of the tests\label{power-analysis}
 
 
-Figures \ref{fig:polypower} and \ref{fig:heterpower} present the power curves of various tests plotted against the effect size in the residuals, for non-linearity and heteroskedasticity, respectively. In each case the power of visual test is re-calculated for multiple bootstrap samples leading to the many (orange) curves. The effect size was computed at a 5% significance level and plotted on a natural logarithmic scale. To facilitate visual calibration of effect size values with the corresponding diagnostic plots, a sequence of example residual plots with increasing effect sizes is provided at the bottom of these figures. These plots serve as a visual aid to help readers understand how different effect size values translate to changes in the diagnostic plots. The horizontal lines of dots at 0 and 1 represent the detects or non-detects made by human observers for each lineup.
+Figures \ref{fig:polypower} and \ref{fig:heterpower} present the power curves of various tests plotted against the effect size in the residuals, for non-linearity and heteroskedasticity, respectively. In each case the power of visual test is re-calculated for multiple bootstrap samples leading to the many (orange) curves. The effect size was computed at a 5% significance level and plotted on a natural logarithmic scale. To facilitate visual calibration of effect size values with the corresponding diagnostic plots, a sequence of example residual plots with increasing effect sizes is provided at the bottom of these figures. These plots serve as a visual aid to help readers understand how different effect size values translate to changes in the diagnostic plots. The horizontal lines of dots at 0 and 1 represent the non-reject or reject made by visual tests for each lineup.
 
 ```{r cache = TRUE}
 # Define the minimum and maximum effect size
@@ -1077,7 +1077,7 @@ es <- map_dbl(target_sigma,
 ```
 
 
-```{r polypower, fig.height = 3, fig.width = 5, fig.cap = "Comparison of power between different tests for non-linear patterns (uniform fitted values only). The power curves are estimated using logistic regression, and the horizontal lines of dots represent non-detect and detect results from human observers for each lineup. The visual test has multiple power curves estimated from bootstrap samples. The row of scatterplots plots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.", dev = 'png', dpi = 450}
+```{r polypower, fig.height = 3, fig.width = 5, fig.cap = "Comparison of power between different tests for non-linear patterns (uniform fitted values only). The power curves are estimated using logistic regression, and the horizontal lines of dots represent non-reject and reject results from visual tests for each lineup. The visual test has multiple power curves estimated from bootstrap samples. The row of scatterplots plots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.", dev = 'png', dpi = 450}
 
 # 106
 # 112
@@ -1266,7 +1266,7 @@ es <- map_dbl(target_b,
               )
 ```
   
-```{r heterpower, fig.height = 3, fig.width = 5, fig.cap = "Comparison of power between different tests for heteroskedasticity patterns (uniform fitted values only). Main plot shows the power curves, with dots indicating non-detect and detect in human evaluations of lineups. The multiple lines for the visual test arise from estimating the power on many bootstrap samples. The row of scatterplots plots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.", dev = 'png', dpi = 450}
+```{r heterpower, fig.height = 3, fig.width = 5, fig.cap = "Comparison of power between different tests for heteroskedasticity patterns (uniform fitted values only). Main plot shows the power curves, with dots indicating non-reject and reject in visual testing of lineups. The multiple lines for the visual test arise from estimating the power on many bootstrap samples. The row of scatterplots plots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.", dev = 'png', dpi = 450}
 
 # 10091
 # 101

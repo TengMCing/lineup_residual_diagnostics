@@ -665,9 +665,164 @@ Throughout the study, we have collected `r vi_survey %>% filter(!attention_check
 
 ```{r}
 # Calculate these numbers
-matrix(c(c(576, 0, 144, 0, 540, 135, 1116),
-         c(2880, 0, 864, 0, 2700, 810, 7254),
-         c(160, 0, 123, 0, 160, 123, 443)),
+a1 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type == "polynomial") %>%
+  filter(exp == 3) %>%
+  count(unique_lineup_id) %>%
+  nrow()
+
+a2 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type == "polynomial") %>%
+  filter(exp == 4) %>%
+  count(unique_lineup_id) %>%
+  nrow()
+
+a3 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type == "polynomial") %>%
+  filter(exp == 5) %>%
+  count(unique_lineup_id) %>%
+  nrow()
+
+a4 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type != "polynomial") %>%
+  filter(exp == 3) %>%
+  count(unique_lineup_id) %>%
+  nrow()
+
+a5 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type != "polynomial") %>%
+  filter(exp == 4) %>%
+  count(unique_lineup_id) %>%
+  nrow()
+
+a6 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type != "polynomial") %>%
+  filter(exp == 5) %>%
+  count(unique_lineup_id) %>%
+  nrow()
+
+a7 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  count(unique_lineup_id) %>%
+  nrow()
+
+b1 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type == "polynomial") %>%
+  filter(exp == 3) %>%
+  nrow()
+
+b2 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type == "polynomial") %>%
+  filter(exp == 4) %>%
+  nrow()
+
+b3 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type == "polynomial") %>%
+  filter(exp == 5) %>%
+  nrow()
+
+b4 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type != "polynomial") %>%
+  filter(exp == 3) %>%
+  nrow()
+
+b5 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type != "polynomial") %>%
+  filter(exp == 4) %>%
+  nrow()
+
+b6 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type != "polynomial") %>%
+  filter(exp == 5) %>%
+  nrow()
+
+b7 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  nrow()
+
+c1 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type == "polynomial") %>%
+  filter(exp == 3) %>%
+  count(set) %>%
+  nrow()
+
+c2 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type == "polynomial") %>%
+  filter(exp == 4) %>%
+  count(set) %>%
+  nrow()
+
+c3 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type == "polynomial") %>%
+  filter(exp == 5) %>%
+  count(set) %>%
+  nrow()
+
+c4 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type != "polynomial") %>%
+  filter(exp == 3) %>%
+  count(set) %>%
+  nrow()
+
+c5 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type != "polynomial") %>%
+  filter(exp == 4) %>%
+  count(set) %>%
+  nrow()
+
+c6 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  filter(type != "polynomial") %>%
+  filter(exp == 5) %>%
+  count(set) %>%
+  nrow()
+
+c7 <- vi_survey %>%
+  filter(!attention_check) %>%
+  filter(!null_lineup) %>%
+  count(exp, set) %>%
+  nrow()
+
+matrix(c(c(a1, a2, a3, a4, a5, a6, a7),
+         c(b1, b2, b3, b4, b5, b6, b7),
+         c(c1, c2, c3, c4, c5, c6, c7)),
        ncol = 7,
        byrow = TRUE) %>%
   data.frame() %>%

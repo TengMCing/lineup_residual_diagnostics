@@ -1346,7 +1346,7 @@ nr <- p_value_cmp_dat %>% filter(type == "heteroskedasticity") %>% filter(conv_r
 
 Surprisingly, the visual test rejects `r nr$n[1]` of the `r nr$n[1]+nr$n[2]` (`r round(nr$n[1]/(nr$n[1]+nr$n[2])*100, 0)`%) of lineups where the conventional test does not reject. Figure \ref{fig:heter-example} shows this lineup. The data plot in position seventeen displays a relatively strong heteroskedasticity pattern, and has a strong effect size ($log_e(E)=4.02$). This is reflected by the visual test $p\text{-value} = 0.026$. But the BP test $p\text{-value} = 0.056$, is slightly above the significance cutoff of $0.05$. This lineup was evaluated by 11 subjects, it has experimental factors $a = 0$ ("butterfly" shape), $b = 64$ (large variance ratio), $n = 50$ (small sample size), and a uniform distribution for the fitted values. It may have been the small sample size and the presence of a few outliers that may have resulted in the lack of detection by the conventional test.
 
-```{r p-value-comparison, fig.width = 8, fig.height = 4, fig.cap = "Rejection rate ($p$-value $\\leq0.05$) of visual test conditional on the conventional test decision on non-linearity (left) and heteroskedasticity (right) lineups (uniform fitted values only) displayed using a mosaic plot. The visual test rejects less frequently than the conventional test. We would generally expect the visual test to only reject when the conventional test does. Surprisingly, one lineup containing a heteroskedasticity pattern does not follow this rule. "}
+```{r p-value-comparison, fig.width = 8, fig.height = 4, fig.cap = "Rejection rate ($p$-value $\\leq0.05$) of visual test conditional on the conventional test decision on non-linearity (left) and heteroskedasticity (right) lineups (uniform fitted values only) displayed using a mosaic plot. The visual test rejects less frequently than the conventional test, and (almost) only rejects when the conventional test does. Surprisingly, one lineup in the heteroskedasticity group is rejected by the visual test but NOT the conventional test."}
 
 library(ggmosaic)
 
@@ -1365,7 +1365,7 @@ p_value_cmp_dat %>%
   coord_fixed()
 ```
 
-```{r heter-example, fig.pos="t!", fig.height = 7, fig.width = 7, fig.cap = 'The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot at panel 17 contains a "butterfly" shape. It has effect size $ = 3.76$, somewhat surprising that it is not detected by the BP test.'}
+```{r heter-example, fig.pos="t!", fig.height = 7, fig.width = 7, fig.cap = 'The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot (position 17) contains a ``butterfly" shape. It has a log effect size of $ 3.76$, and visibly displays heteroskedasticity, making it somewhat surprising that it is not detected by the BP test.'}
 # plot heter-331
 VI_MODEL$plot_lineup(vi_lineup$heter_331$data, 
                      remove_grid_line = TRUE, 

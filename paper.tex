@@ -1014,7 +1014,7 @@ residual plots with increasing effect sizes is provided at the bottom of
 these figures. These plots serve as a visual aid to help readers
 understand how different effect size values translate to changes in the
 diagnostic plots. The horizontal lines of dots at 0 and 1 represent the
-detects or non-detects made by human observers for each lineup.
+non-reject or reject made by visual tests for each lineup.
 
 \begin{figure}
 
@@ -1022,7 +1022,7 @@ detects or non-detects made by human observers for each lineup.
 
 }
 
-\caption{Comparison of power between different tests for non-linear patterns (uniform fitted values only). The power curves are estimated using logistic regression, and the horizontal lines of dots represent non-detect and detect results from human observers for each lineup. The visual test has multiple power curves estimated from bootstrap samples. The row of scatterplots plots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.}\label{fig:polypower}
+\caption{Comparison of power between different tests for non-linear patterns (uniform fitted values only). The power curves are estimated using logistic regression, and the horizontal lines of dots represent non-reject and reject results from visual tests for each lineup. The visual test has multiple power curves estimated from bootstrap samples. The row of scatterplots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.}\label{fig:polypower}
 \end{figure}
 
 \begin{figure}
@@ -1031,7 +1031,7 @@ detects or non-detects made by human observers for each lineup.
 
 }
 
-\caption{Comparison of power between different tests for heteroskedasticity patterns (uniform fitted values only). Main plot shows the power curves, with dots indicating non-detect and detect in human evaluations of lineups. The multiple lines for the visual test arise from estimating the power on many bootstrap samples. The row of scatterplots plots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.}\label{fig:heterpower}
+\caption{Comparison of power between different tests for heteroskedasticity patterns (uniform fitted values only). Main plot shows the power curves, with dots indicating non-reject and reject in visual testing of lineups. The multiple lines for the visual test arise from estimating the power on many bootstrap samples. The row of scatterplots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.}\label{fig:heterpower}
 \end{figure}
 
 Figures \ref{fig:polypower} compares the power for the different tests
@@ -1128,7 +1128,7 @@ conventional test.
 
 }
 
-\caption{Rejection rate ($p$-value $\leq0.05$) of visual test conditional on the conventional test decision on non-linearity (left) and heteroskedasticity (right) lineups (uniform fitted values only) displayed using a mosaic plot. The visual test rejects less frequently than the conventional test. We would generally expect the visual test to only reject when the conventional test does. Surprisingly, one lineup containing a heteroskedasticity pattern does not follow this rule. }\label{fig:p-value-comparison}
+\caption{Rejection rate ($p$-value $\leq0.05$) of visual test conditional on the conventional test decision on non-linearity (left) and heteroskedasticity (right) lineups (uniform fitted values only) displayed using a mosaic plot. The visual test rejects less frequently than the conventional test, and (almost) only rejects when the conventional test does. Surprisingly, one lineup in the heteroskedasticity group is rejected by the visual test but NOT the conventional test.}\label{fig:p-value-comparison}
 \end{figure}
 
 \begin{figure}[t!]
@@ -1137,7 +1137,7 @@ conventional test.
 
 }
 
-\caption{The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot at panel 17 contains a "butterfly" shape. It has effect size $ = 3.76$, somewhat surprising that it is not detected by the BP test.}\label{fig:heter-example}
+\caption{The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot (position 17) contains a ``butterfly" shape. It has a log effect size of $ 3.76$, and visibly displays heteroskedasticity, making it somewhat surprising that it is not detected by the BP test.}\label{fig:heter-example}
 \end{figure}
 
 \hypertarget{effect-of-amount-of-non-linearity}{%

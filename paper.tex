@@ -215,7 +215,7 @@ vertical spread. Unlike non-linearity and heteroskedasticity,
 non-normality is usually detected with a different type of residual
 plot, a histogram or normal probability plot. Because we focus on
 scatterplots, non-normality is not one of the departures examined in
-this paper.
+depth in this paper.
 
 \hypertarget{conventionally-testing-for-departures}{%
 \subsection{Conventionally testing for
@@ -257,22 +257,25 @@ and correctly fail to reject residual plot A. Interestingly, the BP and
 SW tests also reject the residual plots exhibiting structure that they
 weren't designed for. \citet{cook1982residuals} discusses that most
 residual-based tests for particular types of departure from model
-assumptions are also sensitive to other types of departures, that is,
-correctly rejected but for the wrong reason, a phenomenon known as the
-``Type III error''. Also, some types of departure can also have elements
-of other types of departure, for example, non-linearity could be viewed
-as heteroskedasticity. Additionally, other problesms such as outliers
-can trigger the rejection \citep{cook_applied_1999}.
+assumptions are also sensitive to other types of departures. This could
+be considered a Type III error, where the null hypothesis of good
+residuals is correctly rejected but for the wrong reason. Also, some
+types of departure can have elements of other types of departure, for
+example, non-linearity could be viewed as heteroskedasticity.
+Additionally, other problesms such as outliers can trigger the rejection
+\citep{cook_applied_1999}.
 
-With large sample sizes, hypothesis tests are may reject a residual plot
-when there is only a slight departure (XXX is there a reference for this
-statement?). While such rejections may be statistically correct, their
-sensitivity may render the results impractical. Therefore, a key goal of
-residual plot diagnostics is to identify potential issues that could
-lead to incorrect conclusions or errors in subsequent analyses. However,
-minor defects in the model are unlikely to have a significant impact and
-may be best disregarded for practical purposes. In fact, the experiment
-discussed in this paper specifically addresses this.
+With large sample sizes, hypothesis tests may reject the null hypothesis
+when there is only a small effect. (This is common knowledge but a good
+discussion can be found in \citet{kirk1996}.) While such rejections may
+be statistically correct, their sensitivity may render the results
+impractical. This is especially pertinent for residual diagnostics.
+Therefore, a key goal of residual plot diagnostics is to identify
+potential issues that could lead to incorrect conclusions or errors in
+subsequent analyses. However, minor defects in the model are unlikely to
+have a significant impact and may be best disregarded for practical
+purposes. In fact, the experiment discussed in this paper specifically
+addresses this.
 
 \begin{table}
 

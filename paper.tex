@@ -87,7 +87,7 @@ This paper provides evidence for why this is good advice, using data
 from a visual inference experiment. We show how conventional tests are
 too sensitive to be practically useful, and how the lineup protocol can
 be used to yield reliable and consistent reading of residual plots for
-better practical application.
+better model diagnosis.
 \end{abstract}
 
 \begin{keywords}
@@ -1242,20 +1242,20 @@ the residuals.
 
 }
 
-\caption{Comparison of power on lineups with different fitted value distributions for conventional and visual tests for non-linearity and heteroskedasticity patterns. The power curves of conventional tests for non-linearity and heteroskedasticity patterns are produced by RESET tests and BP tests, respectively. Power curves of visual tests are estimated using five evaluations on each lineup. For lineups with a uniform fitted value distribution, the five evaluations are repeatedly sampled from the total eleven evaluations to give multiple power curves (grey). Surprisingly, the fitted value distribution has produces more variability in the power of conventional tests than visual tests. Uneven distributions, normal and lognormal distributions, tend to yield lower power.}\label{fig:different-x-dist-poly-power}
+\caption{Comparison of power on lineups with different fitted value distributions for conventional and visual tests (columns) for non-linearity and heteroskedasticity patterns (rows). The power curves of conventional tests for non-linearity and heteroskedasticity patterns are produced by RESET tests and BP tests, respectively. Power curves of visual tests are estimated using five evaluations on each lineup. For lineups with a uniform fitted value distribution, the five evaluations are repeatedly sampled from the total eleven evaluations to give multiple power curves (grey). Surprisingly, the fitted value distribution has produces more variability in the power of conventional tests than visual tests. Uneven distributions, normal and lognormal distributions, tend to yield lower power.}\label{fig:different-x-dist-poly-power}
 \end{figure}
 
 Figure \ref{fig:different-x-dist-poly-power} examines the impact of the
-fitted value distribution on the power of conventional (top row) and
-visual (bottom row) tests for both the non-linearity (left column) and
-heteroskedasticity (right column) patterns. For conventional tests, only
-the power curves of appropriate tests which are RESET tests and BP tests
-for non-linearity pattern and heteroskedasticity pattern respectively
-are shown. For visual tests, note that, more evaluations on lineup with
-uniform fitted value distribution were collected, so to have a fair
-comparison, we randomly sample five from the total eleven evaluations to
-estimate the power curves. Re-sampling produces the multiple curves for
-the uniform, and provides an indication of the variation of the power.
+fitted value distribution on the power of conventional (left) and visual
+(right) tests for both the non-linearity (top) and heteroskedasticity
+(bottom) patterns. For conventional tests, only the power curves of
+appropriate tests which are RESET tests and BP tests for non-linearity
+pattern and heteroskedasticity pattern respectively are shown. For
+visual tests, note that, more evaluations on lineup with uniform fitted
+value distribution were collected, so to have a fair comparison, we
+randomly sample five from the total eleven evaluations to estimate the
+power curves. Re-sampling produces the multiple curves for the uniform,
+and provides an indication of the variation of the power.
 
 Perhaps surprisingly, the visual tests have more consistent power across
 the different fitted value distributions. For the non-linear pattern,
@@ -1278,25 +1278,27 @@ in these articles.
 \section{Conclusions}\label{conclusions}}
 
 Motivated by the advice of regression analysis experts, that residual
-plots as opposed to conventional tests are an indispensible methods for
+plots as opposed to conventional tests are indispensible methods for
 assessing model fit, a human subjects experiment was conducted using
 visual inference. The experiment tested two primary departures from good
 residuals: non-linearity and heteroskedasticity.
 
 The experiment found that conventional residual-based statistical tests
-are more sensitive to weak residual departures from model assumptions
-than visual tests as would be evaluated by humans. That is, conventional
-tests conclude there are problems with the model fit almost twice as
-often as humans would. They often reject when departures in the form of
-non-linearity and heteroskedasticity are not visible to a human.
+are more sensitive to weak departures from model assumptions than visual
+tests as would be evaluated by humans. That is, a conventional test
+conclude there are problems with the model fit almost twice as often as
+a human would. They often reject when departures in the form of
+non-linearity and heteroskedasticity are not visibly different from null
+residual plots.
 
-One might say that this is correct behaviour, but it can be argued that
-the conventional tests are rejecting when it is not necessary. Many of
-these rejections happen even when downstream analysis and results would
-not be significantly affected by the small departures from a good fit.
-The results from human evaluations provide a more practical solution,
-which reinforces the statements from regression experts that residual
-plots are an indispensible method for model diagnostics.
+While it might be argued that the conventional tests are correctly
+detecting the small but real effects, it can also be considered that the
+conventional tests are rejecting when it is not necessary. Many of these
+rejections happen even when downstream analysis and results would not be
+significantly affected by the small departures from a good fit. The
+results from human evaluations provide a more practical solution, which
+reinforces the statements from regression experts that residual plots
+are an indispensible method for model diagnostics.
 
 Now it is important to note that residual plots need to be delivered as
 a lineup, where it is embedded in a field of null plots. A residual plot

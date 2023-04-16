@@ -214,7 +214,6 @@ estimate of \(\alpha\).
 
 \caption{\label{tab:sensitivity}Examining how decisions might change if $\hat{\alpha}$ was different. Percentage of lineups that where the $p$-value would switch to above or below 0.05, when $\hat{\alpha}$ is multiplied by a multiplier.}
 \centering
-\resizebox{\linewidth}{!}{
 \begin{tabular}[t]{rrrrr}
 \toprule
 Multiplier & Reject to not reject & \% & Not reject to reject & \%\\
@@ -222,12 +221,12 @@ Multiplier & Reject to not reject & \% & Not reject to reject & \%\\
 0.500 & 7 & 2.51 & 0 & 0.00\\
 0.750 & 4 & 1.43 & 0 & 0.00\\
 0.875 & 3 & 1.08 & 0 & 0.00\\
+\addlinespace
 1.125 & 0 & 0.00 & 3 & 1.08\\
 1.250 & 0 & 0.00 & 4 & 1.43\\
-\addlinespace
 1.500 & 0 & 0.00 & 5 & 1.79\\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 \hypertarget{effect-of-number-of-evaluations-on-the-power-of-a-visual-test}{%
@@ -251,7 +250,7 @@ evaluations for each lineup in comparison.
 
 }
 
-\caption{Change of power of visual tests for different number of evalutions on lineups with uniform fitted value distribution. The power will incrase as the number of evaluations increases, but the margin will decrase.}\label{fig:n_eval}
+\caption{Change of power of visual tests for different number of evalutions on lineups with uniform fitted value distribution. The power will increase as the number of evaluations increases, but the margin will decrease.}\label{fig:n_eval}
 \end{figure}
 
 \hypertarget{power-of-a-reset-test-under-different-auxiliary-regression-formulas}{%
@@ -279,7 +278,55 @@ the loss of power, the highest order needs to be set to at least six.
 \caption{Change of power of RESET tests for different orders of fitted values included in the auxiliary formula. The left panel is the power of testing the "U" shape and the right panel is the power of testing the "Triple-U" shape. The power will not be greatly affected by the highest order in the case of testing the "U" shape. In the case of testing the "Triple-U" shape, the highest order needs to be set to at least six to avoid the loss of power.}\label{fig:reset}
 \end{figure}
 
-\newpage
+\hypertarget{conventional-test-rejection-rate-for-varying-significance-levels}{%
+\subsection{Conventional test rejection rate for varying significance
+levels}\label{conventional-test-rejection-rate-for-varying-significance-levels}}
+
+In the main paper, Sections 5.1 and 5.2 compared the power, and the
+decisions made by the conventional tests and the visual test. The power
+curves for the visual test is effectively a right-shift from the
+conventional test. The effect is that the visual test rejects less often
+than the conventional test, at the same significance level. We also saw
+that the visual test rejected a subset of those that the conventional
+tests rejected. This means that they agreed quite well - only residual
+plots rejected by the contentional tests were rejected by the visual
+test. There was little disagreement, where residual plots not rejected
+by the conventional test were rejected by the visual test. The question
+arises whether the decisions made conventional test could be made
+similar to that of the visual test by reducing the significance level.
+Reducing the significance level from 0.05, to 0.01, 0.001, \ldots{} will
+have the effect of rejecting fewer of the residual plots.
+
+It would be interesting if a different conventional test significance
+level results in both the visual tests and conventional tests reject
+only the same residual plots, and fails to reject the same residual
+plots. This would be a state where both systems agree perfectly. Figure
+\ref{fig:rej-rates} examines this. Plot A shows the percentage of
+residual plots rejected by the visual test, given the conventional test
+rejected (solid lines) or failed to reject (dashed lines). The vertical
+grey line marks significance level 0.05. When the signicance level gets
+smaller, the it is possible te see that the visual tests reject (nearly)
+100\% of the time that the conventional test rejects. However, there is
+not agreement, because the visual tests also increasingly reject
+residual plots where the conventional test failed to reject. Plot B is
+comparable to an ROC curve, where the percentage visual test rejection
+conditional on conventional test decision is plotted: Reject conditional
+on reject is plotted against reject conditional on fail to reject, for
+different significance levels. The non-linearity pattern results are
+close to being ideal, that the percentage of reject relative to fail to
+reject increases very slowly as the reject relative to reject converges
+to 100. The heteroskedasticity pattern is more problematic, and shows
+that the cost of rejecting less with the conventional test is
+disagreement with the visual test.
+
+\begin{figure}[t!]
+
+{\centering \includegraphics[width=1\linewidth]{appendix_files/figure-latex/rej-rates-1} 
+
+}
+
+\caption{Changing the significance level of the conventional test will change the rejection rate. A: Percentage of conventional tests also rejected by the visual test: rejected (solid), not rejected (dashed). As the significance level is reduced, the percentage rejected by the visual test that has been rejected by the conventional test approaches 100. The percentage of tests not rejected by the conventional test also increases, as expected, but the percentage of these that are rejected by the visual test increases too. B: ROC curve shows that forcing the conventional test to not reject creates a discrepancy with the visual test. Many of the residual plots not rejected by the conventional test are rejected by the visual test. It isn't possible to vary the significance level of the conventional test to match the decisions made by the visual test.}\label{fig:rej-rates}
+\end{figure}
 
 \hypertarget{experiment-setup}{%
 \section{Experiment setup}\label{experiment-setup}}

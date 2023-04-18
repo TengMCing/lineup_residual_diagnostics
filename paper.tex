@@ -81,7 +81,13 @@ VanderPlas. Email: \href{mailto:susan.vanderplas@unl.edu}{\nolinkurl{susan.vande
 \maketitle
 
 \begin{abstract}
-Abstract to fill.
+Regression experts consistently recommend plotting residuals for model
+diagnosis, despite the existence of numerous hypothesis test procedures.
+This paper provides evidence for why this is good advice, using data
+from a visual inference experiment. We show how conventional tests are
+too sensitive to be practically useful, and how the lineup protocol can
+be used to yield reliable and consistent reading of residual plots for
+better model diagnosis.
 \end{abstract}
 
 \begin{keywords}
@@ -99,61 +105,69 @@ is importantly wrong.''} \citep{box1976science}
 \end{quote}
 
 Diagnostics are the key to determining whether there is anything
-importantly wrong with a model. In linear regression analysis, residuals
-from the model fit are commonly used. Residuals summarise what is not
-captured by the model, and thus provide the capacity to identify what
-might be wrong.
+importantly wrong with a model. In linear regression analysis, studying
+the residuals from a model fit is a common diagnostic activity.
+Residuals summarise what is not captured by the model, and thus provide
+the capacity to identify what might be wrong.
 
-We can assess residuals in multiple ways. Residuals may be plotted as a
-histogram or quantile-quantile plot to examine the distribution. Using
-the classical normal linear regression model as an example, if the
-distribution is symmetric and unimodal, we consider it to be well
-behaved. However, if the distribution is skewed, bimodal, multimodal, or
-contains outliers, there is a cause for concern. One could also inspect
-the distribution by conducting a goodness-of-fit test, such as the
-Shapiro-Wilk (SW) Normality test \citep{shapiro1965analysis}.
+We can assess residuals in multiple ways. To examine the their
+univariate distribution, residuals may be plotted as a histogram or
+normal probability plot. Using the classical normal linear regression
+model as an example, if the distribution is symmetric and unimodal, we
+would consider it to be well-behaved. However, if the distribution is
+skewed, bimodal, multimodal, or contains outliers, there would be cause
+for concern. One could also inspect the distribution by conducting a
+goodness-of-fit test, such as the Shapiro-Wilk (SW) Normality test
+\citep{shapiro1965analysis}.
 
-More typically, a scatterplot of residuals plotted against the fitted
-values and each of the explanatory variables, is made to scrutinize
-their relationships. If there are any visually discoverable patterns,
-the model is potentially inadequate or incorrectly specifed. In general,
-one looks for noticeable departures from the model like non-linear
-dependency or heteroskedasticity. However, correctly judging a residual
-plot where no pattern exists can be a difficult task for humans. It is
-especially common, particularly among students, to misinterpret patterns
-that are random noise and random deviation from a model
-\citep{loy2021bringing}. There are also numerous conventional hypothesis
-tests available to test for non-linear dependence
-\citep{ramsey_tests_1969}, and heteroskedasticity
-\citep{breusch_simple_1979}.
+In addition, scatterplots of residuals plotted against the fitted values
+and each of the explanatory variables, are made to scrutinize their
+relationships. If there are any visually discoverable patterns, the
+model is potentially inadequate or incorrectly specified. In general,
+one looks for noticeable departures from the model such as non-linear
+dependency or heteroskedasticity. A non-linear dependency would suggest
+that the model needs to have some additional non-linear terms.
+Heteroskedasticity suggests that the error is dependent on the
+predictors, and hence violates the independence assumption. However,
+correctly judging whether NO pattern exists in a residual plot is a
+difficult task for humans. We humans will almost always will see a
+pattern, so the question that really needs answering is whether any
+pattern perceived is consistent with randomness, purely sampling
+variability or noise. It is especially difficult to teach this to new
+analysts and students \citep{loy2021bringing}. To answer this, there
+have been numerous conventional hypothesis tests made available to test
+for non-linear dependence \citep[e.g.][]{ramsey_tests_1969}, and
+heteroskedasticity \citep[e.g.][]{breusch_simple_1979}.
 
-An abundance of literature describe appropriate diagnostic methods for
-linear regression, e.g. \citet{draper1998applied},
-\citet{montgomery1982introduction}, \citet{belsley_regression_1980},
-\citet{cook_applied_1999} and \citet{cook1982residuals}. All these
-writings consider plotting residuals to be an essential tool for
-diagnosing regression modelling problems. In addition,
-\citet{draper1998applied} and \citet{belsley_regression_1980} believe
-that residual plots are usually revealing when the assumptions are
-violated. \citet{cook_applied_1999} thinks formal tests and graphical
-procedures are complementary and both have a place in residual analysis,
-but they focus on graphical methods rather than on formal testing, as
-they are easier to use. \citet{montgomery1982introduction} even suggests
-that residual plots are more informative in most practical situations
-than the corresponding conventional hypothesis tests.
+Linear regression is a well-established procedure, and there is
+considerable literature describing diagnostic procedures, e.g.
+\citet{draper1998applied}, \citet{montgomery1982introduction},
+\citet{belsley_regression_1980}, \citet{cook_applied_1999} and
+\citet{cook1982residuals}. An interesting details, is that despite the
+abundance of conventional tests, ALL of these writings advise that
+plotting residuals is an essential tool for diagnosing regression model
+problems. \citet{draper1998applied} and \citet{belsley_regression_1980}
+explain that residual plots are usually revealing when the assumptions
+are violated. \citet{cook_applied_1999} thinks formal tests and
+graphical procedures are complementary and both have a place in residual
+analysis, but they focus on graphical methods rather than on formal
+testing. \citet{montgomery1982introduction} even suggests that residual
+plots are more informative in most practical situations than the
+corresponding conventional hypothesis tests.
 
-A common guidance by experts is that optimal method for diagnosing model
-fits is by plotting the data. The persistence of this advice to check
-the plots is curious, and investigating why this might be common advice
-is the subject of this paper. The paper is structured as follows. The
-next section describes the background on the types of departures that
-one expects to detect, and outlines a formal statistical process for
-reading residual plots, called visual inference. Section
-\ref{experimental-design} details the experimental design to compare the
-decisions made by formal hypothesis testing, and how humans would read
-diagnostic plots. The results are reported in Section \ref{results}. We
-conclude with a discussion of future work, in particular, how the
-responsibility for residual plot reading might be relieved.
+The common wisdom of experts is that the optimal method for diagnosing
+model fits is by plotting the data. The persistence of this advice to
+check the plots is \emph{curious}, and investigating why this is, is the
+subject of this paper.
+
+The paper is structured as follows. The next section describes the
+background on the types of departures that one expects to detect, and
+outlines a formal statistical process for reading residual plots, called
+visual inference. Section \ref{experimental-design} details the
+experimental design to compare the decisions made by formal hypothesis
+testing, and how humans would read diagnostic plots. The results are
+reported in Section \ref{results}. We conclude with a discussion of the
+presented work, and ideas for future directions.
 
 \hypertarget{background}{%
 \section{Background}\label{background}}
@@ -162,59 +176,52 @@ responsibility for residual plot reading might be relieved.
 \subsection{Departures from good residual
 plots}\label{departures-from-good-residual-plots}}
 
-\begin{figure}
+Graphical summaries where residuals are plotted against fitted values,
+or other functions of the predictors (expected to be approximately
+orthogonal to the residuals) are referred to as standard residual plots
+in \citet{cook1982residuals}. Figure
+\ref{fig:residual-plot-common-departures}A shows an example of an ideal
+residual plot where points are symmetrically distributed around the
+horizontal zero line (red), with no discernible patterns. There can be
+various types of departures from this ideal pattern. Non-linearity,
+heteroskedasticity and non-normality are three commonly checked
+departures.
+
+\begin{figure}[t!]
 
 {\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/residual-plot-common-departures-1} 
 
 }
 
-\caption{Example residual vs fitted value plots: (A) classically good looking residuals, (B) non-linear pattern indicates that the model has not captured a non-linear association, (C) heteroskedasticity indicating that variance around the fitted model is not uniform, and (D) non-normality where the residual distribution is not symmetric around 0. The latter pattern might best be assessed using a univariate plot of the residuals, but patterns B and C need to be assessed using a residual vs fitted value plot.}\label{fig:residual-plot-common-departures}
+\caption{Example residual vs fitted value plots (red line indicates 0): (A) classically good looking residuals, (B) non-linear pattern indicates that the model has not captured a non-linear association, (C) heteroskedasticity indicating that variance around the fitted model is not uniform, and (D) non-normality where the residual distribution is not symmetric around 0. The latter pattern might best be assessed using a univariate plot of the residuals, but patterns B and C need to be assessed using a residual vs fitted value plot.}\label{fig:residual-plot-common-departures}
 \end{figure}
 
-Graphical summaries in which residuals are plotted against fitted values
-or other functions of the predictors that are approximately orthogonal
-to the residuals are referred to as standard residual plots in
-\citet{cook1982residuals}. Figure
-\ref{fig:residual-plot-common-departures}A shows an ideal residual plot
-where the residuals are evenly distributed at both sides of the
-horizontal zero line, with no noticeable patterns.
-
-There are various types of departures from an ideal residual plot.
-Non-linearity, heteroskedasticity and non-normality are perhaps the
-three mostly checked departures.
-
-Non-linearity is a type of model misspecification caused by failing to
-include higher order terms of the predictors in the regression equation.
-Any non-linear functional form of residuals on fitted values in the
-residual plot could be indicative of non-linearity. An example residual
-plot containing visual pattern of non-linearity is shown in Figure
+Model misspecification occurs if functions of predictors that needed to
+accurately describe the relationship between response and predictors
+were omitted. Any non-linear pattern visible in the residual plot could
+be indicative of this problem. An example residual plot containing
+visual pattern of non-linearity is shown in Figure
 \ref{fig:residual-plot-common-departures}B. One can clearly observe the
-``S-shape'' from the residual plot as the cubic term is not captured by
-the misspecified model.
+``S-shape'' from the residual plot, which corresponds to cubic term that
+should have been included in the model.
 
-Heteroskedasticity refers to the presence of nonconstant error variance
-in a regression model. It is mostly due to the strict but false
-assumptions on the variance-covariance matrix of the error term. The
-usual pattern of heteroskedasticity on a residual plot is the
-inconsistent spread of the residuals across the horizontal axis.
-Visually, it sometimes results in the so-called ``butterfly'' shape as
-shown in Figure \ref{fig:residual-plot-common-departures}C, or the
-``left-triangle'' and ``right-triangle'' shape where the smallest
-variance occurs at one side of the horizontal axis.
+Heteroskedasticity refers to the presence of non-constant error variance
+in a regression model. It indicates that the distribution of residuals
+depends on the predictors, violating the independence assumption. This
+can be seen in a residual plot as an inconsistent spread of the
+residuals relative to the fitted values or predictors. An example is the
+``butterfly'' shape shown in Figure
+\ref{fig:residual-plot-common-departures}C, or a ``left-triangle'' and
+``right-triangle'' shape where the smallest variance occurs at one side
+of the horizontal axis.
 
-Compared to non-linearity and heteroskedasticity, non-normality is
-usually harder to detect from a residual plot since a scatter plot do
-not readily reveal the marginal distribution. A favourable graphical
-summary for this task is the quantile-quantile plot. As we mainly
-discuss residual plots, non-normality will not be the focus of this
-paper. For a consistent comparison, the residual plot of this departure
-is still presented in Figure \ref{fig:residual-plot-common-departures}D.
-When the number residuals below and above the horizontal axis are uneven
-across the local regions along the \(x\)-axis, we expect that the
-normality assumption is violated. For example, given a skewed error
-distribution, there will be fewer data points and more outliers on one
-side of the horizontal axis as shown in Figure
-\ref{fig:residual-plot-common-departures}D.
+Figure \ref{fig:residual-plot-common-departures}D) shows a scatterplot
+where the residuals have a skewed distribution, as seen by the uneven
+vertical spread. Unlike non-linearity and heteroskedasticity,
+non-normality is usually detected with a different type of residual
+plot, a histogram or normal probability plot. Because we focus on
+scatterplots, non-normality is not one of the departures examined in
+depth in this paper.
 
 \hypertarget{conventionally-testing-for-departures}{%
 \subsection{Conventionally testing for
@@ -256,22 +263,25 @@ and correctly fail to reject residual plot A. Interestingly, the BP and
 SW tests also reject the residual plots exhibiting structure that they
 weren't designed for. \citet{cook1982residuals} discusses that most
 residual-based tests for particular types of departure from model
-assumptions are also sensitive to other types of departures, that is,
-correctly rejected but for the wrong reason, a phenomenon known as the
-``Type III error''. Also, some types of departure can also have elements
-of other types of departure, for example, non-linearity could be viewed
-as heteroskedasticity. Additionally, other problesms such as outliers
-can trigger the rejection \citep{cook_applied_1999}.
+assumptions are also sensitive to other types of departures. This could
+be considered a Type III error, where the null hypothesis of good
+residuals is correctly rejected but for the wrong reason. Also, some
+types of departure can have elements of other types of departure, for
+example, non-linearity could be viewed as heteroskedasticity.
+Additionally, other problesms such as outliers can trigger the rejection
+\citep{cook_applied_1999}.
 
-With large sample sizes, hypothesis tests are may reject a residual plot
-when there is only a slight departure (XXX is there a reference for this
-statement?). While such rejections may be statistically correct, their
-sensitivity may render the results impractical. Therefore, a key goal of
-residual plot diagnostics is to identify potential issues that could
-lead to incorrect conclusions or errors in subsequent analyses. However,
-minor defects in the model are unlikely to have a significant impact and
-may be best disregarded for practical purposes. In fact, the experiment
-discussed in this paper specifically addresses this.
+With large sample sizes, hypothesis tests may reject the null hypothesis
+when there is only a small effect. (This is common knowledge but a good
+discussion can be found in \citet{kirk1996}.) While such rejections may
+be statistically correct, their sensitivity may render the results
+impractical. This is especially pertinent for residual diagnostics.
+Therefore, a key goal of residual plot diagnostics is to identify
+potential issues that could lead to incorrect conclusions or errors in
+subsequent analyses. However, minor defects in the model are unlikely to
+have a significant impact and may be best disregarded for practical
+purposes. In fact, the experiment discussed in this paper specifically
+addresses this.
 
 \begin{table}
 
@@ -295,32 +305,34 @@ lineups}\label{visual-test-procedure-based-on-lineups}}
 
 The examination of data plots to infer signal or patterns (or lack
 thereof) is fraught with variation in the human ability to interpret and
-decode the information embedded in graph
-\citep{cleveland_graphical_1984}. Such examination thus feels there is a
-subjective nature to evaluate, say, diagnostic plots to infer
-appropriateness of statistical models, although arguably we would expect
-such evaluation should be done objectively and such human-to-human
-variation in ``reading'' data plots should be minimised.
+decode the information embedded in a graph
+\citep{cleveland_graphical_1984}. To rely on human examination thus
+feels as though there is a subjective nature to using diagnostic plots
+to infer appropriateness of statistical models. Ideally we would expect
+visual evaluation should be done objectively and human-to-human
+variation in reading data plots small, but it cannot be assured.
 
 In practice, over-interpretation of a single plot is common. For
-instance, in \citet{roy_chowdhury_using_2015}, some over-interpreted the
-separation between gene groups in a two-dimensional projection of a
-linear discriminant analysis when in fact there are no differences in
-the expression levels between the gene groups. To mitigate this
-over-interpretation, \citet{buja_statistical_2009} proposed a line-up
-protocol to assess plots in a manner analogous to the null hypothesis
-significance testing (NHST) framework. More specifically, the protocol
-consists of \(m\) randomly placed plots, where one plot is the data
-plot, and the remaining \(m - 1\) plots, referred to as the \emph{null
-plots}, have the identical graphical procedure as the data plot except
-the data is replaced with a data generation mechanism that is consistent
-with the null hypothesis, \(H_0\). Then, an observer who have not seen
-the data plot will be asked to point out the most different plot from
-the lineup. Under \(H_0\), it is expected that the data plot would have
-no distinguishable difference from the null plots, and the probability
-that the observer correctly picks the data plot is \(1/m\). If one
-rejects \(H_0\) as the observer correctly picks the data plot, then the
-Type I error of this test is \(1/m\). This protocol requires apriori
+instance, \citet{roy_chowdhury_using_2015}, described a published
+example where the authors over-interpreted separation between gene
+groups from a two-dimensional projection of a linear discriminant
+analysis. \citet{roy_chowdhury_using_2015} showed that there were no
+differences in the expression levels between the gene groups. The lineup
+protocol proposed in \citet{buja_statistical_2009} provides a solution
+to over-interpretation. \citet{majumder_validation_2013} showed that its
+use is analogous to the null hypothesis significance testing (NHST)
+framework. More specifically, the protocol consists of \(m\) randomly
+placed plots, where one plot is the data plot, and the remaining
+\(m - 1\) plots, referred to as the \emph{null plots}, have the
+identical graphical procedure as the data plot except the data is
+replaced with a data generation mechanism that is consistent with the
+null hypothesis, \(H_0\). Then, an observer who have not seen the data
+plot will be asked to point out the most different plot from the lineup.
+Under \(H_0\), it is expected that the data plot would have no
+distinguishable difference from the null plots, and the probability that
+the observer correctly picks the data plot is \(1/m\). If one rejects
+\(H_0\) as the observer correctly picks the data plot, then the Type I
+error of this test is \(1/m\). This protocol requires apriori
 specification of \(H_0\) (or at least a null data generating mechanism)
 much like the requirement of knowing the distribution of the test
 statistic in NHST.
@@ -1005,16 +1017,16 @@ tests\label{power-analysis}}{Power comparison of the tests}}\label{power-compari
 Figures \ref{fig:polypower} and \ref{fig:heterpower} present the power
 curves of various tests plotted against the effect size in the
 residuals, for non-linearity and heteroskedasticity, respectively. In
-each case the power of visual test is re-calculated for multiple
-bootstrap samples leading to the many (orange) curves. The effect size
-was computed at a 5\% significance level and plotted on a natural
+each case the power of visual test is calculated for multiple bootstrap
+samples leading to the many (orange) curves. The effect size was
+computed at a 5\% significance level and plotted on a natural
 logarithmic scale. To facilitate visual calibration of effect size
 values with the corresponding diagnostic plots, a sequence of example
 residual plots with increasing effect sizes is provided at the bottom of
 these figures. These plots serve as a visual aid to help readers
 understand how different effect size values translate to changes in the
 diagnostic plots. The horizontal lines of dots at 0 and 1 represent the
-detects or non-detects made by human observers for each lineup.
+non-reject or reject made by visual tests for each lineup.
 
 \begin{figure}
 
@@ -1022,7 +1034,7 @@ detects or non-detects made by human observers for each lineup.
 
 }
 
-\caption{Comparison of power between different tests for non-linear patterns (uniform fitted values only). The power curves are estimated using logistic regression, and the horizontal lines of dots represent non-detect and detect results from human observers for each lineup. The visual test has multiple power curves estimated from bootstrap samples. The row of scatterplots plots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.}\label{fig:polypower}
+\caption{Comparison of power between different tests for non-linear patterns (uniform fitted values only). The power curves are estimated using logistic regression, and the horizontal lines of dots represent non-reject and reject results from visual tests for each lineup. The visual test has multiple power curves estimated from bootstrap samples. The row of scatterplots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.}\label{fig:polypower}
 \end{figure}
 
 \begin{figure}
@@ -1031,24 +1043,25 @@ detects or non-detects made by human observers for each lineup.
 
 }
 
-\caption{Comparison of power between different tests for heteroskedasticity patterns (uniform fitted values only). Main plot shows the power curves, with dots indicating non-detect and detect in human evaluations of lineups. The multiple lines for the visual test arise from estimating the power on many bootstrap samples. The row of scatterplots plots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.}\label{fig:heterpower}
+\caption{Comparison of power between different tests for heteroskedasticity patterns (uniform fitted values only). Main plot shows the power curves, with dots indicating non-reject and reject in visual testing of lineups. The multiple lines for the visual test arise from estimating the power on many bootstrap samples. The row of scatterplots at the bottom are examples of residual plots corresponding to the specific effect sizes marked by vertical lines in the main plot.}\label{fig:heterpower}
 \end{figure}
 
-Figures \ref{fig:polypower} compares the power for the different tests
+Figure \ref{fig:polypower} compares the power for the different tests
 for non-linear structure in the residuals. The test with the uniformly
 higher power is the RESET test, one that specifically tests for
-non-linearity. The power curves for the visual test are effectively a
-shift right from that of the RESET test. This means that the RESET test
-will reject a lower effect size (less structure) than the visual test,
-but otherwise the performance will be similar. In other words, the RESET
-test is more sensitive than the visual test. This is not necessarily a
-good feature, for the purposes of diagnosing model defects. If one scans
-the residual plot examples at the bottom, we might argue that the
-non-linearity is not sufficiently problematic until an effect size of
-around 3 or 3.5. The RESET test would reject closer to an effect size of
-2, but the visual test would reject closer 3.25. As expected the BP and
-SW tests have much lower power - they are not designed to detect
-non-linearity.
+non-linearity. (Note that the BP and SW tests have much lower power,
+which is expected because they are not designed to detect
+non-linearity.) The bootstrapped power curves for the visual test are
+effectively a shift right from that of the RESET test. This means that
+the RESET test will reject at a lower effect size (less structure) than
+the visual test, but otherwise the performance will be similar. In other
+words, the RESET test is more sensitive than the visual test. This is
+not necessarily a good feature for the purposes of diagnosing model
+defects. If one scans the residual plot examples at the bottom, we might
+argue that the non-linearity is not sufficiently problematic until an
+effect size of around 3 or 3.5. The RESET test would reject closer to an
+effect size of 2, but the visual test would reject closer 3.25, for a
+significance level of 0.05.
 
 For the heteroskedasticity pattern, the power of BP test, designed for
 detecting heteroskedasticity, is uniformly higher than the other tests.
@@ -1058,7 +1071,7 @@ more sensitive than the visual test. From the example residual plots at
 the bottom we might argue that the heteroskedasticity becomes noticeably
 visible around an effect size of 3 or 3.5. However the BP test would
 reject at around effect size 2.5. Interestingly, the power curve for the
-SW test (for non-normality) is only sighly different to that of the
+SW test (for non-normality) is only slightly different to that of the
 visual test, suggesting that it performs reasonably for detecting
 heteroskedasticity, too. The power curve for the BP test suggests it is
 not useful for detecting heteroskeadsticity, as expected.
@@ -1128,7 +1141,7 @@ conventional test.
 
 }
 
-\caption{Rejection rate ($p$-value $\leq0.05$) of visual test conditional on the conventional test decision on non-linearity (left) and heteroskedasticity (right) lineups (uniform fitted values only) displayed using a mosaic plot. The visual test rejects less frequently than the conventional test. We would generally expect the visual test to only reject when the conventional test does. Surprisingly, one lineup containing a heteroskedasticity pattern does not follow this rule. }\label{fig:p-value-comparison}
+\caption{Rejection rate ($p$-value $\leq0.05$) of visual test conditional on the conventional test decision on non-linearity (left) and heteroskedasticity (right) lineups (uniform fitted values only) displayed using a mosaic plot. The visual test rejects less frequently than the conventional test, and (almost) only rejects when the conventional test does. Surprisingly, one lineup in the heteroskedasticity group is rejected by the visual test but NOT the conventional test.}\label{fig:p-value-comparison}
 \end{figure}
 
 \begin{figure}[t!]
@@ -1137,8 +1150,17 @@ conventional test.
 
 }
 
-\caption{The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot at panel 17 contains a "butterfly" shape. It has effect size $ = 3.76$, somewhat surprising that it is not detected by the BP test.}\label{fig:heter-example}
+\caption{The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot (position 17) contains a ``butterfly" shape. It has a log effect size of $ 3.76$, and visibly displays heteroskedasticity, making it somewhat surprising that it is not detected by the BP test.}\label{fig:heter-example}
 \end{figure}
+
+Because the power curve of the visual tests are a shift to the right of
+the conventional test (Figures \ref{fig:polypower} and
+\ref{fig:heter-example}) it would be curious to know whether adjusting
+the significance level (to .001, .0001, .00001, \ldots) of the
+conventional test would generate similar decisions to that of the visual
+test. Interestingly, it doesn't. Despite resulting less rejections,
+neither the RESET or BP tests come to complete agreement with the visual
+test (See Appendix).
 
 \hypertarget{effect-of-amount-of-non-linearity}{%
 \subsection{\texorpdfstring{Effect of amount of
@@ -1230,20 +1252,20 @@ the residuals.
 
 }
 
-\caption{Comparison of power on lineups with different fitted value distributions for conventional and visual tests for non-linearity and heteroskedasticity patterns. The power curves of conventional tests for non-linearity and heteroskedasticity patterns are produced by RESET tests and BP tests, respectively. Power curves of visual tests are estimated using five evaluations on each lineup. For lineups with a uniform fitted value distribution, the five evaluations are repeatedly sampled from the total eleven evaluations to give multiple power curves (grey). Surprisingly, the fitted value distribution has produces more variability in the power of conventional tests than visual tests. Uneven distributions, normal and lognormal distributions, tend to yield lower power.}\label{fig:different-x-dist-poly-power}
+\caption{Comparison of power on lineups with different fitted value distributions for conventional and visual tests (columns) for non-linearity and heteroskedasticity patterns (rows). The power curves of conventional tests for non-linearity and heteroskedasticity patterns are produced by RESET tests and BP tests, respectively. Power curves of visual tests are estimated using five evaluations on each lineup. For lineups with a uniform fitted value distribution, the five evaluations are repeatedly sampled from the total eleven evaluations to give multiple power curves (grey). Surprisingly, the fitted value distribution has produces more variability in the power of conventional tests than visual tests. Uneven distributions, normal and lognormal distributions, tend to yield lower power.}\label{fig:different-x-dist-poly-power}
 \end{figure}
 
 Figure \ref{fig:different-x-dist-poly-power} examines the impact of the
-fitted value distribution on the power of conventional (top row) and
-visual (bottom row) tests for both the non-linearity (left column) and
-heteroskedasticity (right column) patterns. For conventional tests, only
-the power curves of appropriate tests which are RESET tests and BP tests
-for non-linearity pattern and heteroskedasticity pattern respectively
-are shown. For visual tests, note that, more evaluations on lineup with
-uniform fitted value distribution were collected, so to have a fair
-comparison, we randomly sample five from the total eleven evaluations to
-estimate the power curves. Re-sampling produces the multiple curves for
-the uniform, and provides an indication of the variation of the power.
+fitted value distribution on the power of conventional (left) and visual
+(right) tests for both the non-linearity (top) and heteroskedasticity
+(bottom) patterns. For conventional tests, only the power curves of
+appropriate tests which are RESET tests and BP tests for non-linearity
+pattern and heteroskedasticity pattern respectively are shown. For
+visual tests, note that, more evaluations on lineup with uniform fitted
+value distribution were collected, so to have a fair comparison, we
+randomly sample five from the total eleven evaluations to estimate the
+power curves. Re-sampling produces the multiple curves for the uniform,
+and provides an indication of the variation of the power.
 
 Perhaps surprisingly, the visual tests have more consistent power across
 the different fitted value distributions. For the non-linear pattern,
@@ -1266,63 +1288,57 @@ in these articles.
 \section{Conclusions}\label{conclusions}}
 
 Motivated by the advice of regression analysis experts, that residual
-plots as opposed to conventional tests are an indispensible methods for
+plots as opposed to conventional tests are indispensible methods for
 assessing model fit, a human subjects experiment was conducted using
 visual inference. The experiment tested two primary departures from good
 residuals: non-linearity and heteroskedasticity.
 
 The experiment found that conventional residual-based statistical tests
-are more sensitive to weak residual departures from model assumptions
-than visual tests as would be evaluated by humans. That is, conventional
-tests conclude there are problems with the model fit almost twice as
-often as humans would. They often reject when departures in the form of
-non-linearity and heteroskedasticity are not visible to a human.
+are more sensitive to weak departures from model assumptions than visual
+tests as would be evaluated by humans. That is, a conventional test
+concludes there are problems with the model fit almost twice as often as
+a human would. They often reject when departures in the form of
+non-linearity and heteroskedasticity are not visibly different from null
+residual plots.
 
-One might say that this is correct behaviour, but it can be argued that
-the conventional tests are rejecting when it is not necessary. Many of
-these rejections happen even when downstream analysis and results would
-not be significantly affected by the small departures from a good fit.
-The results from human evaluations provide a more practical solution,
-which reinforces the statements from regression experts that residual
-plots are an indispensible method for model diagnostics.
+While it might be argued that the conventional tests are correctly
+detecting the small but real effects, it can also be considered that the
+conventional tests are rejecting when it is not necessary. Many of these
+rejections happen even when downstream analysis and results would not be
+significantly affected by the small departures from a good fit. The
+results from human evaluations provide a more practical solution, which
+reinforces the statements from regression experts that residual plots
+are an indispensible method for model diagnostics.
 
 Now it is important to note that residual plots need to be delivered as
 a lineup, where it is embedded in a field of null plots. A residual plot
-may contains many visual features, but some are caused by the
+may contain many visual features, but some are caused by the
 characteristics of the predictors and the randomness of the error, not
 by the violation of the model assumptions. These irrelevant visual
 features have a chance to be filtered out by subjects with a comparison
-to null plots, results in a set of more accurate visual findings. This
-enables a careful calibration for reading structure in residual plots.
+to null plots, resulting in more accurate reading. The lineup enables a
+careful calibration for reading structure in residual plots.
 
-However, human evaluation of residuals is expensive. It is
-time-consuming, laborious and unfriendly to vision-impaired people. This
-is another reason why it often appears to be ignored. With the
-availability of sophisticated computer vision algorithms today, the goal
-of this work is to form the basis of providing automated residual plot
-reading. The findings suggest the strong demand of graphical inspection
-in regression diagnostics, so developing an automatic visual inference
-system to evaluate lineups of residual plots is valuable. We plan to
-build a completed open-source system in an \texttt{R} package and
-provide a web interface such as a website for public to interact with.
-Details about this system will be discussed in our next paper.
+Human evaluation of residuals is expensive, though. It is time-consuming
+and laborious. This is possibly why residual plot analysis is often not
+done, in practice. However, with the emergence of effective computer
+vision this work could form the basis to provide automated residual plot
+reading.
 
-The experiment also revealed some interesting details about how residual
-plots are read. For the most part, the visual test performed very
-similarly to the appropriate conventional test only with the power curve
-shifted in the less sensitive direction. Unlike the conventional tests,
-where one needs to specifically test for non-linearity or
-heteroskedasticity the visual test operated effectively across the range
-of departures from good residuals.
-
-As expected, if the fitted value distribution is not uniform, there is a
-loss of power in the visual test. Structure is hardest to detect if
-fitted values are lognormal. Also, complex structure are generally
-harder to detect, but there are outliers. Under the designed scenarios
-in this paper, we find the visual test to be a more robust test against
-the change of fitted value distributions. A surprising finding was that
-the direction of heteroskedasticity appears to affect the ability to
-visually detect it, with wedge to the right being less detectable.
+The experiment also revealed some interesting results. For the most
+part, the visual test performed very similarly to the appropriate
+conventional test except that it has a power curve shifted in the less
+sensitive direction. Unlike the conventional tests, where one needs to
+specifically test for non-linearity or heteroskedasticity the visual
+test operated effectively across the range of departures from good
+residuals. If the fitted value distribution is not uniform, there is a
+small loss of power in the visual test. But quite a surprise to us was
+the big difference in power of the conventional test, which appear to be
+quite sensitive to how the predictors are sampled. Another surprising
+finding was that the direction of heteroskedasticity appears to affect
+the ability to visually detect it: both triangles being more difficult
+to detect than the butterfly, and a small difference in detection
+between left- and right-triangle.
 
 \hypertarget{acknowledgements}{%
 \section*{Acknowledgements}\label{acknowledgements}}

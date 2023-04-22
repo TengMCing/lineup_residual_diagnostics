@@ -116,7 +116,7 @@ model as an example, if the distribution is symmetric and unimodal, we
 would consider it to be well-behaved. However, if the distribution is
 skewed, bimodal, multimodal, or contains outliers, there would be cause
 for concern. We can also inspect the distribution by conducting a
-goodness-of-fit test, such as the Shapiro-Wilk (SW) normality test
+goodness-of-fit test, such as the Shapiro-Wilk normality test
 \citep{shapiro1965analysis}.
 
 In addition, scatterplots of residuals plotted against the fitted values
@@ -192,8 +192,9 @@ residual plots by \citet{cook_applied_1999}. Figure
 residual plot where points are symmetrically distributed around the
 horizontal zero line (red), with no discernible patterns. There can be
 various types of departures from this ideal pattern. Non-linearity,
-heteroskedasticity and non-normality are three commonly checked
-departures.
+heteroskedasticity and non-normality, shown in Figure
+\ref{fig:residual-plot-common-departures}B,C,D are three commonly
+checked departures.
 
 \begin{figure}[t!]
 
@@ -205,10 +206,10 @@ departures.
 \end{figure}
 
 Model misspecification occurs if functions of predictors that needed to
-accurately describe the relationship between response and predictors
-were omitted. Any non-linear pattern visible in the residual plot could
-be indicative of this problem. An example residual plot containing
-visual pattern of non-linearity is shown in Figure
+accurately describe the relationship between response and predictors are
+omitted. Any non-linear pattern visible in the residual plot could be
+indicative of this problem. An example residual plot containing visual
+pattern of non-linearity is shown in Figure
 \ref{fig:residual-plot-common-departures}B. One can clearly observe the
 ``S-shape'' from the residual plot, which corresponds to cubic term that
 should have been included in the model.
@@ -227,9 +228,11 @@ Figure \ref{fig:residual-plot-common-departures}D) shows a scatterplot
 where the residuals have a skewed distribution, as seen by the uneven
 vertical spread. Unlike non-linearity and heteroskedasticity,
 non-normality is usually detected with a different type of residual
-plot, a histogram or normal probability plot. Because we focus on
+plot: a histogram or normal probability plot. Because we focus on
 scatterplots, non-normality is not one of the departures examined in
-depth in this paper.
+depth in this paper. (\citet{loy_variations_2016} and
+\citet{loy2013diagnostic} discuss related work on non-normality
+checking.)
 
 \hypertarget{conventionally-testing-for-departures}{%
 \subsection{Conventionally testing for
@@ -238,19 +241,20 @@ departures}\label{conventionally-testing-for-departures}}
 Many different hypothesis tests are available to detect specific model
 defects. For example, the presence of heteroskedasticity can usually be
 tested by applying the White test
-\citep{white_heteroskedasticity-consistent_1980} or the BP test
-\citep{breusch_simple_1979}, which are both derived from the Lagrange
-multiplier test \citep{silvey1959lagrangian} principle that relies on
-the asymptotic properties of the null distribution. To test specific
-forms of non-linearity, one may apply the F-test as a model structural
-test to examine the significance of specific polynomial and non-linear
-forms of the predictors, or the significance of proxy variables as in
-the Ramsey Regression Equation Specification Error Test (RESET)
-\citep{ramsey_tests_1969}. The SW test \citep{shapiro1965analysis} is
-the most widely used test of non-normality included by many of the
-statistical software programs. The Jarque--Bera test
-\citep{jarque1980efficient} is also used to directly check whether the
-sample skewness and kurtosis match a normal distribution.
+\citep{white_heteroskedasticity-consistent_1980} or the Breusch-Pagan
+(BP) test \citep{breusch_simple_1979}, which are both derived from the
+Lagrange multiplier test \citep{silvey1959lagrangian} principle that
+relies on the asymptotic properties of the null distribution. To test
+specific forms of non-linearity, one may apply the F-test as a model
+structural test to examine the significance of specific polynomial and
+non-linear forms of the predictors, or the significance of proxy
+variables as in the Ramsey Regression Equation Specification Error Test
+(RESET) \citep{ramsey_tests_1969}. The Shapiro-Wilk (SW) normality test
+\citep{shapiro1965analysis} is the most widely used test of
+non-normality included by many of the statistical software programs. The
+Jarque-Bera test \citep{jarque1980efficient} is also used to directly
+check whether the sample skewness and kurtosis match a normal
+distribution.
 
 Table \ref{tab:example-residual-plot-table} displays the \(p\)-values
 from the RESET, BP and SW tests applied to the residual plots in Figure
@@ -258,38 +262,39 @@ from the RESET, BP and SW tests applied to the residual plots in Figure
 were computed using the \texttt{resettest} and \texttt{bptest} functions
 from the R package \texttt{lmtest}, respectively. The SW test was
 computed using the \texttt{shapiro.test} from the core R package
-\texttt{stats}. (The the R package \texttt{skedastic} \citep{skedastic}
-contains a large collection of tests for heteroskedasticity.) Although,
-the RESET test is exact, it requires the selection of a power parameter.
-According to \citet{ramsey_tests_1969}, a power of four is recommended,
-which we adopted in our analysis. The BP and SW tests are approximate.
+\texttt{stats}. (Although we didn't use it, it's useful to know that the
+R package \texttt{skedastic} \citep{skedastic} also contains a large
+collection of functions to test for heteroskedasticity.) Although, the
+RESET test is exact, it requires the selection of a power parameter.
+\citet{ramsey_tests_1969} recommends a power of four, which we adopted
+in our analysis. The BP and SW tests are approximate.
 
 We would expect the RESET test for non-linearity to reject residual plot
 B, the BP test for heteroskedasticity to reject the residual plot C, and
-SW test for non-normality to reject residual plot D, which they all do
-and correctly fail to reject residual plot A. Interestingly, the BP and
-SW tests also reject the residual plots exhibiting structure that they
-weren't designed for. \citet{cook1982residuals} discusses that most
-residual-based tests for particular types of departure from model
-assumptions are also sensitive to other types of departures. This could
-be considered a Type III error, where the null hypothesis of good
-residuals is correctly rejected but for the wrong reason. Also, some
-types of departure can have elements of other types of departure, for
-example, non-linearity could be viewed as heteroskedasticity.
-Additionally, other problesms such as outliers can trigger the rejection
+the SW test for non-normality to reject residual plot D, which they all
+do and all tests also correctly fail to reject residual plot A.
+Interestingly, the BP and SW tests also reject the residual plots
+exhibiting structure that they weren't designed for.
+\citet{cook1982residuals} explain that most residual-based tests for
+particular types of departure from model assumptions are also sensitive
+to other types of departures. This could be considered a Type III error
+(XXXREF), where the null hypothesis of good residuals is correctly
+rejected but for the wrong reason. Also, some types of departure can
+have elements of other types of departure, for example, non-linearity
+could be viewed as heteroskedasticity. Additionally, other data problems
+such as outliers can trigger rejection (or not) of the null hypothesis
 \citep{cook_applied_1999}.
 
 With large sample sizes, hypothesis tests may reject the null hypothesis
-when there is only a small effect. (This is common knowledge but a good
-discussion can be found in \citet{kirk1996}.) While such rejections may
-be statistically correct, their sensitivity may render the results
-impractical. This is especially pertinent for residual diagnostics.
-Therefore, a key goal of residual plot diagnostics is to identify
-potential issues that could lead to incorrect conclusions or errors in
-subsequent analyses. However, minor defects in the model are unlikely to
-have a significant impact and may be best disregarded for practical
-purposes. In fact, the experiment discussed in this paper specifically
-addresses this.
+when there is only a small effect. (A good discussion can be found in
+\citet{kirk1996}.) While such rejections may be statistically correct,
+their sensitivity may render the results impractical. A key goal of
+residual plot diagnostics is to identify potential issues that could
+lead to incorrect conclusions or errors in subsequent analyses, but
+minor defects in the model are unlikely to have a significant impact and
+may be best disregarded for practical purposes. The experiment discussed
+in this paper specifically addresses this tension between statistical
+and practical statistics.
 
 \begin{table}
 

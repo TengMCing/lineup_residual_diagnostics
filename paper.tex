@@ -104,11 +104,10 @@ significance; effect size
 is importantly wrong.''} \citep{box1976science}
 \end{quote}
 
-Diagnostics are the key to determining whether there is anything
-importantly wrong with a model. In linear regression analysis, studying
-the residuals from a model fit is a common diagnostic activity.
-Residuals summarise what is not captured by the model, and thus provide
-the capacity to identify what might be wrong.
+Diagnosing a model is an important part of analysing data. In linear
+regression analysis, studying the residuals from a model fit is a common
+diagnostic activity. Residuals summarise what is not captured by the
+model, and thus provide the capacity to identify what might be wrong.
 
 We can assess residuals in multiple ways. To examine the their
 univariate distribution, residuals may be plotted as a histogram or
@@ -116,49 +115,58 @@ normal probability plot. Using the classical normal linear regression
 model as an example, if the distribution is symmetric and unimodal, we
 would consider it to be well-behaved. However, if the distribution is
 skewed, bimodal, multimodal, or contains outliers, there would be cause
-for concern. One could also inspect the distribution by conducting a
-goodness-of-fit test, such as the Shapiro-Wilk (SW) Normality test
+for concern. We can also inspect the distribution by conducting a
+goodness-of-fit test, such as the Shapiro-Wilk (SW) normality test
 \citep{shapiro1965analysis}.
 
 In addition, scatterplots of residuals plotted against the fitted values
-and each of the explanatory variables, are made to scrutinize their
+and each of the explanatory variables, can be used to scrutinize their
 relationships. If there are any visually discoverable patterns, the
 model is potentially inadequate or incorrectly specified. In general,
 one looks for noticeable departures from the model such as non-linear
-dependency or heteroskedasticity. A non-linear dependency would suggest
-that the model needs to have some additional non-linear terms.
+pattern or heteroskedasticity. A non-linear pattern would suggest that
+the model needs to have some additional non-linear terms.
 Heteroskedasticity suggests that the error is dependent on the
 predictors, and hence violates the independence assumption. However,
 correctly judging whether NO pattern exists in a residual plot is a
-difficult task for humans. We humans will almost always will see a
-pattern, so the question that really needs answering is whether any
-pattern perceived is consistent with randomness, purely sampling
-variability or noise. It is especially difficult to teach this to new
-analysts and students \citep{loy2021bringing}. To answer this, there
-have been numerous conventional hypothesis tests made available to test
-for non-linear dependence \citep[e.g.][]{ramsey_tests_1969}, and
-heteroskedasticity \citep[e.g.][]{breusch_simple_1979}.
+difficult task for humans. Humans will almost always will see a pattern
+(see \citet{kahneman}), so the question that really needs answering is
+whether any pattern perceived is consistent with randomness, purely
+sampling variability, or noise. It is especially difficult to teach this
+to new analysts and students \citep{loy2021bringing}. To address this,
+statistical tests are available to check for non-linear patterns
+\citep[e.g.][]{ramsey_tests_1969}, and heteroskedasticity
+\citep[e.g.][]{breusch_simple_1979}.
 
 Linear regression is a well-established procedure, and there is
 considerable literature describing diagnostic procedures, e.g.
 \citet{draper1998applied}, \citet{montgomery1982introduction},
 \citet{belsley_regression_1980}, \citet{cook_applied_1999} and
-\citet{cook1982residuals}. An interesting details, is that despite the
-abundance of conventional tests, ALL of these writings advise that
-plotting residuals is an essential tool for diagnosing regression model
-problems. \citet{draper1998applied} and \citet{belsley_regression_1980}
-explain that residual plots are usually revealing when the assumptions
-are violated. \citet{cook_applied_1999} thinks formal tests and
-graphical procedures are complementary and both have a place in residual
-analysis, but they focus on graphical methods rather than on formal
-testing. \citet{montgomery1982introduction} even suggests that residual
-plots are more informative in most practical situations than the
-corresponding conventional hypothesis tests.
+\citet{cook1982residuals}. Interestingly, despite the abundance of
+conventional tests, ALL of these writings advise that plotting residuals
+is an essential tool for diagnosing regression model problems:
 
-The common wisdom of experts is that the optimal method for diagnosing
-model fits is by plotting the data. The persistence of this advice to
-check the plots is \emph{curious}, and investigating why this is, is the
-subject of this paper.
+\begin{quote}
+\emph{Some most useful checks allowed by data plots should be done on a
+routine basis for every regression.} \citep{draper1998applied}
+\end{quote}
+
+\begin{quote}
+\emph{Such formal and informal procedures are complementary, and both
+have a place in residual analysis.} \citep{cook1982residuals}
+\end{quote}
+
+\begin{quote}
+\emph{In our experience, statistical tests on regression model residuals
+are not widely used. In most practical situations the residual plots are
+more informative than the corresponding tests. However, since residual
+plots do require skill and experience to interpret, the statistical
+tests may occasionally prove useful.} \citep{montgomery1982introduction}
+\end{quote}
+
+\noindent The common wisdom of experts is that plotting the residuals is
+indispensable for diagnosing model fits. The ubiquity of this advice is
+\emph{curious}: investigating why, is the subject of this paper.
 
 The paper is structured as follows. The next section describes the
 background on the types of departures that one expects to detect, and
@@ -178,8 +186,8 @@ plots}\label{departures-from-good-residual-plots}}
 
 Graphical summaries where residuals are plotted against fitted values,
 or other functions of the predictors (expected to be approximately
-orthogonal to the residuals) are referred to as standard residual plots
-in \citet{cook1982residuals}. Figure
+orthogonal to the residuals) are considered to be the most important
+residual plots by \citet{cook_applied_1999}. Figure
 \ref{fig:residual-plot-common-departures}A shows an example of an ideal
 residual plot where points are symmetrically distributed around the
 horizontal zero line (red), with no discernible patterns. There can be

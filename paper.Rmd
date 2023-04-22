@@ -448,22 +448,22 @@ The effectiveness of lineup protocol for regression analysis has been validated 
 
 ## What is being tested?
 
-In diagnosing a model fit from residuals, we are generally interested in *the regression model is correctly specified* ($H_0$) against the broad alternative  *the regression model is misspecified* ($H_a$).
+In diagnosing a model fit using the residuals, we are generally interested in testing whether "*the regression model is correctly specified*" ($H_0$) against the broad alternative  "*the regression model is misspecified*" ($H_a$).
 
-However, it is practically impossible to test this specific $H_0$ with conventional tests, which are constructed to measure specific departures. For example, the RESET test is formulated as $H_0:\gamma_1 = \gamma_2 = \gamma_3 = 0$ against $H_a: \gamma_1 \neq 0 \text{ or } \gamma_2 \neq 0 \text{ or } \gamma_3 \neq 0$, from $y = \tau_0 + \sum_{i=1}^{p}\tau_px_p +\gamma_1\hat{y}^2 + \gamma_2\hat{y}^3 + \gamma_3\hat{y}^4 + u, ~~u \sim N(0, \sigma_u^2)$. 
+However, it is practically impossible to test this broad $H_0$ with conventional tests, because they need specific structure causing the departure to be quantifiable in order to be computable.  For example, the RESET test for detecting non-linear departures is formulated by fitting $y = \tau_0 + \sum_{i=1}^{p}\tau_px_p +\gamma_1\hat{y}^2 + \gamma_2\hat{y}^3 + \gamma_3\hat{y}^4 + u, ~~u \sim N(0, \sigma_u^2)$ in order to test $H_0:\gamma_1 = \gamma_2 = \gamma_3 = 0$ against $H_a: \gamma_1 \neq 0 \text{ or } \gamma_2 \neq 0 \text{ or } \gamma_3 \neq 0$. 
 Similarly, the BP test is designed to specifically test $H_0:$ *error variances are all equal* ($\zeta_i=0 \text{ for } i=1,..,p$) versus the alternative $H_a:$ *that the error variances are a multiplicative function of one or more variables* ($\text{at least one } \zeta_i\neq 0$) from $e^2 = \zeta_0 + \sum_{i=1}^{p}\zeta_i x_i + u, ~ u\sim N(0,\sigma_u^2)$. 
 
-One of the potential benefits of the visual test, based on the lineup protocol, is that it works as an omnibus test,  able to detect a range of departures from good residuals. 
+While a battery of conventional tests for different types of departures could be applied, this is intrinsic to the lineup protocol. The lineup protocol operates as an omnibus test,  able to detect a range of departures from good residuals in a single application. 
 
 ## Statistical significance\label{sig}
 
-In hypothesis testing, a $p$-value is defined as the probability of observing test results as least as extreme as the observed result given $H_0$ is true. Conventional hypothesis tests usually have an existing method to derive or compute $p$-value based on the null distribution. What we need to discuss in the following is the method to estimate $p$-value for a visual test.
+In hypothesis testing, a $p$-value is defined as the probability of observing test results at least as extreme as the observed result assuming $H_0$ is true. Conventional hypothesis tests usually have an existing method to derive or compute the $p$-value based on the null distribution. Here we establish the method to estimate a $p$-value for a visual test.
 
-Within the context of visual inference, by involving $k$ independent observers, the visual $p$-value can be interpreted as the probability of having as many or more subjects detect the data plot than the observed result.
+Within the context of visual inference, with $K$ independent observers, the visual $p$-value can be seen as the probability of having as many or more subjects detect the data plot than the observed result.
 
-Let $X_j = \{0,1\}$ be a Bernoulli random variable denoting whether subject $j$ correctly detecting the data plot, and $X = \sum_{j=1}^{K}X_j$ be the number of observers correctly picking the data plot. Then, by imposing a relatively strong assumption on the visual test that all $K$ evaluations are fully independent, under $H_0$, $X \sim \mathrm{Binom}_{K,1/m}$. Therefore, the $p$-value of a lineup of size $m$ evaluated by $K$ observer is given as $P(X \geq x) = 1 - F(x) + f(x)$, where $F(.)$ is the binomial cumulative distribution function, $f(.)$ is the binomial probability mass function and $x$ is the realization of number of observers correctly picking the data plot [@majumder_validation_2013].
+The approach used in @majumder_validation_2013 is as follows. Define $X_j = \{0,1\}$ to be a Bernoulli random variable measuring whether subject $j$ detected the data plot, and $X = \sum_{j=1}^{K}X_j$ be the total number of observers who detected the data plot. Then, by imposing a relatively strong assumption that all $K$ evaluations are fully independent, under $H_0$ $X \sim \mathrm{Binom}_{K,1/m}$. Therefore, the $p$-value of a lineup of size $m$ evaluated by $K$ observer is estimated with $P(X \geq x) = 1 - F(x) + f(x)$, where $F(.)$ is the binomial cumulative distribution function, $f(.)$ is the binomial probability mass function and $x$ is the realization of number of observers choosing the data plot.
 
-As pointed out by @vanderplas2021statistical, this basic binomial model does not take into account the possible dependencies in the visual test due to repeated evaluations of the same lineup. And it is inapplicable to visual test where subjects are asked to select one or more "most different" plots from the lineup. @vanderplas2021statistical summarises three common scenarios in visual inference: (1) $K$ different lineups are shown to $K$ subjects, (2) $K$ lineups with different null plots but the same data plot are shown to $K$ subjects, and (3) the same lineup is shown to $K$ subjects. Out of these three scenarios, Scenario 3 is the most common in previous studies as it puts the least constraints on the experiment design. For Scenario 3, @vanderplas2021statistical models the probability of a plot $i$ being selected from a lineup as $\theta_i$, where $\theta_i \sim Dirichlet(\alpha)$ for $i=1,...,m$ and $\alpha > 0$. The number of times plot $i$ being selected in $K$ evaluations is denoted as $c_i$. In case subject $j$ makes multiple selections, $1/s_j$ will be added to $c_i$ instead of one, where $s_j$ is the number of plots subject $j$ selected for $j=1,...K$. This ensures $\sum_{i}c_i=K$. Since we are only interested in the selections of the data plot $i$, the marginal model can be simplified to a beta-binomial model and thus the visual $p$-value is given as
+As pointed out by @vanderplas2021statistical, this basic binomial model is deficient. It does not take into account the possible dependencies in the visual test due to repeated evaluations of the same lineup, or account for when subjects are offered the option to select one or more "most different" plots, or none, from a lineup. They suggest three common lineup scenarios: (1) $K$ different lineups are shown to $K$ subjects, (2) $K$ lineups with different null plots but the same data plot are shown to $K$ subjects, and (3) the same lineup is shown to $K$ subjects. Scenario 3 is the most feasible to apply, but has the most dependencies to accommodate for the $p$-value calculation. For Scenario 3, VanderPlas et al propose modeling the probability of plot $i$ being selected from a lineup as $\theta_i$, where $\theta_i \sim Dirichlet(\alpha)$ for $i=1,...,m$ and $\alpha > 0$. The number of times plot $i$ being selected in $K$ evaluations is denoted as $c_i$. In case subject $j$ makes multiple selections, $1/s_j$ will be added to $c_i$ instead of one, where $s_j$ is the number of plots subject $j$ selected for $j=1,...K$. This ensures $\sum_{i}c_i=K$. Since we are only interested in the selections of the data plot $i$, the marginal model can be simplified to a beta-binomial model and thus the visual $p$-value is given as
 
 
 ```{=tex}
@@ -480,7 +480,7 @@ B(a, b) = \int_{0}^{1}t^{\alpha - 1}(1-t)^{b-1}dt,\quad \text{where}\quad a,b>0.
 \end{equation}
 ```
 
-Note that Equation \ref{eq:pvalue-beta-binomial} given in @vanderplas2021statistical only works with non-negative integer $c_i$. We extend the equation to non-negative real number $c_i$ by applying a linear approximation
+\noindent We extend the equation to non-negative real number $c_i$ by applying a linear approximation
 
 ```{=tex}
 \begin{equation} \label{eq:pvalue-beta-binomial-approx}
@@ -494,14 +494,14 @@ P(C \geq c_i) = P(C \geq \lceil c_i \rceil) + (\lceil c_i \rceil - c_i) P(C = \l
 P(C = c_i) = {K \choose c_i}\frac{B(c_i + \alpha, K - c_i + (m - 1)\alpha)}{B(\alpha, (m-1)\alpha)},\quad \text{for} \quad c_i \in \mathbb{Z}_0^+.
 \end{equation}
 
-Besides, the parameter $\alpha$ used in Equation \ref{eq:pvalue-beta-binomial} and \ref{eq:pmf-beta-binomial} is usually unknown and hence needs to be estimated from the survey data. For low values of $\alpha$, only a few plots are attractive to the observers and tend to be selected. For higher values of $\alpha$, the distribution of the probability of each plot being selected is more even. @vanderplas2021statistical defines that a plot is $c$-interesting if $c$ or more participants select the plot as the most different. Given the definition, The expected number of plots selected at least $c$ times, $E[Z_c]$, is calculated as
+The parameter $\alpha$ used in Equation \ref{eq:pvalue-beta-binomial} and \ref{eq:pmf-beta-binomial} is usually unknown and will need to be estimated from the survey data. An interpretation of $\alpha$ is that when it is low only a few plots are attractive to the observers and tend to be selected, and when high, most plots are equally likely to be chosen. VanderPlas et al define $c$-interesting plot to be if $c$ or more participants select the plot as the most different. The expected number of plots selected at least $c$ times, $E[Z_c]$, is then calculated as
 
 ```{=tex}
 \begin{equation} \label{eq:c-interesting-expectation}
 E[Z_c(\alpha)] = \frac{m}{B(\alpha, (m-1)\alpha)}\sum_{\lceil c \rceil}^{K}{K \choose x} B(x + \alpha, K - x + (m-1)\alpha).\end{equation}
 ```
 
-With Equation \ref{eq:c-interesting-expectation}, $\alpha$ can be estimated using maximum likelihood estimation. But for precise estimate of $\alpha$, additional human responses to Rorschach lineups, which is a type of lineup that consists of plots constructed from the same null data generating mechanism, are required.
+With Equation \ref{eq:c-interesting-expectation}, $\alpha$ can be estimated using maximum likelihood estimation. Precise estimation of $\alpha$, is aided by evaluation of Rorschach lineups, where all plots are null plots. In a Rorschach, in theory all plots should be equally likely, but in practice some (irrelevant) visual elements may be more eye-catching than others. This is what $alpha$ captures, the capacity for extraneous features to distract the observer for a particular type of plot display.
 
 ## Power of the tests
 

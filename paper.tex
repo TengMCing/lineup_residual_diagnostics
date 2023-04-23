@@ -445,12 +445,12 @@ a visual test.
 
 Within the context of visual inference, with \(K\) independent
 observers, the visual \(p\)-value can be seen as the probability of
-having as many or more subjects detect the data plot than the observed
-result.
+having as many or more participants detect the data plot than the
+observed result.
 
 The approach used in \citet{majumder_validation_2013} is as follows.
 Define \(X_j = \{0,1\}\) to be a Bernoulli random variable measuring
-whether subject \(j\) detected the data plot, and
+whether participant \(j\) detected the data plot, and
 \(X = \sum_{j=1}^{K}X_j\) be the total number of observers who detected
 the data plot. Then, by imposing a relatively strong assumption that all
 \(K\) evaluations are fully independent, under \(H_0\)
@@ -464,23 +464,24 @@ choosing the data plot.
 As pointed out by \citet{vanderplas2021statistical}, this basic binomial
 model is deficient. It does not take into account the possible
 dependencies in the visual test due to repeated evaluations of the same
-lineup, or account for when subjects are offered the option to select
-one or more ``most different'' plots, or none, from a lineup. They
-suggest three common lineup scenarios: (1) \(K\) different lineups are
-shown to \(K\) subjects, (2) \(K\) lineups with different null plots but
-the same data plot are shown to \(K\) subjects, and (3) the same lineup
-is shown to \(K\) subjects. Scenario 3 is the most feasible to apply,
-but has the most dependencies to accommodate for the \(p\)-value
-calculation. For Scenario 3, VanderPlas et al propose modeling the
-probability of plot \(i\) being selected from a lineup as \(\theta_i\),
-where \(\theta_i \sim Dirichlet(\alpha)\) for \(i=1,...,m\) and
-\(\alpha > 0\). The number of times plot \(i\) being selected in \(K\)
-evaluations is denoted as \(c_i\). In case subject \(j\) makes multiple
-selections, \(1/s_j\) will be added to \(c_i\) instead of one, where
-\(s_j\) is the number of plots subject \(j\) selected for \(j=1,...K\).
-This ensures \(\sum_{i}c_i=K\). Since we are only interested in the
-selections of the data plot \(i\), the marginal model can be simplified
-to a beta-binomial model and thus the visual \(p\)-value is given as
+lineup, or account for when participants are offered the option to
+select one or more ``most different'' plots, or none, from a lineup.
+They suggest three common lineup scenarios: (1) \(K\) different lineups
+are shown to \(K\) participants, (2) \(K\) lineups with different null
+plots but the same data plot are shown to \(K\) participants, and (3)
+the same lineup is shown to \(K\) participants. Scenario 3 is the most
+feasible to apply, but has the most dependencies to accommodate for the
+\(p\)-value calculation. For Scenario 3, VanderPlas et al propose
+modeling the probability of plot \(i\) being selected from a lineup as
+\(\theta_i\), where \(\theta_i \sim Dirichlet(\alpha)\) for
+\(i=1,...,m\) and \(\alpha > 0\). The number of times plot \(i\) being
+selected in \(K\) evaluations is denoted as \(c_i\). In case participant
+\(j\) makes multiple selections, \(1/s_j\) will be added to \(c_i\)
+instead of one, where \(s_j\) is the number of plots participant \(j\)
+selected for \(j=1,...K\). This ensures \(\sum_{i}c_i=K\). Since we are
+only interested in the selections of the data plot \(i\), the marginal
+model can be simplified to a beta-binomial model and thus the visual
+\(p\)-value is given as
 
 \begin{equation} \label{eq:pvalue-beta-binomial}
 P(C \geq c_i) = \sum_{x=c_i}^{K}{K \choose x}\frac{B(x + \alpha, K - x + (m - 1)\alpha)}{B(\alpha, (m-1)\alpha)},\quad \text{for} \quad c_i \in \mathbb{Z}_0^+
@@ -563,20 +564,21 @@ predictor and the intercept is fixed to \(log(0.05/0.95)\) so that
 significance level.
 
 The power of a visual test on the other hand, may additionally depend on
-the ability of the particular subject, as the skill of each individual
-may affect the number of observers who identify the data plot from the
-lineup \citep{majumder_validation_2013}. To address this issue,
-\citet{majumder_validation_2013} models the probability of subject \(j\)
-correctly picking the data plot from lineup \(l\) using a mixed-effect
-logistic regression, with subjects treated as random effect. Then, the
-estimated power of a visual test evaluated by a single subject is the
-predicted value obtained from the mixed effects model. However, this
-mixed effects model does not work with scenario where subjects are asked
-to select one or more most different plots. In this scenario, having the
-probability of a subject \(j\) correctly picking the data plot from a
-lineup \(l\) is insufficient to determine the power of a visual test
-because it does not provide information about the number of selections
-made by the subject for the calculation of the \(p\)-value (See Equation
+the ability of the particular participant, as the skill of each
+individual may affect the number of observers who identify the data plot
+from the lineup \citep{majumder_validation_2013}. To address this issue,
+\citet{majumder_validation_2013} models the probability of participant
+\(j\) correctly picking the data plot from lineup \(l\) using a
+mixed-effect logistic regression, with participants treated as random
+effect. Then, the estimated power of a visual test evaluated by a single
+participant is the predicted value obtained from the mixed effects
+model. However, this mixed effects model does not work with scenario
+where participants are asked to select one or more most different plots.
+In this scenario, having the probability of a participant \(j\)
+correctly picking the data plot from a lineup \(l\) is insufficient to
+determine the power of a visual test because it does not provide
+information about the number of selections made by the participant for
+the calculation of the \(p\)-value (See Equation
 \ref{eq:pvalue-beta-binomial-approx}). Therefore, we directly estimate
 the probability of a lineup being rejected by assuming that individual
 skill has negligible effect on the variation of the power. This
@@ -607,7 +609,7 @@ both non-linearity and heteroskedasticity, using uniform fitted value
 distributions, were included for additional data, and to avoid
 participant frustration of too many difficult tasks. Overall, we
 collected 7974 evaluations on 1152 unique lineups performed by 443
-subjects throughout three data collection periods.
+participants throughout three data collection periods.
 
 A summary of the factors used in the experiment can be found in Table
 \ref{tab:model-factor-table}. There were four levels of the non-linear
@@ -644,10 +646,10 @@ residuals}\label{simulating-departures-from-good-residuals}}
 \end{tabular}}
 \end{table}
 
-Data collection period I was designed to study the ability of human
-subjects to detect the effect of a non-linear term \(\boldsymbol{z}\)
-constructed using Hermite polynomials on random vector
-\(\boldsymbol{x}\) formulated as
+Data collection period I was designed to study the ability of
+participants to detect the effect of a non-linear term
+\(\boldsymbol{z}\) constructed using Hermite polynomials on random
+vector \(\boldsymbol{x}\) formulated as
 
 \begin{align*} \label{eq:nonlinearity-model}
 \boldsymbol{y} &= 1 + \boldsymbol{x} + \boldsymbol{z} + \boldsymbol{\varepsilon},\\
@@ -719,9 +721,9 @@ different amounts of noise (\(\sigma\)).
 
 Figure \ref{fig:example-poly-lineup} is one of the non-linearity lineups
 used in experiment. This data plot is produced by the non-linearity
-model with \(j = 6\), and is in location \(2^3+1\). All five subjects
-who viewed the lineup chose this plot as most different, thus all
-detected the data plot.
+model with \(j = 6\), and is in location \(2^3+1\). All five
+participants who viewed the lineup chose this plot as most different,
+thus all detected the data plot.
 
 \begin{figure}[t!]
 
@@ -735,8 +737,8 @@ detected the data plot.
 \hypertarget{heteroskedasticity}{%
 \subsubsection{Heteroskedasticity}\label{heteroskedasticity}}
 
-Data collection period II was designed to study the ability of human
-subjects to detect the heteroskedasticity under a simple linear
+Data collection period II was designed to study the ability of
+participants to detect the heteroskedasticity under a simple linear
 regression model setting:
 
 \begin{align*} \label{eq:heter-model}
@@ -790,13 +792,13 @@ magnitude of residuals across different values of \(a\). Figure
 
 }
 
-\caption{One of the lineups containing heteroskedasticity pattern used in data collection period II. Can you spot the most different plot? The data plot is positioned at $3^3 - 3^2$}\label{fig:example-heter-lineup}
+\caption{One of the lineups containing heteroskedasticity pattern used in data collection period II. Can you spot the most different plot? The data plot is positioned at $3^3 - 3^2$.}\label{fig:example-heter-lineup}
 \end{figure}
 
 An example lineup of this model used in data collection period II is
 shown in Figure \ref{fig:example-heter-lineup} with \(a = -1\). The data
-plot location is in position \(2^4 + 2\). Nine out of 11 subjects chose
-this plot from the lineup.
+plot location is in position \(2^4 + 2\). Nine out of 11 participants
+chose this plot from the lineup.
 
 \hypertarget{factors-common-to-both-data-collection-periods}{%
 \subsubsection{Factors common to both data collection
@@ -862,32 +864,36 @@ mapping, might be needed.
 \caption{Examining the effect of signal strength for the three different values of $n$ used in the experiment, for non-linear structure with fixed $\sigma = 1.5$, uniform fitted value distribution, and "S" shape. For these factor levels, only when $n = 300$ is the "S" shape clearly visible.}\label{fig:different-n}
 \end{figure}
 
+\hypertarget{controlling-the-signal-strength-of-the-signal}{%
+\subsubsection{Controlling the signal strength of the
+signal}\label{controlling-the-signal-strength-of-the-signal}}
+
+The three parameters \(n\), \(\sigma\) and \(b\) are important for
+controlling the strength of the signal to generate lineups with a
+variety difficulty levels. This will ensure that estimated power curves
+will be smooth and continuous, and that participants are allocated a set
+of lineups with a range of difficulty.
+
+Parameter \(\sigma \in \{0.5, 1, 2, 4\}\) and
+\(b \in \{0.25, 1, 4, 16, 64\}\) are used in data collection periods I
+and II respectively. A large value of \(\sigma\) will increase the
+variation of the error of the non-linearity model and decrease the
+visibility of the visual pattern. The parameter \(b\) controls the
+variation in the standard deviation of the error across the support of
+the predictor. A larger value of \(b\) generates a larger ratio between
+it's smallest and highest values, making the visual pattern more
+obvious. The sample size \(n\) sharpens (or blurs) a pattern when it is
+larger (or smaller). Figures \ref{fig:different-sigma},
+\ref{fig:different-b} and \ref{fig:different-n} demonstrate the impact
+of these parameters on signal strength.
+
 \hypertarget{experimental-setup}{%
 \subsection{Experimental setup}\label{experimental-setup}}
 
-\hypertarget{controlling-the-strength-of-the-signal}{%
-\subsubsection{Controlling the strength of the
-signal}\label{controlling-the-strength-of-the-signal}}
-
-As summarised in Table \ref{tab:model-factor-table}, three additional
-parameters \(n\), \(\sigma\) and \(b\) are used to control the strength
-of the signal so that different difficulty levels of lineups are
-generated, and therefore, the estimated power curve will be smooth and
-continuous. Parameter \(\sigma \in \{0.5, 1, 2, 4\}\) and
-\(b \in \{0.25, 1, 4, 16, 64\}\) are used in data collection periods I
-and II respectively. Figure \ref{fig:different-sigma} and
-\ref{fig:different-b} demonstrate the impact of these two parameters. A
-large value of \(\sigma\) will increase the variation of the error of
-the non-linearity model and decrease the visibility of the visual
-pattern. The parameter \(b\) controls the standard deviation of the
-error across the support of the predictor. Given \(x \neq a\), a larger
-value of \(b\) will lead to a larger ratio of the variance at \(x\) to
-the variance at \(x - a = 0\), making the visual pattern more obvious.
-
-Three different sample sizes are used (n = 50, 100, 300) in all three
-data collection periods. It can be observed from Figure
-\ref{fig:different-n} that with fewer data points drawn in a residual
-plot, the visual pattern is more difficult to be detected.
+The lineups are allocated to participants in a manner that covers the
+experimental design and is relatively uniform. To manage this, we use
+effect size to measure the signal strength, which helps in assigning a
+set of lineups with a range of difficulties to each participant.
 
 \hypertarget{effect-size}{%
 \subsubsection{Effect size}\label{effect-size}}
@@ -941,8 +947,9 @@ sample and take the average as the final value. This ensures lineups
 constructed with the same experimental factors will share the same
 effect size.
 
-\hypertarget{subject-allocation}{%
-\subsubsection{Subject allocation}\label{subject-allocation}}
+\hypertarget{lineup-allocation-to-participants}{%
+\subsubsection{Lineup allocation to
+participants}\label{lineup-allocation-to-participants}}
 
 As shown in Table \ref{tab:model-factor-table}, there are a total of
 \(4 \times 4 \times 3 \times 4 = 192\) and
@@ -951,12 +958,12 @@ parameter values for non-linearity model and heteroskedasticity model
 respectively. Three replications are made for each of the combination
 results in \(192 \times 3 = 576\) and \(180 \times 3 = 540\) lineups. In
 addition, each lineup is designed to be evaluated by five different
-subjects. After attempting some pilot studies internally, we decide to
-present a block of 20 lineups to every subject. And to ensure the
+participants. After attempting some pilot studies internally, we decide
+to present a block of 20 lineups to every participant. And to ensure the
 quality of the survey data, two lineups with obvious visual patterns are
 included as attention checks. Thus, \(576 \times 5 / (20-2) = 160\) and
-\(540 \times 5 / (20-2) = 150\) subjects are recruited to satisfy the
-design of the data collection period I and II respectively.
+\(540 \times 5 / (20-2) = 150\) participants are recruited to satisfy
+the design of the data collection period I and II respectively.
 
 As mentioned in Section \ref{power-of-the-tests}, \(\alpha\) used in
 Equation \ref{eq:pvalue-beta-binomial} needs to be estimated using null
@@ -980,23 +987,23 @@ the Appendix to examine the impact of the variance of the \(\alpha\)
 estimate on our findings.)
 
 All lineups consist of only null plots are planned to be evaluated by 20
-subjects. However, presenting only these lineups to subjects are
-considered to be bad practices as subjects will lose interest quickly.
-Therefore, we plan to collect 6 more evaluations on the 279 lineups with
-uniform fitted value distribution, result in
-\((36 \times 20 + 279 \times 3 \times 6) / (20-2) = 133\) subjects
+participants. However, presenting only these lineups to participants are
+considered to be bad practices as participants will lose interest
+quickly. Therefore, we plan to collect 6 more evaluations on the 279
+lineups with uniform fitted value distribution, result in
+\((36 \times 20 + 279 \times 3 \times 6) / (20-2) = 133\) participants
 recruited for data collection period III.
 
 \hypertarget{collecting-results}{%
 \subsubsection{Collecting results}\label{collecting-results}}
 
-Subjects for all three data collection periods are recruited from an
+Participants for all three data collection periods are recruited from an
 crowdsourcing platform called Prolific \citep{palan2018prolific}.
-Prescreening procedure is applied during the recruitment, subjects are
-required to be fluent in English, with \(98\%\) minimum approval rate
-and 10 minimum submissions in other studies.
+Prescreening procedure is applied during the recruitment, participants
+are required to be fluent in English, with \(98\%\) minimum approval
+rate and 10 minimum submissions in other studies.
 
-During the experiment, every subject is presented with a block of 20
+During the experiment, every participant is presented with a block of 20
 lineups. A lineup consists of a randomly placed data plot and 19 null
 plots, which are all residual plots drawn with raw residuals on the
 y-axis and fitted values on the x-axis. An additional horizontal red
@@ -1008,17 +1015,17 @@ data of the remaining 19 null plots are generated by the residual
 rotation technique discussed in Section
 \ref{visual-test-procedure-based-on-lineups}.
 
-In every lineup evaluation, the subject is asked to select one or more
-plots that are most different from others, provide a reason for their
-selections, and evaluate how different they think the selected plots are
-from others. If there is no noticeable difference between plots in a
-lineup, subjects are permitted to select zero plots without providing
-the reason. No subject are shown the same lineup twice. Information
-about preferred pronoun, age group, education, and previous experience
-in visual experiments are also collected. A subject's submission is only
-accepted if the data plot is identified for at least one attention
-check. Data of rejected submissions are discarded automatically to
-maintain the overall data quality.
+In every lineup evaluation, the participant is asked to select one or
+more plots that are most different from others, provide a reason for
+their selections, and evaluate how different they think the selected
+plots are from others. If there is no noticeable difference between
+plots in a lineup, participants are permitted to select zero plots
+without providing the reason. No participant are shown the same lineup
+twice. Information about preferred pronoun, age group, education, and
+previous experience in visual experiments are also collected. A
+participant's submission is only accepted if the data plot is identified
+for at least one attention check. Data of rejected submissions are
+discarded automatically to maintain the overall data quality.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -1165,7 +1172,7 @@ relatively strong heteroskedasticity pattern, and has a strong effect
 size (\(log_e(E)=4.02\)). This is reflected by the visual test
 \(p\text{-value} = 0.026\). But the BP test \(p\text{-value} = 0.056\),
 is slightly above the significance cutoff of \(0.05\). This lineup was
-evaluated by 11 subjects, it has experimental factors \(a = 0\)
+evaluated by 11 participants, it has experimental factors \(a = 0\)
 (``butterfly'' shape), \(b = 64\) (large variance ratio), \(n = 50\)
 (small sample size), and a uniform distribution for the fitted values.
 It may have been the small sample size and the presence of a few
@@ -1352,9 +1359,9 @@ a lineup, where it is embedded in a field of null plots. A residual plot
 may contain many visual features, but some are caused by the
 characteristics of the predictors and the randomness of the error, not
 by the violation of the model assumptions. These irrelevant visual
-features have a chance to be filtered out by subjects with a comparison
-to null plots, resulting in more accurate reading. The lineup enables a
-careful calibration for reading structure in residual plots.
+features have a chance to be filtered out by participants with a
+comparison to null plots, resulting in more accurate reading. The lineup
+enables a careful calibration for reading structure in residual plots.
 
 Human evaluation of residuals is expensive, though. It is time-consuming
 and laborious. This is possibly why residual plot analysis is often not

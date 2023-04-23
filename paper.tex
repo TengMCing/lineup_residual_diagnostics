@@ -1140,37 +1140,36 @@ good residual plots, then no discernible problem with the model exists.
 \subsection{\texorpdfstring{Comparison of test decisions based on
 \(p\)-values\label{p-value}}{Comparison of test decisions based on p-values}}\label{comparison-of-test-decisions-based-on-p-values}}
 
-The power comparison demonstrated that the appropriate conventional
+The power comparison demonstrates that the appropriate conventional
 tests will reject more aggressively than visual tests, but we don't know
 how the decisions for each lineup would agree or disagree. Here we
 compare the reject or fail to reject decisions of these tests, across
 all the lineups. Figure \ref{fig:p-value-comparison} shows the agreement
 of the conventional and visual tests using a mosaic plot for both
-non-linearity patterns and heteroskedasticity patterns.
+non-linearity patterns and heteroskedasticity patterns. For both
+patterns the lineups resulting in a rejection by the visual test are
+\emph{all} also rejected by the conventional test, except for one from
+the heteroskedasticity model. This reflects exactly the story from the
+previous section, that the conventional tests reject more aggressively
+than the visual test.
 
-For both patterns the lineups resulting in a rejection by the visual
-test are \emph{all} also rejected by the conventional test, except for
-one from the heteroskedasticity model. This reflects exactly the story
-from the previous section, that the conventional tests reject more
-aggressively than the visual test.
-
-For lineups containing non-linearity patterns, conventional tests reject
-69\% and visual tests reject 32\% of the time. Of the lineups rejected
-by the conventional test, 46\% are rejected by the visual test, that is,
+For non-linearity lineups, conventional tests and visual tests reject
+69\% and 32\% of the time, respectively. Of the lineups rejected by the
+conventional test, 46\% are rejected by the visual test, that is,
 approximately half as many as the conventional test. There are no
 lineups that are rejected by the visual test but not by the conventional
 test.
 
-In terms of lineups containing heteroskedasticity patterns, 76\% are
-rejected by conventional tests, while 56\% are rejected by visual tests.
-The visual test rejects 73\% of the lineups that the conventional visual
-test reject.
+In heteroskedasticity lineups, 76\% are rejected by conventional tests,
+while 56\% are rejected by visual tests. Of the lineups rejected by the
+conventional test, the visual test rejects more than two-thirds of them,
+too.
 
 Surprisingly, the visual test rejects 1 of the 33 (3\%) of lineups where
 the conventional test does not reject. Figure \ref{fig:heter-example}
 shows this lineup. The data plot in position seventeen displays a
 relatively strong heteroskedasticity pattern, and has a strong effect
-size (\(log_e(E)=4.02\)). This is reflected by the visual test
+size (\(log_e(E)=4.02\)), which is reflected by the visual test
 \(p\text{-value} = 0.026\). But the BP test \(p\text{-value} = 0.056\),
 is slightly above the significance cutoff of \(0.05\). This lineup was
 evaluated by 11 participants, it has experimental factors \(a = 0\)
@@ -1200,12 +1199,11 @@ conventional test.
 
 Because the power curve of the visual tests are a shift to the right of
 the conventional test (Figures \ref{fig:polypower} and
-\ref{fig:heter-example}) it would be curious to know whether adjusting
-the significance level (to .001, .0001, .00001, \ldots) of the
-conventional test would generate similar decisions to that of the visual
-test. Interestingly, it doesn't. Despite resulting less rejections,
-neither the RESET or BP tests come to complete agreement with the visual
-test (See Appendix).
+\ref{fig:heter-example}) we examined whether adjusting the significance
+level (to .001, .0001, .00001, \ldots) of the conventional test would
+generate similar decisions to that of the visual test. Interestingly, it
+doesn't: despite resulting less rejections, neither the RESET or BP
+tests come to complete agreement with the visual test (See Appendix).
 
 \hypertarget{effect-of-amount-of-non-linearity}{%
 \subsection{\texorpdfstring{Effect of amount of

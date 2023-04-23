@@ -1033,24 +1033,23 @@ plot is identified for at least one attention check.
 Data collection used a total of 1152 lineups, and resulted in a total of
 7974 evaluations from 443 participants. Roughly half corresponded to the
 two models, non-linearity and heteroskedasticiy, and the three
-collection periods had similar numbers in each. Each participant
+collection periods had similar numbers of evaluations. Each participant
 received two of the 24 attention check lineups which were used to filter
 results of participants who were clearly not making an honest effort
 (only 11 of 454). To estimate \(\alpha\) for calculating statistical
 significance (see Section \ref{sig}) there were 720 evaluations of 36
-null lineups. Neither the attention checks nor null lineups were used
-for the subsequent analysis. The de-identified data,
-\texttt{vi\_survey}, is made available in the R package,
-\texttt{visage}.
+null lineups. Neither the attention checks nor null lineups were used in
+the subsequent analysis. The de-identified data, \texttt{vi\_survey}, is
+made available in the R package, \texttt{visage}.
 
 The data was collected on lineups constructed from four different fitted
 value distributions: uniform, normal, skewed and discrete. More data was
-collected on the uniform (each evaluated by 11 participants) than the
-others (each evaluated by 5 participants). The analysis in Sections
-\ref{power-analysis}-\ref{hetero-analysis}, uses only results from
-lineups generated with uniform fitted values, a total 3069 lineup
-evaluations. This was decided in order to compare the conventional and
-visual test performance for an optimal scenario. Section
+collected on the uniform distribution (each evaluated by 11
+participants) than the others (each evaluated by 5 participants). The
+analysis in Sections \ref{power-analysis}-\ref{hetero-analysis} uses
+only results from lineups generated with uniform fitted values, for a
+total 3069 lineup evaluations. This allows us to compare the
+conventional and visual test performance in an optimal scenario. Section
 \ref{effect-of-fitted-value-distributions} examines how the results may
 be affected if the fitted value distribution was different.
 
@@ -1059,18 +1058,19 @@ be affected if the fitted value distribution was different.
 tests\label{power-analysis}}{Power comparison of the tests}}\label{power-comparison-of-the-tests}}
 
 Figures \ref{fig:polypower} and \ref{fig:heterpower} present the power
-curves of various tests plotted against the effect size in the
-residuals, for non-linearity and heteroskedasticity, respectively. In
-each case the power of visual test is calculated for multiple bootstrap
-samples leading to the many (orange) curves. The effect size was
-computed at a 5\% significance level and plotted on a natural
-logarithmic scale. To facilitate visual calibration of effect size
-values with the corresponding diagnostic plots, a sequence of example
-residual plots with increasing effect sizes is provided at the bottom of
-these figures. These plots serve as a visual aid to help readers
-understand how different effect size values translate to changes in the
-diagnostic plots. The horizontal lines of dots at 0 and 1 represent the
-non-reject or reject made by visual tests for each lineup.
+curves of various tests plotted against the effect size in the residuals
+for non-linearity and heteroskedasticity respectively. In each case the
+power of visual test is calculated for multiple bootstrap samples
+leading to the many (orange) curves. The effect size was computed at a
+5\% significance level and plotted on a natural logarithmic scale. To
+facilitate visual calibration of effect size values with the
+corresponding diagnostic plots, a sequence of example residual plots
+with increasing effect sizes is provided at the bottom of these figures.
+These plots serve as a visual aid to help readers understand how
+different effect size values translate to changes in the diagnostic
+plots. The horizontal lines of dots at 0 and 1 represent the
+non-rejection or rejection decisions made by visual tests for each
+lineup.
 
 \begin{figure}
 
@@ -1093,24 +1093,25 @@ non-reject or reject made by visual tests for each lineup.
 Figure \ref{fig:polypower} compares the power for the different tests
 for non-linear structure in the residuals. The test with the uniformly
 higher power is the RESET test, one that specifically tests for
-non-linearity. (Note that the BP and SW tests have much lower power,
-which is expected because they are not designed to detect
-non-linearity.) The bootstrapped power curves for the visual test are
-effectively a shift right from that of the RESET test. This means that
-the RESET test will reject at a lower effect size (less structure) than
-the visual test, but otherwise the performance will be similar. In other
-words, the RESET test is more sensitive than the visual test. This is
-not necessarily a good feature for the purposes of diagnosing model
-defects. If one scans the residual plot examples at the bottom, we might
-argue that the non-linearity is not sufficiently problematic until an
-effect size of around 3 or 3.5. The RESET test would reject closer to an
-effect size of 2, but the visual test would reject closer 3.25, for a
-significance level of 0.05.
+non-linearity. Note that the BP and SW tests have much lower power,
+which is expected because they are not designed to detect non-linearity.
+The bootstrapped power curves for the visual test are effectively a
+shift right from that of the RESET test. This means that the RESET test
+will reject at a lower effect size (less structure) than the visual
+test, but otherwise the performance will be similar. In other words, the
+RESET test is more sensitive than the visual test. This is not
+necessarily a good feature for the purposes of diagnosing model defects:
+If we scan the residual plot examples at the bottom, we might argue that
+the non-linearity is not sufficiently problematic until an effect size
+of around 3 or 3.5. The RESET test would reject closer to an effect size
+of 2, but the visual test would reject closer 3.25, for a significance
+level of 0.05. The visual test matches the robustness of the model to
+(minor) violations of assumptions much better.
 
 For the heteroskedasticity pattern, the power of BP test, designed for
 detecting heteroskedasticity, is uniformly higher than the other tests.
 The visual test power curve is a right shift. This shows a similar story
-to the power curves for non-linearity pattern - the conventional test is
+to the power curves for non-linearity pattern: the conventional test is
 more sensitive than the visual test. From the example residual plots at
 the bottom we might argue that the heteroskedasticity becomes noticeably
 visible around an effect size of 3 or 3.5. However the BP test would
@@ -1131,8 +1132,8 @@ with the advice of experts on residual analysis, who consider residual
 plot analysis to be an indispensable tool for diagnosing model problems.
 What we gain from using a visual test for this purpose is the removal of
 any subjective arguments about whether a pattern is visible or not. The
-lineup protocol provides the calibration for detecting patterns: that if
-the pattern in the data plot cannot be distinguished from patterns in
+lineup protocol provides the calibration for detecting patterns: if the
+pattern in the data plot cannot be distinguished from the patterns in
 good residual plots, then no discernible problem with the model exists.
 
 \hypertarget{comparison-of-test-decisions-based-on-p-values}{%

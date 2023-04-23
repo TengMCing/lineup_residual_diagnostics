@@ -782,9 +782,9 @@ Fitted values are a function of the independent variables, and the distribution 
 - skewed, $lognormal(0, 0.6^2)/3$, and 
 - discrete, $U\{1, 5\}$. 
 
-\noindent We would expect that structure in residual plots would be easier to perceive when the fitted values are uniformly distributed.
+\noindent Figure \ref{fig:different-dist} shows the non-linear pattern, a "U" shape, with the different fitted value distributions. We would expect that structure in residual plots would be easier to perceive when the fitted values are uniformly distributed.
 
-Three different sample sizes were used in our experiment: $n = 50, 100, 300$. We expect considerable variation in the signal strength in the simulated data plots with smaller $n$. A sample size of 300 is typically enough for structure to be visible in a scatter plot reliably. Beyond 300, structure can be obscured by over-plotting, and a different type of display that included transparency, binning or density mapping, might be needed. 
+Three different sample sizes were used in our experiment: $n = 50, 100, 300$. Figure \ref{fig:different-n} shows the non-linear "S" shape for different sample sizes. We expect signal strength to decline in the simulated data plots with smaller $n$. A sample size of 300 is typically enough for structure to be visible in a scatter plot reliably. Beyond 300, structure can be obscured by over-plotting, and a different type of display that included transparency, binning or density mapping, might be needed. 
 
 
 ```{r different-dist, fig.height = 2, fig.cap = "Variations in fitted values, that might affect perception of residual plots. Four different distributions are used."}

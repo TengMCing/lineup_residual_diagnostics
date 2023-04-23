@@ -544,10 +544,10 @@ The power of a conventional hypothesis test is affected by both the true
 parameter \(\boldsymbol{\theta}\) and the sample size \(n\). These two
 can be quantified in terms of effect size \(E\) to measure the strength
 of the residual departures from the model assumptions. Details about the
-effect size are provided in Section \ref{effect-size} after the
-introduction of the simulation model used in our experiment. The
-theoretical power of a test is sometimes not a trival solution, but it
-can be estimated if the data generating process is known. We use a
+calculation of effect size are provided in Section \ref{effect-size}
+after the introduction of the simulation model used in our experiment.
+The theoretical power of a test is sometimes not a trival solution, but
+it can be estimated if the data generating process is known. We use a
 predefined model to generate a large set of simulated data under
 different effect sizes, and record if the conventional test rejects
 \(H_0\). The probability of the conventional test rejects \(H_0\) is
@@ -864,9 +864,9 @@ mapping, might be needed.
 \caption{Examining the effect of signal strength for the three different values of $n$ used in the experiment, for non-linear structure with fixed $\sigma = 1.5$, uniform fitted value distribution, and "S" shape. For these factor levels, only when $n = 300$ is the "S" shape clearly visible.}\label{fig:different-n}
 \end{figure}
 
-\hypertarget{controlling-the-signal-strength-of-the-signal}{%
-\subsubsection{Controlling the signal strength of the
-signal}\label{controlling-the-signal-strength-of-the-signal}}
+\hypertarget{controlling-the-signal-strength}{%
+\subsubsection{Controlling the signal
+strength}\label{controlling-the-signal-strength}}
 
 The three parameters \(n\), \(\sigma\) and \(b\) are important for
 controlling the strength of the signal to generate lineups with a
@@ -899,8 +899,8 @@ set of lineups with a range of difficulties to each participant.
 \subsubsection{Effect size}\label{effect-size}}
 
 Effect size in statistics measures the strength of the signal relative
-to the noise. It is surprisingly difficult to quantify in general, even
-for simulated data as used in this experiment.
+to the noise. It is surprisingly difficult to quantify, even for
+simulated data as used in this experiment.
 
 For the non-linearity model, the key items defining effect size are
 sample size (\(n\)) and variance of the error term (\(\sigma^2\)), and
@@ -914,7 +914,11 @@ calculations we have chosen to use an approach based on Kullback-Leibler
 divergence \citep{kullback1951information}, coupled with simulation.
 This formulation defines effect size to be:
 
-\[E = \frac{1}{2}\left(\boldsymbol{\mu}_z'(diag(\boldsymbol{R}\sigma^2))^{-1}\boldsymbol{\mu}_z\right)\]
+\begin{equation}
+E = \frac{1}{2}\left(\boldsymbol{\mu}_z'(diag(\boldsymbol{R}\sigma^2))^{-1}\boldsymbol{\mu}_z\right)
+\label{eq:nonlin-effect-size}
+\end{equation}
+
 \noindent where \(diag(.)\) is the diagonal matrix constructed from the
 diagonal elements of a matrix,
 \(\boldsymbol{R} = \boldsymbol{I}_n - \boldsymbol{H}\) is the residual
@@ -922,11 +926,11 @@ operator,
 \(\boldsymbol{H} = \boldsymbol{X}(\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'\)
 is the hat matrix,
 \(\boldsymbol{\mu}_z = \boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z\)
-is the expected values of residuals with \(\boldsymbol{Z}\) be any
-higher order terms of \(\boldsymbol{X}\) leave out by the regression
-equation and \(\boldsymbol{\beta}_z\) be the corresponding coefficients,
-and \(\sigma^2\boldsymbol{I}\) is the assumed covariance matrix of the
-error term when \(H_0\) is true.
+is the expected values of residuals where \(\boldsymbol{Z}\) contain any
+higher order terms of \(\boldsymbol{X}\) left out of the regression
+equation, \(\boldsymbol{\beta}_z\) contains the corresponding
+coefficients, and \(\sigma^2\boldsymbol{I}\) is the assumed covariance
+matrix of the error term when \(H_0\) is true.
 
 In the heteroskedasticity model, the key elements for measuring effect
 size are sample size, \(n\), and the ratio of the biggest variance to
@@ -935,10 +939,14 @@ effect size. However, it is not clear how to incorporate the additional
 shape parameter, \(a\). Thus the same approach is used here, where the
 formula can be written as:
 
-\[E = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|diag(\boldsymbol{R})|} - n + tr(diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}diag(\boldsymbol{R}))\right)\]
+\begin{equation}
+E = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|diag(\boldsymbol{R})|} - n + tr(diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}diag(\boldsymbol{R}))\right)
+\label{eq:hetero-effect-size}
+\end{equation}
+
 \noindent where \(\boldsymbol{V}\) is the actual covariance matrix of
-the error term. (Derivations for these equations are provided in the
-Appendix.)
+the error term. Derivations for these equations are provided in the
+Appendix.
 
 To compute the effect size for each lineup we simulate a sufficient
 large number of samples from the same model, in each sample, the number
@@ -951,19 +959,23 @@ effect size.
 \subsubsection{Lineup allocation to
 participants}\label{lineup-allocation-to-participants}}
 
-As shown in Table \ref{tab:model-factor-table}, there are a total of
-\(4 \times 4 \times 3 \times 4 = 192\) and
-\(3 \times 5 \times 3 \times 4 = 180\) number of combinations of
-parameter values for non-linearity model and heteroskedasticity model
-respectively. Three replications are made for each of the combination
-results in \(192 \times 3 = 576\) and \(180 \times 3 = 540\) lineups. In
-addition, each lineup is designed to be evaluated by five different
-participants. After attempting some pilot studies internally, we decide
-to present a block of 20 lineups to every participant. And to ensure the
-quality of the survey data, two lineups with obvious visual patterns are
-included as attention checks. Thus, \(576 \times 5 / (20-2) = 160\) and
-\(540 \times 5 / (20-2) = 150\) participants are recruited to satisfy
-the design of the data collection period I and II respectively.
+From Table \ref{tab:model-factor-table} it can be computed that there
+are a total of \(4 \times 4 \times 3 \times 4 = 192\) and
+\(3 \times 5 \times 3 \times 4 = 180\) combinations of parameter values
+for the non-linearity model and heteroskedasticity models respectively.
+Three replications for each combination results in
+\(192 \times 3 = 576\) and \(180 \times 3 = 540\) lineups, respectively.
+
+Each lineup needs to be evaluated by at least five participants. From
+previous work, and additional pilot studies for this experiment, we
+decided to record evaluations from 20 lineups for each participant. Two
+of the 20 lineups with clear visual patterns were used as attention
+checks, to ensure quality data. Thus, \(576 \times 5 / (20-2) = 160\)
+and \(540 \times 5 / (20-2) = 150\) participants were needed to cover
+the experimental design for the data collection periods I and II,
+respectively. The factor levels and range of difficulty was assigned
+relatively equally among participants. The Appendix contains graphical
+summaries of these assignments for each subject.
 
 As mentioned in Section \ref{power-of-the-tests}, \(\alpha\) used in
 Equation \ref{eq:pvalue-beta-binomial} needs to be estimated using null

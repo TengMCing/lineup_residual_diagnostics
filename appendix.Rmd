@@ -686,7 +686,12 @@ where $C$ is a sufficiently large constant such that $D > 0$. If $L_{s}$ is empt
 
 The distance measures how different a lineup is from the set of lineups allocated to the participant in terms of factor values. Thus, the algorithm will try to allocate the most different lineup to a participant at each step.
 
+XXX PLACEHOLDER FOR CODE FOR FIGURES
 
+```{r}
+knitr::include_graphics("figures/check_allocation_for_subject_nonlin.png")
+knitr::include_graphics("figures/check_allocation_for_subject_hetero.png")
+```
 
 ## Data collection process
 

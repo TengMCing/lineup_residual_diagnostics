@@ -331,28 +331,29 @@ disagreement with the visual test.
 \hypertarget{experiment-setup}{%
 \section{Experiment setup}\label{experiment-setup}}
 
-\hypertarget{mapping-of-subjects-to-experimental-factors}{%
-\subsection{Mapping of subjects to experimental
-factors}\label{mapping-of-subjects-to-experimental-factors}}
+\hypertarget{mapping-of-participants-to-experimental-factors}{%
+\subsection{Mapping of participants to experimental
+factors}\label{mapping-of-participants-to-experimental-factors}}
 
-Mapping of subjects to experimental factors is an important part of
+Mapping of participants to experimental factors is an important part of
 experiment design. Essentially, we want to maximum the difference in
-factors exposed to a subject. For this purpose, we design an algorithm
-to conduct subject allocation. Let \(L\) be a set of available lineups
-and \(S\) be a set of available subjects. According to the experimental
-design, the availability of a lineup is associated with the number of
-subjects it can assign to. For lineups with uniform fitted value
-distribution, this value is 11. And other lineups can be allocated to at
-most five different subjects. The availability of a subject is
-associated with the number of lineups that being allocated to this
-subject. A subject can view at most 18 different lineups.
+factors exposed to a participant. For this purpose, we design an
+algorithm to conduct participant allocation. Let \(L\) be a set of
+available lineups and \(S\) be a set of available participants.
+According to the experimental design, the availability of a lineup is
+associated with the number of participants it can assign to. For lineups
+with uniform fitted value distribution, this value is 11. And other
+lineups can be allocated to at most five different participants. The
+availability of a participant is associated with the number of lineups
+that being allocated to this participant. A participant can view at most
+18 different lineups.
 
-The algorithm starts from picking a random subject \(s \in S\) with the
-minimum number of allocated lineups. It then tries to find a lineup
+The algorithm starts from picking a random participant \(s \in S\) with
+the minimum number of allocated lineups. It then tries to find a lineup
 \(l \in L\) that can maximise the distance metric \(D\) and allocate it
-to subject \(s\). Set \(L\) and \(S\) will be updated and the picking
-process will be repeated until there is no available lineups or
-subjects.
+to participant \(s\). Set \(L\) and \(S\) will be updated and the
+picking process will be repeated until there is no available lineups or
+participants.
 
 Let \(F_1,...,F_q\) be \(q\) experimental factors, and \(f_1, ...,f_q\)
 be the corresponding factor values. We say \(f_i\) exists in \(L_{s}\)
@@ -361,7 +362,7 @@ exists in \(L_{s}\) if any lineup in \(L_{s}\) has this pair of factor
 values. And \(f_if_jf_k\) exists in \(L_{s}\) if any lineup in \(L_{s}\)
 has this trio of factor values. The distance metric \(D\) is defined
 between a lineup \(l\) and a set of lineups \(L_{s}\) allocated to a
-subject \(s\) if \(L_{s}\) is non-empty:
+participant \(s\) if \(L_{s}\) is non-empty:
 
 \footnotesize
 
@@ -376,9 +377,15 @@ where \(C\) is a sufficiently large constant such that \(D > 0\). If
 \(L_{s}\) is empty, we define \(D = 0\).
 
 The distance measures how different a lineup is from the set of lineups
-allocated to the subject in terms of factor values. Thus, the algorithm
-will try to allocate the most different lineup to a subject at each
-step.
+allocated to the participant in terms of factor values. Thus, the
+algorithm will try to allocate the most different lineup to a
+participant at each step.
+
+XXX PLACEHOLDER FOR CODE FOR FIGURES
+
+\begin{center}\includegraphics[width=1\linewidth]{figures/check_allocation_for_subject_nonlin} \end{center}
+
+\begin{center}\includegraphics[width=1\linewidth]{figures/check_allocation_for_subject_hetero} \end{center}
 
 \hypertarget{data-collection-process}{%
 \subsection{Data collection process}\label{data-collection-process}}
@@ -387,13 +394,13 @@ The survey data is collected via a self-hosted website designed by us.
 The complete architecture is provided in Figure \ref{fig:tech}. The
 website is built with the \texttt{Flask} \citep{flask} web framework and
 hosted on \texttt{PythonAnywhere} \citep{pythonanywhere}. It is
-configured to handle HTTP requests such that subjects can correctly
+configured to handle HTTP requests such that participants can correctly
 receive webpages and submit responses. Embedded in the resources sent to
-subjects, the \texttt{jsPsych} front-end framework \citep{jspsych}
-instructs subjects' browsers to render an environment for running
+participants, the \texttt{jsPsych} front-end framework \citep{jspsych}
+instructs participants' browsers to render an environment for running
 behavioral experiments. During the experiment, this framework will
 automatically collect common behavioral data such as response time and
-clicks on buttons. Subjects' responses are first validated by a
+clicks on buttons. participants' responses are first validated by a
 scheduled \texttt{Python} script run on the server, then push to a
 Github repository. Lineup images shown to users are saved in multiple
 Github repositories and hosted in corresponding Github pages. The URLs
@@ -513,7 +520,7 @@ previous experience than those who have.
 
 \begin{table}
 
-\caption{\label{tab:pronoun}Summary of pronoun distribution of subjects recuritted in this study.}
+\caption{\label{tab:pronoun}Summary of pronoun distribution of participants recruited in this study.}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{lrrrrrrrr}
@@ -530,7 +537,7 @@ Other & 5 & 1.1 & 4 & 0.9 & 1 & 0.2 & 10 & 2.3\\
 
 \begin{table}
 
-\caption{\label{tab:age-group}Summary of age distribution of subjects recuritted in this study.}
+\caption{\label{tab:age-group}Summary of age distribution of participants recruited in this study.}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{lrrrrrrrr}
@@ -548,7 +555,7 @@ Age group & Period I & \% & Period II & \% & Period III & \% & Total & \%\\
 
 \begin{table}
 
-\caption{\label{tab:education}Summary of education distribution of subjects recuritted in this study.}
+\caption{\label{tab:education}Summary of education distribution of participants recruited in this study.}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{lrrrrrrrr}
@@ -568,7 +575,7 @@ Doctoral Degree & 0 & 0.0 & 0 & 0.0 & 2 & 0.5 & 2 & 0.5\\
 
 \begin{table}
 
-\caption{\label{tab:experience}Summary of previous experience distribution of subjects recuritted in this study.}
+\caption{\label{tab:experience}Summary of previous experience distribution of participants recruited in this study.}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{lrrrrrrrr}

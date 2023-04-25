@@ -666,13 +666,13 @@ ggarrange(rej_by_sig, roc, ncol=2, common.legend=TRUE, legend = "bottom")
 
 # Experiment setup 
 
-## Mapping of subjects to experimental factors
+## Mapping of participants to experimental factors
 
-Mapping of subjects to experimental factors is an important part of experiment design. Essentially, we want to maximum the difference in factors exposed to a subject. For this purpose, we design an algorithm to conduct subject allocation. Let $L$ be a set of available lineups and $S$ be a set of available subjects. According to the experimental design, the availability of a lineup is associated with the number of subjects it can assign to. For lineups with uniform fitted value distribution, this value is 11. And other lineups can be allocated to at most five different subjects. The availability of a subject is associated with the number of lineups that being allocated to this subject. A subject can view at most 18 different lineups. 
+Mapping of participants to experimental factors is an important part of experiment design. Essentially, we want to maximum the difference in factors exposed to a participant. For this purpose, we design an algorithm to conduct participant allocation. Let $L$ be a set of available lineups and $S$ be a set of available participants. According to the experimental design, the availability of a lineup is associated with the number of participants it can assign to. For lineups with uniform fitted value distribution, this value is 11. And other lineups can be allocated to at most five different participants. The availability of a participant is associated with the number of lineups that being allocated to this participant. A participant can view at most 18 different lineups. 
 
-The algorithm starts from picking a random subject $s \in S$ with the minimum number of allocated lineups. It then tries to find a lineup $l \in L$ that can maximise the distance metric $D$ and allocate it to subject $s$. Set $L$ and $S$ will be updated and the picking process will be repeated until there is no available lineups or subjects. 
+The algorithm starts from picking a random participant $s \in S$ with the minimum number of allocated lineups. It then tries to find a lineup $l \in L$ that can maximise the distance metric $D$ and allocate it to participant $s$. Set $L$ and $S$ will be updated and the picking process will be repeated until there is no available lineups or participants. 
 
-Let $F_1,...,F_q$ be $q$ experimental factors, and $f_1, ...,f_q$ be the corresponding factor values. We say $f_i$ exists in $L_{s}$ if any lineup in $L_{s}$ has this factor value. Similarly, $f_if_j$ exists in $L_{s}$ if any lineup in $L_{s}$ has this pair of factor values. And $f_if_jf_k$ exists in $L_{s}$ if any lineup in $L_{s}$ has this trio of factor values. The distance metric $D$ is defined between a lineup $l$ and a set of lineups $L_{s}$ allocated to a subject $s$ if $L_{s}$ is non-empty: 
+Let $F_1,...,F_q$ be $q$ experimental factors, and $f_1, ...,f_q$ be the corresponding factor values. We say $f_i$ exists in $L_{s}$ if any lineup in $L_{s}$ has this factor value. Similarly, $f_if_j$ exists in $L_{s}$ if any lineup in $L_{s}$ has this pair of factor values. And $f_if_jf_k$ exists in $L_{s}$ if any lineup in $L_{s}$ has this trio of factor values. The distance metric $D$ is defined between a lineup $l$ and a set of lineups $L_{s}$ allocated to a participant $s$ if $L_{s}$ is non-empty: 
 
 \footnotesize
 
@@ -684,13 +684,18 @@ C - \sum_{1\leq i \leq q}I(f_i\text{ exists in }L_{s}) - \sum_{\substack{1\leq i
 \normalsize
 where $C$ is a sufficiently large constant such that $D > 0$. If $L_{s}$ is empty, we define $D = 0$.
 
-The distance measures how different a lineup is from the set of lineups allocated to the subject in terms of factor values. Thus, the algorithm will try to allocate the most different lineup to a subject at each step.
+The distance measures how different a lineup is from the set of lineups allocated to the participant in terms of factor values. Thus, the algorithm will try to allocate the most different lineup to a participant at each step.
 
+XXX PLACEHOLDER FOR CODE FOR FIGURES
 
+```{r}
+knitr::include_graphics("figures/check_allocation_for_subject_nonlin.png")
+knitr::include_graphics("figures/check_allocation_for_subject_hetero.png")
+```
 
 ## Data collection process
 
-The survey data is collected via a self-hosted website designed by us. The complete architecture is provided in Figure \ref{fig:tech}. The website is built with the `Flask` [@flask] web framework and hosted on `PythonAnywhere` [@pythonanywhere]. It is configured to handle HTTP requests such that subjects can correctly receive webpages and submit responses. Embedded in the resources sent to subjects, the `jsPsych` front-end framework [@jspsych] instructs subjects' browsers to render an environment for running behavioural experiments. During the experiment, this framework will automatically collect common behavioral data such as response time and clicks on buttons. Subjects' responses are first validated by a scheduled `Python` script run on the server, then push to a Github repository. Lineup images shown to users are saved in multiple Github repositories and hosted in corresponding Github pages. The URLs to these images are resolved by `Flask` and bundled in HTML files. 
+The survey data is collected via a self-hosted website designed by us. The complete architecture is provided in Figure \ref{fig:tech}. The website is built with the `Flask` [@flask] web framework and hosted on `PythonAnywhere` [@pythonanywhere]. It is configured to handle HTTP requests such that participants can correctly receive webpages and submit responses. Embedded in the resources sent to participants, the `jsPsych` front-end framework [@jspsych] instructs participants' browsers to render an environment for running behavioral experiments. During the experiment, this framework will automatically collect common behavioral data such as response time and clicks on buttons. participants' responses are first validated by a scheduled `Python` script run on the server, then push to a Github repository. Lineup images shown to users are saved in multiple Github repositories and hosted in corresponding Github pages. The URLs to these images are resolved by `Flask` and bundled in HTML files. 
 
 Once the participant is recruited from Prolific [@palan2018prolific], it will be redirected to the entry page of our study website. An image of the entry page is provided in Figure \ref{fig:entry-page}. Then, the participant needs to submit the online consent form and fill in the demographic information as shown in \ref{fig:consent-form} and \ref{fig:metadata} respectively. Before evaluating lineups, participant also need to read the training page as provide in Figure \ref{fig:training-page} to understand the process. An example of the lineup page is given in Figure \ref{fig:lineup-page}. A half of the page is taken by the lineup image to attract participant's attention. The button to skip the selections for the current lineup is intentionally put in the corner of the bounding box with smaller font size, such that participants will not misuse this functionality.
 
@@ -937,7 +942,7 @@ vi_survey %>%
                                   "Total", "%"), 
                     booktabs = TRUE, 
                     label = "pronoun", 
-                    caption = "Summary of pronoun distribution of subjects recuritted in this study.") %>%
+                    caption = "Summary of pronoun distribution of participants recruited in this study.") %>%
   kableExtra::kable_styling(latex_options = "scale_down")
 ```
 
@@ -974,7 +979,7 @@ vi_survey %>%
                                   "Total", "%"),
                     booktabs = TRUE, 
                     label = "age-group", 
-                    caption = "Summary of age distribution of subjects recuritted in this study.") %>%
+                    caption = "Summary of age distribution of participants recruited in this study.") %>%
   kableExtra::kable_styling(latex_options = "scale_down")
 ```
 
@@ -1014,7 +1019,7 @@ vi_survey %>%
                                   "Total", "%"),
                     booktabs = TRUE, 
                     label = "education", 
-                    caption = "Summary of education distribution of subjects recuritted in this study.") %>%
+                    caption = "Summary of education distribution of participants recruited in this study.") %>%
   kableExtra::kable_styling(latex_options = "scale_down")
 ```
 
@@ -1052,7 +1057,7 @@ vi_survey %>%
                                   "Total", "%"),
                     booktabs = TRUE, 
                     label = "experience", 
-                    caption = "Summary of previous experience distribution of subjects recuritted in this study.") %>%
+                    caption = "Summary of previous experience distribution of participants recruited in this study.") %>%
   kableExtra::kable_styling(latex_options = "scale_down")
 ```
 

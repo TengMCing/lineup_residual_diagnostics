@@ -608,10 +608,13 @@ It would be interesting if a different conventional test significance level resu
 ```{r rej-rates, fig.pos="t!", fig.width=8, fig.height=5, out.width="100%", fig.cap="Changing the significance level of the conventional test will change the rejection rate. A: Percentage of conventional tests also rejected by the visual test: rejected (solid), not rejected (dashed). As the significance level is reduced, the percentage rejected by the visual test that has been rejected by the conventional test approaches 100. The percentage of tests not rejected by the conventional test also increases, as expected, but the percentage of these that are rejected by the visual test increases too. B: ROC curve shows that forcing the conventional test to not reject creates a discrepancy with the visual test. Many of the residual plots not rejected by the conventional test are rejected by the visual test. It isn't possible to vary the significance level of the conventional test to match the decisions made by the visual test."}
 # compute rejection rate for different significance levels, holding visual test constant
 library(ggpubr)
+
 nl_rates <- NULL
 h_rates <- NULL
+
 for (i in c(0.1, 0.05, 0.01, 0.001, 0.0001, 0.00001, 0.000001, 0.0000001, 0.00000001, 0.000000001,
             0.0000000001, 0.00000000001)) {
+  
 p_value_cmp_dat <- vi_survey %>%
   filter(!null_lineup) %>%
   filter(!attention_check) %>%
@@ -625,42 +628,52 @@ p_value_cmp_dat <- vi_survey %>%
   mutate(conv_reject = factor(conv_reject, levels = c("Reject", "Not")),
          reject = factor(reject, levels = c("Reject", "Not"))) %>%
   select(type, conv_reject, reject) 
+
 nl <- p_value_cmp_dat %>% 
   filter(type == "non-linearity") %>% 
   count(conv_reject, reject, .drop=FALSE) %>%
-  summarise(rej_pct=round(n[1]/(n[1]+n[2])*100, 0),
-            nrej_pct=round(n[3]/(n[3]+n[4])*100, 0)) %>%
-  bind_cols(alpha=i)
-  nl_rates <- bind_rows(nl_rates, nl)
-  # Heteroskedasticity 
-  h <- p_value_cmp_dat %>% 
+  summarise(rej_pct = round(n[1]/(n[1]+n[2])*100, 0),
+            nrej_pct = round(n[3]/(n[3]+n[4])*100, 0)) %>%
+  bind_cols(alpha = i)
+  
+nl_rates <- bind_rows(nl_rates, nl)
+  
+# Heteroskedasticity 
+h <- p_value_cmp_dat %>% 
   filter(type == "heteroskedasticity") %>% 
-  count(conv_reject, reject, .drop=FALSE) %>%
-  summarise(rej_pct=round(n[1]/(n[1]+n[2])*100, 0),
-            nrej_pct=round(n[3]/(n[3]+n[4])*100, 0)) %>%
-  bind_cols(alpha=i)
-  h_rates <- bind_rows(h_rates, h)
+  count(conv_reject, reject, .drop = FALSE) %>%
+  summarise(rej_pct = round(n[1]/(n[1]+n[2])*100, 0),
+            nrej_pct = round(n[3]/(n[3]+n[4])*100, 0)) %>%
+  bind_cols(alpha = i)
+
+h_rates <- bind_rows(h_rates, h)
 }
+
 nl_rates <- nl_rates %>% mutate(type = "non-linearity")
 h_rates <- h_rates %>% mutate(type = "heteroskedasticity")
 rates <- bind_rows(nl_rates, h_rates) %>%
   mutate(type = factor(type, levels = c("non-linearity", "heteroskedasticity")))
+
 rej_by_sig <- ggplot(rates) +
-  geom_vline(xintercept=0.05, colour="grey50") +
-  geom_line(aes(x=alpha, y=rej_pct, colour=type), alpha=0.8) +
-  geom_line(aes(x=alpha, y=nrej_pct, colour=type), linetype=2) +
-  scale_x_log10(breaks=c(0.1, 0.001, 0.00001, 0.0000001, 0.000000001, 0.00000000001)) + 
+  geom_vline(xintercept = 0.05, colour = "grey50") +
+  geom_line(aes(x = alpha, y = rej_pct, colour = type), alpha = 0.8) +
+  geom_line(aes(x = alpha, y = nrej_pct, colour = type), linetype = 2) +
+  scale_x_log10(breaks = c(0.1, 0.001, 0.00001, 0.0000001, 0.000000001, 0.00000000001)) + 
   ylab("Visual test rejects (%)") + xlab("Significance level") +
   scale_colour_brewer("", palette = "Dark2") +
-  ggtitle("A")
+  ggtitle("A") +
+  theme_light()
+
 roc <- ggplot(rates) +
-  geom_path(aes(x=nrej_pct, y=rej_pct, colour=type)) +
+  geom_path(aes(x = nrej_pct, y = rej_pct, colour=type)) +
   ylab("Reject | Reject (%)") + xlab("Reject | Fail to reject (%)") +
   ylim(0, 100) +
   scale_colour_brewer("", palette = "Dark2") +
   coord_equal() +
-  ggtitle("B")
-ggarrange(rej_by_sig, roc, ncol=2, common.legend=TRUE, legend = "bottom")
+  ggtitle("B") +
+  theme_light()
+
+ggarrange(rej_by_sig, roc, ncol = 2, common.legend = TRUE, legend = "bottom")
 ```
 
 

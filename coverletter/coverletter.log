@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.15)  30 APR 2023 09:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.15)  30 APR 2023 09:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -385,21 +385,21 @@ Package hyperref Info: Link coloring OFF on input line 112.
 <sigfile.png, id=4, 1348.237pt x 722.7pt>
 File: sigfile.png Graphic file (type png)
 <use sigfile.png>
-Package pdftex.def Info: sigfile.png  used on input line 132.
+Package pdftex.def Info: sigfile.png  used on input line 130.
 (pdftex.def)             Requested size: 79.61523pt x 42.67912pt.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 132.
+(Font)              <10.95> on input line 130.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 132.
+(Font)              <8> on input line 130.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 132.
+(Font)              <6> on input line 130.
 <monash2.png, id=6, 2730.2pt x 791.95876pt>
 File: monash2.png Graphic file (type png)
 <use monash2.png>
-Package pdftex.def Info: monash2.png  used on input line 133.
+Package pdftex.def Info: monash2.png  used on input line 131.
 (pdftex.def)             Requested size: 147.09949pt x 42.67912pt.
 
 Overfull \hbox (33.28851pt too wide) has occurred while \output is active
@@ -409,27 +409,27 @@ Overfull \hbox (33.28851pt too wide) has occurred while \output is active
 <MBSportrait.jpg, id=7, 621.32124pt x 503.8825pt>
 File: MBSportrait.jpg Graphic file (type jpg)
 <use MBSportrait.jpg>
-Package pdftex.def Info: MBSportrait.jpg  used on input line 133.
+Package pdftex.def Info: MBSportrait.jpg  used on input line 131.
 (pdftex.def)             Requested size: 52.61725pt x 42.67912pt.
 LaTeX Font Info:    Font shape `T1/fve/m/n' will be
-(Font)              scaled to size 8.09995pt on input line 133.
-LaTeX Font Info:    Trying to load font information for T1+fvs on input line 133.
+(Font)              scaled to size 8.09995pt on input line 131.
+LaTeX Font Info:    Trying to load font information for T1+fvs on input line 131.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/bera/t1fvs.fd
 File: t1fvs.fd 2004/09/07 scalable font definitions for T1/fvs.
 )
 LaTeX Font Info:    Font shape `T1/fvs/m/n' will be
-(Font)              scaled to size 8.09995pt on input line 133.
+(Font)              scaled to size 8.09995pt on input line 131.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `fvs' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 133.
+(Font)              <9> on input line 131.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 133.
+(Font)              <5> on input line 131.
 LaTeX Font Info:    Font shape `T1/fvs/b/n' will be
-(Font)              scaled to size 8.09995pt on input line 133.
-LaTeX Font Info:    Trying to load font information for U+fontawesometwo on input line 133.
+(Font)              scaled to size 8.09995pt on input line 131.
+LaTeX Font Info:    Trying to load font information for U+fontawesometwo on input line 131.
 (/Users/cookd/Library/TinyTeX/texmf-dist/tex/latex/fontawesome/ufontawesometwo.fd
 File: ufontawesometwo.fd 2016/05/22 Font definitions for U/fontawesometwo.
 )
@@ -437,17 +437,17 @@ File: ufontawesometwo.fd 2016/05/22 Font definitions for U/fontawesometwo.
 <AACSB.png, id=10, 1204.5pt x 406.51875pt>
 File: AACSB.png Graphic file (type png)
 <use AACSB.png>
-Package pdftex.def Info: AACSB.png  used on input line 133.
+Package pdftex.def Info: AACSB.png  used on input line 131.
 (pdftex.def)             Requested size: 50.57945pt x 17.07182pt.
 <EQUIS.png, id=11, 619.56468pt x 380.92313pt>
 File: EQUIS.png Graphic file (type png)
 <use EQUIS.png>
-Package pdftex.def Info: EQUIS.png  used on input line 133.
+Package pdftex.def Info: EQUIS.png  used on input line 131.
 (pdftex.def)             Requested size: 27.76575pt x 17.07182pt.
 <AMBA.png, id=12, 276.03125pt x 83.31125pt>
 File: AMBA.png Graphic file (type png)
 <use AMBA.png>
-Package pdftex.def Info: AMBA.png  used on input line 133.
+Package pdftex.def Info: AMBA.png  used on input line 131.
 (pdftex.def)             Requested size: 56.5615pt x 17.07182pt.
 [1
 
@@ -456,15 +456,15 @@ Package rerunfilecheck Info: File `coverletter.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 13038 strings out of 477984
- 211787 string characters out of 5838561
+ 13041 strings out of 477984
+ 211811 string characters out of 5838561
  1860388 words of memory out of 5000000
  33002 multiletter control sequences out of 15000+600000
- 535008 words of font info for 79 fonts, out of 8000000 for 9000
+ 535247 words of font info for 81 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  75i,11n,76p,1008b,504s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/cookd/Library/TinyTeX/texmf-dist/fonts/enc/dvips/fontawesome/fontawesometwo.enc}{/Users/cookd/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/fontawesome/FontAwesome.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/bera/fver8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/bera/fvsb8a.pfb></Users/cookd/Library/TinyTeX/texmf-dist/fonts/type1/public/bera/fvsr8a.pfb>
-Output written on coverletter.pdf (1 page, 467706 bytes).
+Output written on coverletter.pdf (1 page, 467723 bytes).
 PDF statistics:
  48 PDF objects out of 1000 (max. 8388607)
  25 compressed objects within 1 object stream

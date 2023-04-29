@@ -21,8 +21,6 @@ Please consider our manuscript "A Plot is Worth a Thousand Tests: Assessing Resi
 The paper describes a problem with conventional testing for doing residual diagnostics. The work arose from preliminary research into building a computer vision model to process residual plots. When collecting the training data, from crowd-sourcing evaluations of lineups on simulated residuals, we discovered that the power of the conventional tests are much higher than the visual test. The difference was even bigger than reported in the validation of visual inference study conducted by Majumder, Hofmann and Cook (2013) in JASA, where the comparison was on regression coefficients. So we initially thought, oh this is bad for visual inference, but actually it's good for visual evaluation of residual plots and bad for conventional testing. The paper explains why this is. It should be of interest to readers, epecially for analysts interested in diagnosing their models.  
 
 \bigskip
-We believe that it is a good fit for the Journal of Computational and Graphical Statistics. 
+Thank you for the consideration of this manuscript. We believe that it is a good fit for the Journal of Computational and Graphical Statistics. 
 
 \bigskip
-Thank you for the consideration of this manuscript.
-

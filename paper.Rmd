@@ -1388,7 +1388,7 @@ p_value_cmp_dat %>%
   coord_fixed()
 ```
 
-```{r heter-example, fig.pos="t!", fig.height = 7, fig.width = 7, fig.cap = 'The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot (position 17) contains a ``butterfly" shape. It has a log effect size of $ 3.76$, and visibly displays heteroskedasticity, making it somewhat surprising that it is not detected by the BP test.'}
+```{r heter-example, fig.pos="t!", fig.height = 7, fig.width = 7, fig.cap = 'The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot (position 17) contains a ``butterfly" shape. It visibly displays heteroskedasticity, making it somewhat surprising that it is not detected by the BP test.'}
 # plot heter-331
 VI_MODEL$plot_lineup(vi_lineup$heter_331$data, 
                      remove_grid_line = TRUE, 
@@ -1396,7 +1396,7 @@ VI_MODEL$plot_lineup(vi_lineup$heter_331$data,
                      remove_axis = TRUE)
 ```
 
-Because the power curve of the visual tests are a shift to the right of the conventional test (Figures \ref{fig:polypower} and \ref{fig:heter-example}) we examined whether adjusting the significance level (to .001, .0001, .00001, ...) of the conventional test would generate similar decisions to that of the visual test. Interestingly, it doesn't: despite resulting less rejections, neither the RESET or BP tests come to complete agreement with the visual test (see Appendix).
+Because the power curve of the visual tests are a shift to the right of the conventional test (Figures \ref{fig:polypower} and \ref{fig:heterpower}) we examined whether adjusting the significance level (to .001, .0001, .00001, ...) of the conventional test would generate similar decisions to that of the visual test. Interestingly, it doesn't: despite resulting less rejections, neither the RESET or BP tests come to complete agreement with the visual test (see Appendix).
 
 ## Effect of amount of non-linearity\label{nonlin-analysis}
 

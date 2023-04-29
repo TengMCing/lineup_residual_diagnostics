@@ -365,7 +365,7 @@ it is evidence for the rejection of \(H_0\). In fact, the actual
 residual plot is obtained from a misspecified regression model with
 missing non-linear terms.
 
-Data used in the \(m - 1\) null plots is typically simulated. In
+Data used in the \(m - 1\) null plots needs to be simulated. In
 regression diagnostics, sampling data consistent with \(H_0\) is
 equivalent to sampling data from the assumed model. As
 \citet{buja_statistical_2009} suggested, \(H_0\) is usually a composite
@@ -380,7 +380,7 @@ sampling. The conditional distribution given a minimal sufficient
 statistic is the best justified reference distribution among the three
 \citep{buja_statistical_2009}. Essentially, null residuals can be
 simulated by regressing \(N\) i.i.d standard normal random draws on the
-predictors, then rescaling it by the ratio of residual sum of square in
+predictors, then re-scaling it by the ratio of residual sum of square in
 two regressions.
 
 The effectiveness of lineup protocol for regression analysis has been
@@ -1194,12 +1194,12 @@ conventional test.
 
 }
 
-\caption{The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot (position 17) contains a ``butterfly" shape. It has a log effect size of $ 3.76$, and visibly displays heteroskedasticity, making it somewhat surprising that it is not detected by the BP test.}\label{fig:heter-example}
+\caption{The single heteroskedasticity lineup that is rejected by the visual test but not by the BP test. The data plot (position 17) contains a ``butterfly" shape. It visibly displays heteroskedasticity, making it somewhat surprising that it is not detected by the BP test.}\label{fig:heter-example}
 \end{figure}
 
 Because the power curve of the visual tests are a shift to the right of
 the conventional test (Figures \ref{fig:polypower} and
-\ref{fig:heter-example}) we examined whether adjusting the significance
+\ref{fig:heterpower}) we examined whether adjusting the significance
 level (to .001, .0001, .00001, \ldots) of the conventional test would
 generate similar decisions to that of the visual test. Interestingly, it
 doesn't: despite resulting less rejections, neither the RESET or BP

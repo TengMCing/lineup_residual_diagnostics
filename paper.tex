@@ -135,13 +135,13 @@ whether any pattern perceived is consistent with randomness, purely
 sampling variability, or noise. It is especially difficult to teach this
 to new analysts and students \citep{loy2021bringing}. To address this,
 statistical tests are available to check for non-linear patterns
-\citep[e.g.][]{ramsey_tests_1969}, and heteroskedasticity
-\citep[e.g.][]{breusch_simple_1979}.
+\citep[e.g.][]{ramsey1969tests}, and heteroskedasticity
+\citep[e.g.][]{breusch1979simple}.
 
 Linear regression is a well-established procedure, and there is
 considerable literature describing diagnostic procedures, e.g.
 \citet{draper1998applied}, \citet{montgomery1982introduction},
-\citet{belsley_regression_1980}, \citet{cook_applied_1999} and
+\citet{belsley1980regression}, \citet{cook1999applied} and
 \citet{cook1982residuals}. Interestingly, despite the abundance of
 conventional tests, ALL of these writings advise that plotting residuals
 is an essential tool for diagnosing regression model problems:
@@ -187,7 +187,7 @@ plots}\label{departures-from-good-residual-plots}}
 Graphical summaries where residuals are plotted against fitted values,
 or other functions of the predictors (expected to be approximately
 orthogonal to the residuals) are considered to be the most important
-residual plots by \citet{cook_applied_1999}. Figure
+residual plots by \citet{cook1999applied}. Figure
 \ref{fig:residual-plot-common-departures}A shows an example of an ideal
 residual plot where points are symmetrically distributed around the
 horizontal zero line (red), with no discernible patterns. There can be
@@ -230,7 +230,7 @@ vertical spread. Unlike non-linearity and heteroskedasticity,
 non-normality is usually detected with a different type of residual
 plot: a histogram or normal probability plot. Because we focus on
 scatterplots, non-normality is not one of the departures examined in
-depth in this paper. (loy\_variations\_2016 discuss related work on
+depth in this paper. (\citet{loy2016variations} discuss related work on
 non-normality checking.)
 
 \hypertarget{conventionally-testing-for-departures}{%
@@ -239,21 +239,20 @@ departures}\label{conventionally-testing-for-departures}}
 
 Many different hypothesis tests are available to detect specific model
 defects. For example, the presence of heteroskedasticity can usually be
-tested by applying the White test
-\citep{white_heteroskedasticity-consistent_1980} or the Breusch-Pagan
-(BP) test \citep{breusch_simple_1979}, which are both derived from the
-Lagrange multiplier test \citep{silvey1959lagrangian} principle that
-relies on the asymptotic properties of the null distribution. To test
-specific forms of non-linearity, one may apply the F-test as a model
-structural test to examine the significance of specific polynomial and
-non-linear forms of the predictors, or the significance of proxy
-variables as in the Ramsey Regression Equation Specification Error Test
-(RESET) \citep{ramsey_tests_1969}. The Shapiro-Wilk (SW) normality test
-\citep{shapiro1965analysis} is the most widely used test of
-non-normality included by many of the statistical software programs. The
-Jarque-Bera test \citep{jarque1980efficient} is also used to directly
-check whether the sample skewness and kurtosis match a normal
-distribution.
+tested by applying the White test \citep{white1980heteroskedasticity} or
+the Breusch-Pagan (BP) test \citep{breusch1979simple}, which are both
+derived from the Lagrange multiplier test \citep{silvey1959lagrangian}
+principle that relies on the asymptotic properties of the null
+distribution. To test specific forms of non-linearity, one may apply the
+F-test as a model structural test to examine the significance of
+specific polynomial and non-linear forms of the predictors, or the
+significance of proxy variables as in the Ramsey Regression Equation
+Specification Error Test (RESET) \citep{ramsey1969tests}. The
+Shapiro-Wilk (SW) normality test \citep{shapiro1965analysis} is the most
+widely used test of non-normality included by many of the statistical
+software programs. The Jarque-Bera test \citep{jarque1980efficient} is
+also used to directly check whether the sample skewness and kurtosis
+match a normal distribution.
 
 Table \ref{tab:example-residual-plot-table} displays the \(p\)-values
 from the RESET, BP and SW tests applied to the residual plots in Figure
@@ -261,12 +260,12 @@ from the RESET, BP and SW tests applied to the residual plots in Figure
 were computed using the \texttt{resettest} and \texttt{bptest} functions
 from the R package \texttt{lmtest}, respectively. The SW test was
 computed using the \texttt{shapiro.test} from the core R package
-\texttt{stats}. (Although we didn't use it, it's useful to know that the
-R package \texttt{skedastic} \citep{skedastic} also contains a large
-collection of functions to test for heteroskedasticity.) Although, the
-RESET test is exact, it requires the selection of a power parameter.
-\citet{ramsey_tests_1969} recommends a power of four, which we adopted
-in our analysis. The BP and SW tests are approximate.
+\texttt{stats}. \footnote{Although we didn't use it, it's useful to know
+  that the R package \texttt{skedastic} \citep{skedastic} also contains
+  a large collection of functions to test for heteroskedasticity.}
+Although, the RESET test is exact, it requires the selection of a power
+parameter. \citet{ramsey1969tests} recommends a power of four, which we
+adopted in our analysis. The BP and SW tests are approximate.
 
 We would expect the RESET test for non-linearity to reject residual plot
 B, the BP test for heteroskedasticity to reject the residual plot C, and
@@ -277,12 +276,12 @@ exhibiting structure that they weren't designed for.
 \citet{cook1982residuals} explain that most residual-based tests for
 particular types of departure from model assumptions are also sensitive
 to other types of departures. This could be considered a Type III error
-(XXXREF), where the null hypothesis of good residuals is correctly
-rejected but for the wrong reason. Also, some types of departure can
-have elements of other types of departure, for example, non-linearity
-could be viewed as heteroskedasticity. Additionally, other data problems
-such as outliers can trigger rejection (or not) of the null hypothesis
-\citep{cook_applied_1999}.
+\citep{kimball1957errors}, where the null hypothesis of good residuals
+is correctly rejected but for the wrong reason. Also, some types of
+departure can have elements of other types of departure, for example,
+non-linearity could be viewed as heteroskedasticity. Additionally, other
+data problems such as outliers can trigger rejection (or not) of the
+null hypothesis \citep{cook1999applied}.
 
 With large sample sizes, hypothesis tests may reject the null hypothesis
 when there is only a small effect. (A good discussion can be found in
@@ -318,21 +317,21 @@ lineups}\label{visual-test-procedure-based-on-lineups}}
 The examination of data plots to infer signal or patterns (or lack
 thereof) is fraught with variation in the human ability to interpret and
 decode the information embedded in a graph
-\citep{cleveland_graphical_1984}. Human examination of diagnostic plots
+\citep{cleveland1984graphical}. Human examination of diagnostic plots
 can feel subjective. Ideally we would expect visual evaluation to be
 done objectively with small amounts of human-to-human variation in
 reading data plots, but we cannot assume this is the case.
 
 In practice, over-interpretation of a single plot is common. For
-instance, \citet{roy_chowdhury_using_2015} described a published example
-where authors over-interpreted separation between gene groups from a
+instance, \citet{roy2015using} described a published example where
+authors over-interpreted separation between gene groups from a
 two-dimensional projection of a linear discriminant analysis.
-\citet{roy_chowdhury_using_2015} showed that there were no differences
-in the expression levels between the gene groups. One solution to
+\citet{roy2015using} showed that there were no differences in the
+expression levels between the gene groups. One solution to
 over-interpretation is to examine the plot in the context of natural
 sampling variability assumed by the model, called the lineup protocol,
-as proposed in \citet{buja_statistical_2009}.
-\citet{majumder_validation_2013} showed that the lineup protocol is
+as proposed in \citet{buja2009statistical}.
+\citet{majumder2013validation} showed that the lineup protocol is
 analogous to the null hypothesis significance testing framework. The
 protocol consists of \(m\) randomly placed plots, where one plot is the
 data plot, and the remaining \(m - 1\) plots, referred to as the
@@ -368,7 +367,7 @@ missing non-linear terms.
 Data used in the \(m - 1\) null plots needs to be simulated. In
 regression diagnostics, sampling data consistent with \(H_0\) is
 equivalent to sampling data from the assumed model. As
-\citet{buja_statistical_2009} suggested, \(H_0\) is usually a composite
+\citet{buja2009statistical} suggested, \(H_0\) is usually a composite
 hypothesis controlled by nuisance parameters. Since regression models
 can have various forms, there is no general solution to this problem,
 but it sometimes can be reduced to a so called ``reference
@@ -378,13 +377,13 @@ conditional distribution given a minimal sufficient statistic under
 estimated under \(H_0\), and (iii) Bayesian posterior predictive
 sampling. The conditional distribution given a minimal sufficient
 statistic is the best justified reference distribution among the three
-\citep{buja_statistical_2009}. Essentially, null residuals can be
+\citep{buja2009statistical}. Essentially, null residuals can be
 simulated by regressing \(N\) i.i.d standard normal random draws on the
 predictors, then re-scaling it by the ratio of residual sum of square in
 two regressions.
 
 The effectiveness of lineup protocol for regression analysis has been
-validated by \citet{majumder_validation_2013} under relatively simple
+validated by \citet{majumder2013validation} under relatively simple
 settings with up to two predictors. Their results suggest that visual
 tests are capable of testing the significance of a single predictor with
 a similar power to a t-test, though they express that in general it is
@@ -448,7 +447,7 @@ observers, the visual \(p\)-value can be seen as the probability of
 having as many or more participants detect the data plot than the
 observed result.
 
-The approach used in \citet{majumder_validation_2013} is as follows.
+The approach used in \citet{majumder2013validation} is as follows.
 Define \(X_j = \{0,1\}\) to be a Bernoulli random variable measuring
 whether participant \(j\) detected the data plot, and
 \(X = \sum_{j=1}^{K}X_j\) be the total number of observers who detected
@@ -566,8 +565,8 @@ significance level.
 The power of a visual test on the other hand, may additionally depend on
 the ability of the particular participant, as the skill of each
 individual may affect the number of observers who identify the data plot
-from the lineup \citep{majumder_validation_2013}. To address this issue,
-\citet{majumder_validation_2013} models the probability of participant
+from the lineup \citep{majumder2013validation}. To address this issue,
+\citet{majumder2013validation} models the probability of participant
 \(j\) correctly picking the data plot from lineup \(l\) using a
 mixed-effect logistic regression, with participants treated as random
 effect. Then, the estimated power of a visual test evaluated by a single
@@ -582,11 +581,11 @@ the calculation of the \(p\)-value (See Equation
 \ref{eq:pvalue-beta-binomial-approx}). Therefore, we directly estimate
 the probability of a lineup being rejected by assuming that individual
 skill has negligible effect on the variation of the power. This
-assumption is not necessary true, but it helps to simplify the model
-structure, thereby obviating a costly large-scale experiment to estimate
-complex covariance matrices. The same model given in Equation
-\ref{eq:logistic-regression-1-1} is applied to model the power of a
-visual test.
+assumption essentially averages out the subject ability and helps to
+simplify the model structure, thereby obviating a costly large-scale
+experiment to estimate complex covariance matrices. The same model given
+in Equation \ref{eq:logistic-regression-1-1} is applied to model the
+power of a visual test.
 
 To study various factors contributing to the power of both tests, the
 same logistic regression model is fit on different subsets of the
@@ -1020,12 +1019,14 @@ In each lineup evaluation, the participant was asked to select one or
 more plots that are most different from others, provide a reason for
 their selections, and evaluate how different they think the selected
 plots are from others. If there is no noticeable difference between
-plots in a lineup, participants were permitted to select zero plots
-without providing the reason. No participant was shown the same lineup
-twice. Information about preferred pronouns, age group, education, and
-previous experience in visual experiments were also collected. A
-participant's submission was only included in the analysis if the data
-plot is identified for at least one attention check.
+plots in a lineup, participants had the option to select zero plots
+without the need to provide a reason. During the process of recording
+the responses, a zero selection was considered to be equivalent to
+selecting all 20 plots. No participant was shown the same lineup twice.
+Information about preferred pronouns, age group, education, and previous
+experience in visual experiments were also collected. A participant's
+submission was only included in the analysis if the data plot is
+identified for at least one attention check.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -1040,7 +1041,9 @@ results of participants who were clearly not making an honest effort
 significance (see Section \ref{sig}) there were 720 evaluations of 36
 null lineups. Neither the attention checks nor null lineups were used in
 the subsequent analysis. The de-identified data, \texttt{vi\_survey}, is
-made available in the R package, \texttt{visage}.
+made available in the R package, \texttt{visage}.\footnote{The package
+  \texttt{visag} is currently available on GitHub
+  (\url{https://github.com/TengMCing/visage})}
 
 The data was collected on lineups constructed from four different fitted
 value distributions: uniform, normal, skewed and discrete. More data was
@@ -1123,18 +1126,19 @@ not useful for detecting heteroskeadsticity, as expected.
 
 Overall, the results show that the conventional tests are more sensitive
 than the visual test. The conventional tests do have higher power for
-the patterns they are designed to detect, and are generally unable to
-detect other patterns. The visual test doesn't require specifying the
-pattern ahead of time, relying purely on whether the observed residual
-plot is detectably different from ``good'' residual plots. They will
-perform equally well regardless of the type of model defect. This aligns
-with the advice of experts on residual analysis, who consider residual
-plot analysis to be an indispensable tool for diagnosing model problems.
-What we gain from using a visual test for this purpose is the removal of
-any subjective arguments about whether a pattern is visible or not. The
-lineup protocol provides the calibration for detecting patterns: if the
-pattern in the data plot cannot be distinguished from the patterns in
-good residual plots, then no discernible problem with the model exists.
+the patterns they are designed to detect, but they typically fail to
+detect other patterns unless those patterns are particularly strong. The
+visual test doesn't require specifying the pattern ahead of time,
+relying purely on whether the observed residual plot is detectably
+different from ``good'' residual plots. They will perform equally well
+regardless of the type of model defect. This aligns with the advice of
+experts on residual analysis, who consider residual plot analysis to be
+an indispensable tool for diagnosing model problems. What we gain from
+using a visual test for this purpose is the removal of any subjective
+arguments about whether a pattern is visible or not. The lineup protocol
+provides the calibration for detecting patterns: if the pattern in the
+data plot cannot be distinguished from the patterns in good residual
+plots, then no discernible problem with the model exists.
 
 \hypertarget{comparison-of-test-decisions-based-on-p-values}{%
 \subsection{\texorpdfstring{Comparison of test decisions based on
@@ -1217,7 +1221,7 @@ higher power for lower orders of Hermite polynomials, and the power
 drops substantially for the ``triple-U'' shape. To understand why this
 is, we return to the application of the RESET test, which requires a
 parameter indicating degree of fitted values to test for, and the
-recommendation is to generically use four \citep{ramsey_tests_1969}.
+recommendation is to generically use four \citep{ramsey1969tests}.
 However, the ``triple-U'' shape is constructed from the Hermite
 polynomials using power up to 18. If the RESET test had been applied
 using a higher power of no less than six, the power curve of
@@ -1400,7 +1404,7 @@ run in our study website.
 
 The article was created with R packages \texttt{rticles}
 \citep{rticles}, \texttt{knitr} \citep{knitr} and \texttt{rmarkdown}
-\citep{rmarkdown}. The project's Github repository
+\citep{rmarkdown}. The project's GitHub repository
 (\url{https://github.com/TengMCing/lineup_residual_diagnostics})
 contains all materials required to reproduce this article.
 
@@ -1415,7 +1419,7 @@ the effect size, the effect of data collection period, and the estimate
 of \(\alpha\).
 
 \bibliographystyle{tfcad}
-\bibliography{paper.bib}
+\bibliography{ref.bib}
 
 
 

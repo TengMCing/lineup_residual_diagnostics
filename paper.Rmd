@@ -311,7 +311,7 @@ Linear regression is a well-established procedure, and there is considerable lit
 
 \noindent The common wisdom of experts is that plotting the residuals is indispensable for diagnosing model fits. The ubiquity of this advice is *curious*: investigating why, is the subject of this paper. 
 
-The paper is structured as follows. The next section describes the background on the types of departures that one expects to detect, and outlines a formal statistical process for reading residual plots, called visual inference. Section \ref{experimental-design} details the experimental design to compare the decisions made by formal hypothesis testing, and how humans would read diagnostic plots. The results are reported in Section \ref{results}. We conclude with a discussion of the presented work, and ideas for future directions.
+The paper is structured as follows. Section \ref{background} describes the background on the types of departures that one expects to detect, and outlines a formal statistical process for reading residual plots, called visual inference. Section \ref{significance-calculation} describes the calculation of the statistical significance and power of the test. Section \ref{experimental-design} details the experimental design to compare the decisions made by formal hypothesis testing, and how humans would read diagnostic plots. The results are reported in Section \ref{results}. We conclude with a discussion of the presented work, and ideas for future directions.
 
 # Background
 
@@ -444,7 +444,7 @@ Data used in the $m - 1$ null plots needs to be simulated. In regression diagnos
 
 The effectiveness of lineup protocol for regression analysis has been validated by @majumder2013validation under relatively simple settings with up to two predictors. Their results suggest that visual tests are capable of testing the significance of a single predictor with a similar power to a t-test, though they express that in general it is unnecessary to use visual inference if there exists a conventional test, and they do not expect the visual test to perform equally well as the conventional test. In their third experiment, where there is not a conventional test, visual test outperforms the conventional test by a large margin. This is encouraging, as it supports the use of visual inference in situations where there are no existing statistical testing procedures. Visual inference has also been integrated into diagnostics for hierarchical linear models where the lineup protocol is used to judge the assumptions of linearity, normality and constant error variance for both the level-1 and level-2 residuals [@loy2013diagnostic, @loy2014hlmdiag and @loy2015you].
 
-# Calculation of statistical significance and test power
+# Calculation of statistical significance and test power {#significance-calculation}
 
 ## What is being tested?
 

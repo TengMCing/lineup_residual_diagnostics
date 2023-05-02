@@ -82,12 +82,19 @@ VanderPlas. Email: \href{mailto:susan.vanderplas@unl.edu}{\nolinkurl{susan.vande
 
 \begin{abstract}
 Regression experts consistently recommend plotting residuals for model
-diagnosis, despite the existence of numerous hypothesis test procedures.
-This paper provides evidence for why this is good advice, using data
+diagnosis, despite the availability of many numerical hypothesis test
+procedures designed to use residuals to assess problems with a model
+fit. Here we provide evidence for why this is good advice using data
 from a visual inference experiment. We show how conventional tests are
-too sensitive to be practically useful, and how the lineup protocol can
-be used to yield reliable and consistent reading of residual plots for
-better model diagnosis.
+too sensitive, which means that too often the conclusion would be that
+the model fit is inadequate. The experiment uses the lineup protocol
+which puts a residual plot in the context of null plots. This helps
+generate reliable and consistent reading of residual plots for better
+model diagnosis. It can also help in an obverse situation where a
+conventional test would fail to detect a problem with a model due to
+contaminated data. The lineup protocol also serves as an omnibus test,
+capable of detecting a range of departures from good residuals
+simultaneously.
 \end{abstract}
 
 \begin{keywords}
@@ -472,7 +479,7 @@ plots but the same data plot are shown to \(K\) participants, and (3)
 the same lineup is shown to \(K\) participants. Scenario 3 is the most
 feasible to apply, but has the most dependencies to accommodate for the
 \(p\)-value calculation. For Scenario 3, VanderPlas et al propose
-modeling the probability of plot \(i\) being selected from a lineup as
+modelling the probability of plot \(i\) being selected from a lineup as
 \(\theta_i\), where \(\theta_i \sim Dirichlet(\alpha)\) for
 \(i=1,...,m\) and \(\alpha > 0\). The number of times plot \(i\) being
 selected in \(K\) evaluations is denoted as \(c_i\). In case participant
@@ -546,7 +553,7 @@ can be quantified in terms of effect size \(E\) to measure the strength
 of the residual departures from the model assumptions. Details about the
 calculation of effect size are provided in Section \ref{effect-size}
 after the introduction of the simulation model used in our experiment.
-The theoretical power of a test is sometimes not a trival solution, but
+The theoretical power of a test is sometimes not a trivial solution, but
 it can be estimated if the data generating process is known. We use a
 predefined model to generate a large set of simulated data under
 different effect sizes, and record if the conventional test rejects
@@ -841,7 +848,7 @@ Three different sample sizes were used in our experiment:
 \(n = 50, 100, 300\). Figure \ref{fig:different-n} shows the non-linear
 ``S'' shape for different sample sizes. We expect signal strength to
 decline in the simulated data plots with smaller \(n\). A sample size of
-300 is typically enough for structure to be visible in a scatter plot
+300 is typically enough for structure to be visible in a scatterplot
 reliably. Beyond 300, structure can be obscured by over-plotting, and a
 different type of display that included transparency, binning or density
 mapping, might be needed.
@@ -1123,7 +1130,7 @@ reject at around effect size 2.5. Interestingly, the power curve for the
 SW test (for non-normality) is only slightly different to that of the
 visual test, suggesting that it performs reasonably for detecting
 heteroskedasticity, too. The power curve for the BP test suggests it is
-not useful for detecting heteroskeadsticity, as expected.
+not useful for detecting heteroskedasticity, as expected.
 
 Overall, the results show that the conventional tests are more sensitive
 than the visual test. The conventional tests do have higher power for
@@ -1335,7 +1342,7 @@ echoed in the results reported in these articles.
 \section{Conclusions}\label{conclusions}}
 
 Regression analysis experts suggest that residual plots are
-indispensible methods for assessing model fit. We conducted a perceptual
+indispensable methods for assessing model fit. We conducted a perceptual
 experiment using visual inference to assess this oft-repeated advice.
 The experiment tested two primary departures from good residuals:
 non-linearity and heteroskedasticity.
@@ -1354,7 +1361,7 @@ happen even when downstream analysis and results would not be
 significantly affected by the small departures from a good fit. The
 results from human evaluations provide a more practical solution, which
 reinforces the statements from regression experts that residual plots
-are an indispensible method for model diagnostics.
+are an indispensable method for model diagnostics.
 
 It is important to note that residual plots need to be delivered as a
 lineup, embedded in a field of null plots. A residual plot may contain
@@ -1400,7 +1407,7 @@ These \texttt{R} packages are used for the work: \texttt{cli}
 \citep{patchwork}, \texttt{rcartocolor} \citep{rcartocolor}. The study
 website is powered by \texttt{PythonAnywhere} \citep{pythonanywhere} and
 the \texttt{Flask} web framework \citep{flask}. The \texttt{jsPsych}
-framework \citep{jspsych} is used to create behavioral experiments that
+framework \citep{jspsych} is used to create behavioural experiments that
 run in our study website.
 
 The article was created with R packages \texttt{rticles}

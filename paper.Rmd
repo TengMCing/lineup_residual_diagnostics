@@ -348,7 +348,7 @@ bind_rows(
   ylab("Residuals")
 ```
 
-Model misspecification occurs if functions of predictors that needed to accurately describe the relationship between response and predictors are omitted. Any non-linear pattern visible in the residual plot could be indicative of this problem. An example residual plot containing visual pattern of non-linearity is shown in Figure \ref{fig:residual-plot-common-departures}B. One can clearly observe the "S-shape" from the residual plot, which corresponds to cubic term that should have been included in the model.
+Model misspecification occurs if functions of predictors that needed to accurately describe the relationship with the response are incorrectly specified. This includes instances where a higher-order polynomial term of a predictor is wrongfully omitted. Any non-linear pattern visible in the residual plot could be indicative of this problem. An example residual plot containing visual pattern of non-linearity is shown in Figure \ref{fig:residual-plot-common-departures}B. One can clearly observe the "S-shape" from the residual plot, which corresponds to cubic term that should have been included in the model.
 
 Heteroskedasticity refers to the presence of non-constant error variance in a regression model. It indicates that the distribution of residuals depends on the predictors, violating the independence assumption. This can be seen in a residual plot as an inconsistent spread of the residuals relative to the fitted values or predictors. An example is the "butterfly" shape  shown in Figure \ref{fig:residual-plot-common-departures}C, or a "left-triangle" and "right-triangle" shape where the smallest variance occurs at one side of the horizontal axis.
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.14)  3 MAY 2023 10:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.14)  4 MAY 2023 14:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -384,11 +384,11 @@ Package hyperref Info: Link coloring OFF on input line 112.
 \@outlinefile=\write3
 \openout3 = `coverletter.out'.
 
-<sigfile.png, id=4, 1348.237pt x 722.7pt>
-File: sigfile.png Graphic file (type png)
-<use sigfile.png>
-Package pdftex.def Info: sigfile.png  used on input line 130.
-(pdftex.def)             Requested size: 79.61523pt x 42.67912pt.
+<signature.png, id=4, 593.21625pt x 196.735pt>
+File: signature.png Graphic file (type png)
+<use signature.png>
+Package pdftex.def Info: signature.png  used on input line 130.
+(pdftex.def)             Requested size: 128.68857pt x 42.67912pt.
 (/Users/patrickli/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
@@ -453,20 +453,20 @@ Package pdftex.def Info: AMBA.png  used on input line 131.
 (pdftex.def)             Requested size: 56.5615pt x 17.07182pt.
 [1
 
-{/Users/patrickli/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./sigfile.png> <./monash2.png> <./MBSportrait.jpg> <./AACSB.png> <./EQUIS.png> <./AMBA.png>] (./coverletter.aux)
+{/Users/patrickli/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./signature.png> <./monash2.png> <./MBSportrait.jpg> <./AACSB.png> <./EQUIS.png> <./AMBA.png>] (./coverletter.aux)
 Package rerunfilecheck Info: File `coverletter.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 13077 strings out of 477984
- 213550 string characters out of 5838233
+ 13076 strings out of 477984
+ 213555 string characters out of 5838233
  1860388 words of memory out of 5000000
  33038 multiletter control sequences out of 15000+600000
  535008 words of font info for 79 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  63i,11n,67p,1008b,504s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/Users/patrickli/Library/TinyTeX/texmf-dist/fonts/enc/dvips/fontawesome/fontawesometwo.enc}{/Users/patrickli/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/fontawesome/FontAwesome.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/bera/fver8a.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/bera/fvsb8a.pfb></Users/patrickli/Library/TinyTeX/texmf-dist/fonts/type1/public/bera/fvsr8a.pfb>
-Output written on coverletter.pdf (1 page, 467738 bytes).
+Output written on coverletter.pdf (1 page, 443071 bytes).
 PDF statistics:
  48 PDF objects out of 1000 (max. 8388607)
  25 compressed objects within 1 object stream

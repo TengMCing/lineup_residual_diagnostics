@@ -5,7 +5,7 @@ fromtitle: PhD student
 fromWWW: https://github.com/TengMCing
 fromemail: patrick.li@monash.edu
 fromphone: +61 3 9905 2608
-fromsignature: sigfile.png
+fromsignature: signature.png
 toname: Editors
 toaddress: Journal of Computational and Graphical Statistics
 opening: Dear Dr Jones and Dr Liang,
@@ -14,11 +14,12 @@ spacing: 1.4
 output: monash::letter
 ---
 
+
 \bigskip
 Please consider our manuscript "A Plot is Worth a Thousand Tests: Assessing Residual Diagnostics with the Lineup Protocol" for publication in the Journal of Computational and Graphical Statistics.
 \bigskip
 
-The paper describes a problem with conventional testing for doing residual diagnostics. The work arose from preliminary research into building a computer vision model to process residual plots. When collecting the training data, from crowd-sourcing evaluations of lineups on simulated residuals, we discovered that the power of the conventional tests are much higher than the visual test. The difference was even bigger than reported in the validation of visual inference study conducted by Majumder, Hofmann and Cook (2013) in JASA, where the comparison was on regression coefficients. So we initially thought, oh this is bad for visual inference, but actually it's good for visual evaluation of residual plots and bad for conventional testing. The paper explains why this is. It should be of interest to readers, especially for analysts interested in diagnosing their models.  
+The paper describes a problem with conventional testing for doing residual diagnostics. The work arose from preliminary research into building a computer vision model to process residual plots. When collecting the training data, from crowd-sourcing evaluations of lineups on simulated residuals, we discovered that the power of the conventional tests are much higher than the visual test. The difference was even bigger than reported in the validation of visual inference study conducted by Majumder, Hofmann and Cook (2013) in JASA, where the comparison was on regression coefficients. While we initially thought this is bad for visual inference, on further investigation we realised this provides empirical support for the wide-spread recommendation of visual evaluation of residual plots. The paper should be of interest to readers, especially useful for model diagnostics.
 
 \bigskip
 Thank you for the consideration of this manuscript. We believe that it is a good fit for the Journal of Computational and Graphical Statistics. 

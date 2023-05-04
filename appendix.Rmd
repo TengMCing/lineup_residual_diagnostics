@@ -287,7 +287,7 @@ heter_conv_sim <- heter_conv_sim %>%
 
 Effect size can be defined as the difference of a parameter for a particular model or distribution,  or a statistic derived from a sample. Importantly, it needs to reflect the treatment we try to measure. Centred on a conventional statistical test, we usually can deduce the effect size from the test statistic by substituting the null parameter value. When considering the diagnostics of residual departures, there exist many possibilities of test statistics for a variety of model assumptions. Meanwhile, diagnostic plots such as the residual plot have no general agreement on measuring how strong a model violation pattern is. To build a bridge between various residual-based tests, and the visual test, we focus on the shared information embedded in the testing procedures, which is the distribution of residuals. When comes to comparison of distribution, Kullback-Leibler divergence [@kullback1951information] is a classical way to represent the information loss or entropy increase caused by the approximation to the true distribution, which in our case, the inefficiency due to the use of false model assumptions.
 
-Following the terminology introduced by @kullback1951information, $P$ represents the measured probability distribution, and $Q$ represents the assumed probability distribution. The Kullback-Leibler divergence is defined as $\int_{-\infty}^{\infty}log(p(x)/q(x))p(x)dx$, where $p(.)$ and $q(.)$ denote probability densities of $P$ and $Q$. 
+Following the terminology introduced by @kullback1951information, $P$ represents the measured probability distribution, and $Q$ represents the assumed probability distribution. The Kullback-Leibler divergence is defined as $\int_{-\infty}^{\infty}\log(p(x)/q(x))p(x)dx$, where $p(.)$ and $q(.)$ denote probability densities of $P$ and $Q$. 
 
 Let $\boldsymbol{X}$ denotes the $p + 1$ regressors with $n$ observations, $\boldsymbol{b} = (\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'\boldsymbol{y}$ denotes the OLS solution, $\boldsymbol{R} = \boldsymbol{I}_n -\boldsymbol{X}(\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'$ denotes the residual operator, and let $\boldsymbol{\varepsilon} \sim N(\boldsymbol{0},\sigma^2\boldsymbol{I})$ denotes the error. The residual vector 
 
@@ -300,10 +300,10 @@ Let $\boldsymbol{X}$ denotes the $p + 1$ regressors with $n$ observations, $\bol
                &= \boldsymbol{R}\boldsymbol{\varepsilon}.
 \end{align*}
 
-Because $rank(\boldsymbol{R}) = n - p - 1 < n$, $\boldsymbol{e}$ follows a degenerate multivariate normal distribution and does not have a density. Since the Kullback-Leibler divergence requires a proper density function, we need to simplify the covariance matrix of $\boldsymbol{e}$ by setting all the off-diagonal elements to 0. Then, the residuals will be assumed to follow $N(\boldsymbol{0}, diag(\boldsymbol{R}\sigma^2))$ under the null hypothesis that the model is correctly specified. If the model is however misspecified due to omitted variables $\boldsymbol{Z}$, or a non-constant variance $\boldsymbol{V}$, the distribution of residuals can be derived as $N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, diag(\boldsymbol{R}\sigma^2))$ and $N(\boldsymbol{0}, diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}'))$ respectively.
+Because $\text{rank}(\boldsymbol{R}) = n - p - 1 < n$, $\boldsymbol{e}$ follows a degenerate multivariate normal distribution and does not have a density. Since the Kullback-Leibler divergence requires a proper density function, we need to simplify the covariance matrix of $\boldsymbol{e}$ by setting all the off-diagonal elements to 0. Then, the residuals will be assumed to follow $N(\boldsymbol{0}, diag(\boldsymbol{R}\sigma^2))$ under the null hypothesis that the model is correctly specified. If the model is however misspecified due to omitted variables $\boldsymbol{Z}$, or a non-constant variance $\boldsymbol{V}$, the distribution of residuals can be derived as $N(\boldsymbol{R}\boldsymbol{Z}\boldsymbol{\beta}_z, \text{diag}(\boldsymbol{R}\sigma^2))$ and $N(\boldsymbol{0}, \text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}'))$ respectively.
 
 By assuming both $P$ and $Q$ are multivariate normal density functions, the Kullback-Leibler divergence can be rewritten as 
-$$KL = \frac{1}{2}\left(log\frac{|\Sigma_p|}{|\Sigma_q|} - n + tr(\Sigma_p^{-1}\Sigma_q) + (\mu_p - \mu_q)'\Sigma_p^{-1}(\mu_p - \mu_q)\right).$$
+$$KL = \frac{1}{2}\left(\log\frac{|\Sigma_p|}{|\Sigma_q|} - n + \text{tr}(\Sigma_p^{-1}\Sigma_q) + (\mu_p - \mu_q)'\Sigma_p^{-1}(\mu_p - \mu_q)\right).$$
 
 Then, we can combine the two residual departures into one formula
 
@@ -311,21 +311,22 @@ Then, we can combine the two residual departures into one formula
 
 \begin{equation*}
 \label{eq:effect-size}
-KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|diag(\boldsymbol{R}\sigma^2)|} - n + tr(diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}diag(\boldsymbol{R}\sigma^2)) + \boldsymbol{\mu}_z^{T}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}\boldsymbol{\mu}_z\right).
+KL = \frac{1}{2}\left(\log\frac{|\text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|\text{diag}(\boldsymbol{R}\sigma^2)|} - n + \text{tr}(\text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}\text{diag}(\boldsymbol{R}\sigma^2)) + \boldsymbol{\mu}_z'(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}\boldsymbol{\mu}_z\right).
 \end{equation*}
 
 \normalsize
 
 When there are omitted variables but constant error variance, the formula can be reduced to
 
-$$KL = \frac{1}{2}\left(\boldsymbol{\mu}_z^{T}(diag(\boldsymbol{R}\sigma^2))^{-1}\boldsymbol{\mu}_z\right).$$
+$$KL = \frac{1}{2}\left(\boldsymbol{\mu}_z'(\text{diag}(\boldsymbol{R}\sigma^2))^{-1}\boldsymbol{\mu}_z\right).$$
 
 And when the model equation is correctly specified but the error variance is non-constant, the formula can be reduced to
 
-$$KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|diag(\boldsymbol{R}\sigma^2)|} - n + tr(diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}diag(\boldsymbol{R}\sigma^2))\right).$$
+$$KL = \frac{1}{2}\left(log\frac{|\text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|\text{diag}(\boldsymbol{R}\sigma^2)|} - n + \text{tr}(\text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}
+\text{diag}(\boldsymbol{R}\sigma^2))\right).$$
 Since we assume $\sigma = 1$ for the heteroskedasticity model, the final form of the formula is 
 
-$$KL = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|diag(\boldsymbol{R})|} - n + tr(diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}diag(\boldsymbol{R}))\right).$$
+$$KL = \frac{1}{2}\left(\log\frac{|\text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|\text{diag}(\boldsymbol{R})|} - n + \text{tr}(\text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}\text{diag}(\boldsymbol{R}))\right).$$
 
 
 
@@ -526,7 +527,7 @@ map_df(seq(1, 11, 2), ~eval_n(.x, 1)) %>%
 
 ## Power of a RESET test under different auxiliary regression formulas
 
-It is found in the result that the power of a RESET test will be affected by the highest order of fitted values included in the auxiliary formula. And we suspect that the current recommendation of the highest order - four, is insufficient to test complex non-linear structures such as the "Triple-U" shape designed in this paper. Figure \ref{fig:reset} illustrates the change of power of RESET test while testing the "U" shape and the "Triple-U" shape with different highest orders. Clearly, when testing a simple shape like the "U" shape, the highest order has very little impact on the power. But for testing the "Triple-U" shape, there will be a loss of power if the recommended order is used. To avoid the loss of power, the highest order needs to be set to at least six. 
+It is found in the result that the power of a RESET test will be affected by the highest order of fitted values included in the auxiliary formula. And we suspect that the current recommendation of the highest order - four, is insufficient to test complex non-linear structures such as the "triple-U" shape designed in this paper. Figure \ref{fig:reset} illustrates the change of power of RESET test while testing the "U" shape and the "triple-U" shape with different highest orders. Clearly, when testing a simple shape like the "U" shape, the highest order has very little impact on the power. But for testing the "triple-U" shape, there will be a loss of power if the recommended order is used. To avoid the loss of power, the highest order needs to be set to at least six. 
 
 ```{r cache = TRUE}
 reset_diff_dat <- poly_conv_sim %>%
@@ -584,10 +585,10 @@ reset_diff_dat2 <- poly_conv_sim %>%
   mutate(shape = 1)
 ```
 
-```{r reset, fig.cap = 'Change of power of RESET tests for different orders of fitted values included in the auxiliary formula. The left panel is the power of testing the "U" shape and the right panel is the power of testing the "Triple-U" shape. The power will not be greatly affected by the highest order in the case of testing the "U" shape. In the case of testing the "Triple-U" shape, the highest order needs to be set to at least six to avoid the loss of power.', fig.height = 4}
+```{r reset, fig.cap = 'Change of power of RESET tests for different orders of fitted values included in the auxiliary formula. The left panel is the power of testing the "U" shape and the right panel is the power of testing the "triple-U" shape. The power will not be greatly affected by the highest order in the case of testing the "U" shape. In the case of testing the "triple-U" shape, the highest order needs to be set to at least six to avoid the loss of power.', fig.height = 4}
 reset_diff_dat %>%
   bind_rows(reset_diff_dat2) %>%
-  mutate(shape = factor(ifelse(shape == 1, "U", "Triple-U"), levels = c("U", "Triple-U"))) %>%
+  mutate(shape = factor(ifelse(shape == 1, "U", "triple-U"), levels = c("U", "triple-U"))) %>%
   ggplot() +
   geom_line(aes(log_effect_size, power, col = as.factor(as.integer(name))),
             size = 1) +
@@ -595,7 +596,8 @@ reset_diff_dat %>%
   labs(col = "Highest order") +
   xlab(expression(log[e] (Effect_size))) +
   scale_color_brewer(palette = "Reds") +
-  facet_wrap(~shape)
+  facet_wrap(~shape) +
+  ylab("Power")
 ```
 
 ## Conventional test rejection rate for varying significance levels
@@ -706,8 +708,8 @@ vi_survey %>%
   filter(exp == 3) %>%
   filter(!attention_check) %>%
   filter(set <= 20) %>%
-  mutate(shape = c("U", "S", "M", "Triple-U")[shape]) %>%
-  mutate(shape = factor(shape, levels = c("U", "S", "M", "Triple-U"))) %>%
+  mutate(shape = c("U", "S", "M", "triple-U")[shape]) %>%
+  mutate(shape = factor(shape, levels = c("U", "S", "M", "triple-U"))) %>%
   mutate(e_sigma = factor(e_sigma)) %>%
   mutate(n = factor(n)) %>%
   ggplot() +
@@ -730,8 +732,8 @@ vi_survey %>%
   filter(exp == 4) %>%
   filter(!attention_check, !null_lineup) %>%
   filter(set <= 20) %>%
-  mutate(a = c("Left-triangle", "Butterfly", "Right-triangle")[a + 2]) %>%
-  mutate(a = factor(a, levels = c("Left-triangle", "Butterfly", "Right-triangle"))) %>%
+  mutate(a = c("left-triangle", "butterfly", "right-triangle")[a + 2]) %>%
+  mutate(a = factor(a, levels = c("left-triangle", "butterfly", "right-triangle"))) %>%
   mutate(b = factor(b)) %>%
   mutate(n = factor(n)) %>%
   ggplot() +

@@ -92,9 +92,8 @@ which puts a residual plot in the context of null plots. This helps
 generate reliable and consistent reading of residual plots for better
 model diagnosis. It can also help in an obverse situation where a
 conventional test would fail to detect a problem with a model due to
-contaminated data. The lineup protocol also serves as an omnibus test,
-capable of detecting a range of departures from good residuals
-simultaneously.
+contaminated data. The lineup protocol also detects a range of
+departures from good residuals simultaneously.
 \end{abstract}
 
 \begin{keywords}
@@ -116,13 +115,13 @@ regression analysis, studying the residuals from a model fit is a common
 diagnostic activity. Residuals summarise what is not captured by the
 model, and thus provide the capacity to identify what might be wrong.
 
-We can assess residuals in multiple ways. To examine the their
-univariate distribution, residuals may be plotted as a histogram or
-normal probability plot. Using the classical normal linear regression
-model as an example, if the distribution is symmetric and unimodal, we
-would consider it to be well-behaved. However, if the distribution is
-skewed, bimodal, multimodal, or contains outliers, there would be cause
-for concern. We can also inspect the distribution by conducting a
+We can assess residuals in multiple ways. To examine the univariate
+distribution, residuals may be plotted as a histogram or normal
+probability plot. Using the classical normal linear regression model as
+an example, if the distribution is symmetric and unimodal, we would
+consider it to be well-behaved. However, if the distribution is skewed,
+bimodal, multimodal, or contains outliers, there would be cause for
+concern. We can also inspect the distribution by conducting a
 goodness-of-fit test, such as the Shapiro-Wilk normality test
 \citep{shapiro1965analysis}.
 
@@ -136,8 +135,8 @@ the model needs to have some additional non-linear terms.
 Heteroskedasticity suggests that the error is dependent on the
 predictors, and hence violates the independence assumption. However,
 correctly judging whether NO pattern exists in a residual plot is a
-difficult task for humans. Humans will almost always will see a pattern
-(see \citet{kahneman2011thinking}), so the question that really needs
+difficult task for humans. Humans will almost always see a pattern (see
+\citet{kahneman2011thinking}), so the question that really needs
 answering is whether any pattern perceived is consistent with
 randomness, purely sampling variability, or noise. It is especially
 difficult to teach this to new analysts and students
@@ -176,14 +175,16 @@ tests may occasionally prove useful.} \citep{montgomery1982introduction}
 indispensable for diagnosing model fits. The ubiquity of this advice is
 \emph{curious}: investigating why, is the subject of this paper.
 
-The paper is structured as follows. The next section describes the
-background on the types of departures that one expects to detect, and
-outlines a formal statistical process for reading residual plots, called
-visual inference. Section \ref{experimental-design} details the
-experimental design to compare the decisions made by formal hypothesis
-testing, and how humans would read diagnostic plots. The results are
-reported in Section \ref{results}. We conclude with a discussion of the
-presented work, and ideas for future directions.
+The paper is structured as follows. Section \ref{background} describes
+the background on the types of departures that one expects to detect,
+and outlines a formal statistical process for reading residual plots,
+called visual inference. Section \ref{significance-calculation}
+describes the calculation of the statistical significance and power of
+the test. Section \ref{experimental-design} details the experimental
+design to compare the decisions made by formal hypothesis testing, and
+how humans would read diagnostic plots. The results are reported in
+Section \ref{results}. We conclude with a discussion of the presented
+work, and ideas for future directions.
 
 \hypertarget{background}{%
 \section{Background}\label{background}}
@@ -214,13 +215,14 @@ checked departures.
 \end{figure}
 
 Model misspecification occurs if functions of predictors that needed to
-accurately describe the relationship between response and predictors are
-omitted. Any non-linear pattern visible in the residual plot could be
-indicative of this problem. An example residual plot containing visual
-pattern of non-linearity is shown in Figure
-\ref{fig:residual-plot-common-departures}B. One can clearly observe the
-``S-shape'' from the residual plot, which corresponds to cubic term that
-should have been included in the model.
+accurately describe the relationship with the response are incorrectly
+specified. This includes instances where a higher-order polynomial term
+of a predictor is wrongfully omitted. Any non-linear pattern visible in
+the residual plot could be indicative of this problem. An example
+residual plot containing visual pattern of non-linearity is shown in
+Figure \ref{fig:residual-plot-common-departures}B. One can clearly
+observe the ``S-shape'' from the residual plot, which corresponds to
+cubic term that should have been included in the model.
 
 Heteroskedasticity refers to the presence of non-constant error variance
 in a regression model. It indicates that the distribution of residuals
@@ -252,7 +254,7 @@ the Breusch-Pagan (BP) test \citep{breusch1979simple}, which are both
 derived from the Lagrange multiplier test \citep{silvey1959lagrangian}
 principle that relies on the asymptotic properties of the null
 distribution. To test specific forms of non-linearity, one may apply the
-F-test as a model structural test to examine the significance of
+F-test as a model structural test to examine the significance of a
 specific polynomial and non-linear forms of the predictors, or the
 significance of proxy variables as in the Ramsey Regression Equation
 Specification Error Test (RESET) \citep{ramsey1969tests}. The
@@ -270,24 +272,25 @@ from the R package \texttt{lmtest}, respectively. The SW test was
 computed using the \texttt{shapiro.test} from the core R package
 \texttt{stats}. \footnote{Although we didn't use it, it's useful to know
   that the R package \texttt{skedastic} \citep{skedastic} also contains
-  a large collection of functions to test for heteroskedasticity.}
-Although, the RESET test is exact, it requires the selection of a power
-parameter. \citet{ramsey1969tests} recommends a power of four, which we
-adopted in our analysis. The BP and SW tests are approximate.
+  a large collection of functions to test for heteroskedasticity.} The
+RESET test requires the selection of a power parameter.
+\citet{ramsey1969tests} recommends a power of four, which we adopted in
+our analysis.
 
-We would expect the RESET test for non-linearity to reject residual plot
+For residual plots in Figure \ref{fig:residual-plot-common-departures},
+we would expect the RESET test for non-linearity to reject residual plot
 B, the BP test for heteroskedasticity to reject the residual plot C, and
 the SW test for non-normality to reject residual plot D, which they all
 do and all tests also correctly fail to reject residual plot A.
 Interestingly, the BP and SW tests also reject the residual plots
 exhibiting structure that they weren't designed for.
-\citet{cook1982residuals} explain that most residual-based tests for
-particular types of departure from model assumptions are also sensitive
-to other types of departures. This could be considered a Type III error
+\citet{cook1982residuals} explain that most residual-based tests for a
+particular departure from the model assumptions are also sensitive to
+other types of departures. This could be considered a Type III error
 \citep{kimball1957errors}, where the null hypothesis of good residuals
 is correctly rejected but for the wrong reason. Also, some types of
 departure can have elements of other types of departure, for example,
-non-linearity could be viewed as heteroskedasticity. Additionally, other
+non-linearity can appear like heteroskedasticity. Additionally, other
 data problems such as outliers can trigger rejection (or not) of the
 null hypothesis \citep{cook1999applied}.
 
@@ -327,18 +330,17 @@ thereof) is fraught with variation in the human ability to interpret and
 decode the information embedded in a graph
 \citep{cleveland1984graphical}. Human examination of diagnostic plots
 can feel subjective. Ideally we would expect visual evaluation to be
-done objectively with small amounts of human-to-human variation in
-reading data plots, but we cannot assume this is the case.
+done objectively with low human-to-human variation in reading data
+plots, but we cannot assume this is the case.
 
 In practice, over-interpretation of a single plot is common. For
 instance, \citet{roy2015using} described a published example where
 authors over-interpreted separation between gene groups from a
-two-dimensional projection of a linear discriminant analysis.
-\citet{roy2015using} showed that there were no differences in the
-expression levels between the gene groups. One solution to
-over-interpretation is to examine the plot in the context of natural
-sampling variability assumed by the model, called the lineup protocol,
-as proposed in \citet{buja2009statistical}.
+two-dimensional projection of a linear discriminant analysis even when
+there were no differences in the expression levels between the gene
+groups. One solution to over-interpretation is to examine the plot in
+the context of natural sampling variability assumed by the model, called
+the lineup protocol, as proposed in \citet{buja2009statistical}.
 \citet{majumder2013validation} showed that the lineup protocol is
 analogous to the null hypothesis significance testing framework. The
 protocol consists of \(m\) randomly placed plots, where one plot is the
@@ -385,32 +387,33 @@ conditional distribution given a minimal sufficient statistic under
 estimated under \(H_0\), and (iii) Bayesian posterior predictive
 sampling. The conditional distribution given a minimal sufficient
 statistic is the best justified reference distribution among the three
-\citep{buja2009statistical}. Essentially, null residuals can be
-simulated by regressing \(N\) i.i.d standard normal random draws on the
-predictors, then re-scaling it by the ratio of residual sum of square in
-two regressions.
+\citep{buja2009statistical}. Under this method, the null residuals can
+essentially be simulated by independent drawing from a standard normal
+random distribution, then regressing the draws on the predictors, and
+then re-scaling it by the ratio of the residual sum of square in two
+regressions.
 
 The effectiveness of lineup protocol for regression analysis has been
 validated by \citet{majumder2013validation} under relatively simple
 settings with up to two predictors. Their results suggest that visual
 tests are capable of testing the significance of a single predictor with
 a similar power to a t-test, though they express that in general it is
-unnecessary to use visual inference if there exists a conventional test,
-and they do not expect the visual test to perform equally well as the
-conventional test. In their third experiment, where there is not a
-conventional test, visual test outperforms the conventional test by a
-large margin. This is encouraging, as it supports the use of visual
-inference in situations where there are no existing statistical testing
-procedures. Visual inference has also been integrated into diagnostics
-for hierarchical linear models where the lineup protocol is used to
-judge the assumptions of linearity, normality and constant error
-variance for both the level-1 and level-2 residuals
-\citep[\citet{loy2014hlmdiag} and
+unnecessary to use visual inference if there exists a corresponding
+conventional test, and they do not expect the visual test to perform
+equally well as the conventional test. In their third experiment, where
+the contamination of the data violate the assumptions of the convetional
+test, visual test outperforms the conventional test by a large margin.
+This is encouraging, as it supports the use of visual inference in
+situations where there are no existing numerical testing procedures.
+Visual inference has also been integrated into diagnostics for
+hierarchical linear models where the lineup protocol is used to judge
+the assumptions of linearity, normality and constant error variance for
+both the level-1 and level-2 residuals \citep[\citet{loy2014hlmdiag} and
 \citet{loy2015you}]{loy2013diagnostic}.
 
-\hypertarget{calculation-of-statistical-significance-and-test-power}{%
+\hypertarget{significance-calculation}{%
 \section{Calculation of statistical significance and test
-power}\label{calculation-of-statistical-significance-and-test-power}}
+power}\label{significance-calculation}}
 
 \hypertarget{what-is-being-tested}{%
 \subsection{What is being tested?}\label{what-is-being-tested}}
@@ -480,7 +483,7 @@ the same lineup is shown to \(K\) participants. Scenario 3 is the most
 feasible to apply, but has the most dependencies to accommodate for the
 \(p\)-value calculation. For Scenario 3, VanderPlas et al propose
 modelling the probability of plot \(i\) being selected from a lineup as
-\(\theta_i\), where \(\theta_i \sim Dirichlet(\alpha)\) for
+\(\theta_i\), where \(\theta_i \sim \text{Dirichlet}(\alpha)\) for
 \(i=1,...,m\) and \(\alpha > 0\). The number of times plot \(i\) being
 selected in \(K\) evaluations is denoted as \(c_i\). In case participant
 \(j\) makes multiple selections, \(1/s_j\) will be added to \(c_i\)
@@ -522,11 +525,11 @@ when it is low only a few plots are attractive to the observers and tend
 to be selected, and when high, most plots are equally likely to be
 chosen. VanderPlas et al define \(c\)-interesting plot to be if \(c\) or
 more participants select the plot as the most different. The expected
-number of plots selected at least \(c\) times, \(E[Z_c]\), is then
-calculated as
+number of plots selected at least \(c\) times, \(\mathrm{E}[Z_c]\), is
+then calculated as
 
 \begin{equation} \label{eq:c-interesting-expectation}
-E[Z_c(\alpha)] = \frac{m}{B(\alpha, (m-1)\alpha)}\sum_{\lceil c \rceil}^{K}{K \choose x} B(x + \alpha, K - x + (m-1)\alpha).\end{equation}
+\mathrm{E}[Z_c(\alpha)] = \frac{m}{B(\alpha, (m-1)\alpha)}\sum_{\lceil c \rceil}^{K}{K \choose x} B(x + \alpha, K - x + (m-1)\alpha).\end{equation}
 
 With Equation \ref{eq:c-interesting-expectation}, \(\alpha\) can be
 estimated using maximum likelihood estimation. Precise estimation of
@@ -721,10 +724,10 @@ were included in the residual plot. These include ``U'', ``S'', ``M''
 and ``triple-U'' shape as shown in Figure
 \ref{fig:different-shape-of-herimite}. A greater value of \(j\) will
 result in a curve with more turning points. It is expected that the
-``U'' shape will be the easiest detect, as the shape gets more complex
-it will be harder to perceive in a scatterplot, particularly when there
-is noise. Figure \ref{fig:different-sigma} shows the ``U'' shape for
-different amounts of noise (\(\sigma\)).
+``U'' shape will be the easiest to detect, as the shape gets more
+complex it will be harder to perceive in a scatterplot, particularly
+when there is noise. Figure \ref{fig:different-sigma} shows the ``U''
+shape for different amounts of noise (\(\sigma\)).
 
 Figure \ref{fig:example-poly-lineup} is one of the non-linearity lineups
 used in experiment. This data plot is produced by the non-linearity
@@ -767,8 +770,8 @@ For \(b \neq 0\), the variance-covariance matrix of the error term
 heteroskedasticity. Visual patterns of heteroskedasticity are simulated
 using three different shapes (\(a\) = -1, 0, 1).
 
-Since \(supp(X) = [-1, 1]\), choosing \(a\) to be \(-1\), \(0\) and
-\(1\) can generate ``left-triangle'', ``butterfly'' and
+Since \(\text{supp}(X) = [-1, 1]\), choosing \(a\) to be \(-1\), \(0\)
+and \(1\) can generate ``left-triangle'', ``butterfly'' and
 ``right-triangle'' shapes as displayed in Figure
 \ref{fig:different-shape-of-heter}. The term \((2 - |a|)\) maintains the
 magnitude of residuals across different values of \(a\). Figure
@@ -834,7 +837,7 @@ predictor \(X_{raw}\):
 \item
   normal, \(N(0, 0.3^2)\),
 \item
-  skewed, \(lognormal(0, 0.6^2)/3\), and
+  skewed, \(\text{lognormal}(0, 0.6^2)/3\), and
 \item
   discrete, \(U\{1, 5\}\).
 \end{itemize}
@@ -922,12 +925,12 @@ divergence \citep{kullback1951information}, coupled with simulation.
 This formulation defines effect size to be:
 
 \begin{equation}
-E = \frac{1}{2}\left(\boldsymbol{\mu}_z'(diag(\boldsymbol{R}\sigma^2))^{-1}\boldsymbol{\mu}_z\right)
+E = \frac{1}{2}\left(\boldsymbol{\mu}_z'(\text{diag}(\boldsymbol{R}\sigma^2))^{-1}\boldsymbol{\mu}_z\right)
 \label{eq:nonlin-effect-size}
 \end{equation}
 
-\noindent where \(diag(.)\) is the diagonal matrix constructed from the
-diagonal elements of a matrix,
+\noindent where \(\text{diag}(.)\) is the diagonal matrix constructed
+from the diagonal elements of a matrix,
 \(\boldsymbol{R} = \boldsymbol{I}_n - \boldsymbol{H}\) is the residual
 operator,
 \(\boldsymbol{H} = \boldsymbol{X}(\boldsymbol{X}'\boldsymbol{X})^{-1}\boldsymbol{X}'\)
@@ -947,7 +950,7 @@ shape parameter, \(a\). Thus the same approach is used here, where the
 formula can be written as:
 
 \begin{equation}
-E = \frac{1}{2}\left(log\frac{|diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|diag(\boldsymbol{R})|} - n + tr(diag(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}diag(\boldsymbol{R}))\right)
+E = \frac{1}{2}\left(\log\frac{|\text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')|}{|\text{diag}(\boldsymbol{R})|} - n + \text{tr}(\text{diag}(\boldsymbol{R}\boldsymbol{V}\boldsymbol{R}')^{-1}\text{diag}(\boldsymbol{R}))\right)
 \label{eq:hetero-effect-size}
 \end{equation}
 
@@ -1049,9 +1052,7 @@ results of participants who were clearly not making an honest effort
 significance (see Section \ref{sig}) there were 720 evaluations of 36
 null lineups. Neither the attention checks nor null lineups were used in
 the subsequent analysis. The de-identified data, \texttt{vi\_survey}, is
-made available in the R package, \texttt{visage}.\footnote{The R package
-  \texttt{visage} is currently available on GitHub
-  (\url{https://github.com/TengMCing/visage}).}
+made available in the R package, \texttt{visage}.
 
 The data was collected on lineups constructed from four different fitted
 value distributions: uniform, normal, skewed and discrete. More data was
@@ -1291,14 +1292,14 @@ distributions}\label{effect-of-fitted-value-distributions}}
 In regression analysis, predictions are conditional on the observed
 values of the predictors, that is, the conditional mean of the dependent
 variable \(Y\) given the value of the independent variable \(X\),
-\(E(Y|X)\). This is an often forgotten element of regression analysis
-but it is important. Where \(X\) is observed, the distribution of the
-\(X\) values in the sample, or consequently \(\hat{Y}\), may affect the
-ability to read any patterns in the residual plots. The effect of fitted
-value distribution on test performance is assess using four different
-distributions of fitted values: uniform, normal, discrete and lognormal
-(skewed). We expect that if \(\hat{Y}\) has a uniform distribution, it
-is easier to read the relationship with the residuals.
+\(\text{E}(Y|X)\). This is an often forgotten element of regression
+analysis but it is important. Where \(X\) is observed, the distribution
+of the \(X\) values in the sample, or consequently \(\hat{Y}\), may
+affect the ability to read any patterns in the residual plots. The
+effect of fitted value distribution on test performance is assess using
+four different distributions of fitted values: uniform, normal, discrete
+and lognormal (skewed). We expect that if \(\hat{Y}\) has a uniform
+distribution, it is easier to read the relationship with the residuals.
 
 \begin{figure}[t!]
 
@@ -1425,6 +1426,9 @@ The supplementary material is available at
 It includes more details about the experimental setup, the derivation of
 the effect size, the effect of data collection period, and the estimate
 of \(\alpha\).
+
+The R package \texttt{visage} is currently available at
+\url{https://github.com/TengMCing/visage}.
 
 \bibliographystyle{tfcad}
 \bibliography{ref.bib}

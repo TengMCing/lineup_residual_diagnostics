@@ -38,6 +38,8 @@ header-includes: |
   \usepackage{hyperref}
   \usepackage[utf8]{inputenc}
   \def\tightlist{}
+  \usepackage{setspace}
+  \doublespacing
 output: rticles::tf_article
 editor_options: 
   chunk_output_type: console

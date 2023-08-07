@@ -1,0 +1,64 @@
+---
+title: "Response to Reviews: JCGS-23-139"
+author: Weihao Li, Emi Tanaka, Dianne Cook, Susan VanderPlas
+output: pdf_document
+date: "2023-08-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Thank you for the careful reviews. What follows is our point-by-point response to reviewer comments. 
+
+Note that *The original reviewer comments are in italic* and our response is normal text.
+
+# Reviewer 1
+
+*Comments to the Author*
+
+*I did not need any convincing that residual diagnostic plots are superior to tests but this paper presents a narrower argument to support this claim than many analysts would employ. For example, diagnostic plots may reveal features which are not directly connected to a linear model assumption and yet are interesting and important to identify. Of course, it is difficult to justify a journal article on the basis of such observations. In this respect, I am impressed that you have succeeded in demonstrating the superiority within the more formal framework of the lineup protocol. You have restricted attention to the residual-fitted plot and a particular selection of formal tests. I accept that this was necessary to make definite progress. Nevertheless, it would be good to add some discussion of the wider picture.*
+
+*1. "The ubiquity of this advice is curious: investigating why, is the subject of this paper. " I don't find this advice curious - it seems almost universal. I have taught this topic for many years and give the same advice. I explain why I give this advice and I believe several other authors do the same. Their reasons are wider in scope than you express in this article.*
+
+*2. All your examples are simulated data and very obviously so. Real data shows much greater irregularity - the points will usually not be uniformly spaced along the x-axis. The response may be somewhat discrete or have other features that will distinguish it from bland randomness. This would seem to offer greater challenges to your lineup idea as generating data under the null will be much more challenging. If we simulate from the null model, the real data will be very obvious. You have done an experiment but the reality would be more like an observational study. This limits the scope of your conclusions which you should clearly acknowledge.*
+
+*3. It is true that formal diagnostic tests tend to be too sensitive and yet we don't have a definite sense of how much divergence from the assumed model would cause a significant problem. How much non-normality in the residuals is acceptable? We don't really know. Formal tests give us definite answers about violations of assumptions which we might find hard to ignore but diagnostic plots give us license to sweep inconvenient features under the carpet. Is there really an advantage to the diagnostic plot in this case other than the opportunity to hand-wave about our answer?*
+
+*4. I use something like the lineup protocol in teaching to help students calibrate their assessment of diagnostic plots. But I doubt very much experienced analysts use them in practice. I do not think it is realistic or really that helpful to recommend their everyday use.*
+
+# Reviewer 2
+
+*Summary*
+
+*This article uses the lineup protocol in a visual inference experiment, which puts a residual plot in the context of null plots. Focus is mostly on detecting nonlinearities and heteroskedasticity. Comparisons with some classic tests are given.*
+
+*Overall Comments*
+
+*Overall, this paper is very well written and interesting. However, I have some serious reservations about the practicality of the procedure, which I articulate in greater detail below. I also think the paper is currently too long, and that a significant chunk of material should be shifted to the Appendix.*
+
+*1. As mentioned above, the paper is too long. While the onus should be on the authors for getting the page number down, some possible suggestions could be combining Sections 1 and 2 while moving some of the historical context (which I fully acknowledge is quite interesting) to the Appendix, and moving some of the technical details of Section 3.2 to the Appendix.*
+
+*2. The practical implementation of this as a procedure is, in my opinion, the biggest weakness. The authors acknowledge the costliness of human evaluation of residuals, but not until Page 33, Line 47. I find this a tad disingenuous as this will likely jump out to the reader as being a problem right from the beginning of reading this paper (it did for me). So I think being upfront about this limitation, and providing some practical considerations to address this concern will assuage my concerns. There might be some concepts from human-computer interaction that could be effective for operationalizing and improving the efficiency of the present work.*
+
+*3. I think a better connection needs to be made with where this computationally expensive process could potentially pay off. For example, applying the lineup protocol to, say, any of the data examples in the texts cited by the authors would amount to nothing more than an academic exercise. But, what sort of data problems can the authors point to and definitively claim that the lineup protocol will be invaluable at ensuring we visually capture possible nonlinearities or heteroskedasticity? I am not doubting the efficacy of the approach, but I’d like to see a stronger case made with its practical application.*
+
+*4. What should be claimed about the sample size n as a limitation? Take in point the comments at the bottom of page 19. Am I to understand that the lineup protocol will not be appropriate for big data problems?*
+
+*5. At the beginning of Section 4.2.3, what cultural biases do the authors anticipate by restricting the participants to be “fluent in English”? Granted this is likely done as a matter of convenience, but it would be good to articulate how cultural biases may be present in interpreting a lineup protocol.*
+
+*6. I would like the authors to be a little clearer about their specific contributions. I felt as if the biggest contribution in this work was the experiments that they did. A lot of references are included for work that is applied in this manuscript, so at times I got lost as to what already existed in the literature and what “new” material the authors were giving the reader.*
+
+*Minor Comments*
+
+*1. Page 9, Line 13: Since the three references are by the same authors, use \\cite{Ref1,Ref2,Ref3}.*
+
+*2. Page 12, Line 7: $\alpha$.*
+
+*3. Why not write the power formula in terms of a generic significance level? Granted, one should be mindful of an abuse of notation if using $\alpha$ as it has been introduced in the Rorschach setup of the previous subsection.*
+
+*4. Page 13, Line 14: "...the scenario..."*
+
+*5. Page 20, Line 36: "...variety of difficulty..."*
+
+*6. In Figures 11 and 12, I am not sure the example residual plots beneath the x-axis are all that terribly helpful. In fact, I think they all look mostly similar, and am not entirely convinced that they add any value. Can the authors convince me otherwise?*

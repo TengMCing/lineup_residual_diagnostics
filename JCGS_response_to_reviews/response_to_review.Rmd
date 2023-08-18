@@ -19,13 +19,34 @@ Note that *The original reviewer comments are in italic* and our response is nor
 
 *I did not need any convincing that residual diagnostic plots are superior to tests but this paper presents a narrower argument to support this claim than many analysts would employ. For example, diagnostic plots may reveal features which are not directly connected to a linear model assumption and yet are interesting and important to identify. Of course, it is difficult to justify a journal article on the basis of such observations. In this respect, I am impressed that you have succeeded in demonstrating the superiority within the more formal framework of the lineup protocol. You have restricted attention to the residual-fitted plot and a particular selection of formal tests. I accept that this was necessary to make definite progress. Nevertheless, it would be good to add some discussion of the wider picture.*
 
+Thank for this feedback. We are happy to see that, like many people, you don't need convincing and that you are glad to see that we have succeeded in demonstrating the superiority of residual diagnostic plots.
+
+We have added a broader discussion on the use of residual plots in Section XXX, beyond those tested in this work. (Need to include: (1) finding interesting feature that was not intended to test for; (2) other residual plots - need to make a comprehensive list of common residual plots.)
+
 *1. "The ubiquity of this advice is curious: investigating why, is the subject of this paper. " I don't find this advice curious - it seems almost universal. I have taught this topic for many years and give the same advice. I explain why I give this advice and I believe several other authors do the same. Their reasons are wider in scope than you express in this article.*
+
+We have replaced the "is curious" to better acknowledge that many practitioners already know this. (lack of empirical evidence for the advice is curious)
 
 *2. All your examples are simulated data and very obviously so. Real data shows much greater irregularity - the points will usually not be uniformly spaced along the x-axis. The response may be somewhat discrete or have other features that will distinguish it from bland randomness. This would seem to offer greater challenges to your lineup idea as generating data under the null will be much more challenging. If we simulate from the null model, the real data will be very obvious. You have done an experiment but the reality would be more like an observational study. This limits the scope of your conclusions which you should clearly acknowledge.*
 
+The work very specifically uses simulated data because we need to study a problem in controlled conditions. You are right, that data will pose more interesting challenges, and this can be in two directions. One, being that the lineup protocol will allow interesting and unexpected patterns in the residuals to be detected (see Buja et al and Wickham et al for examples). The other is that the current process for generating null data uses residual rotation and will likely maintain irrelevant quirks of the data in the null plots. These should not inadvertently allow the reader to detect the data plot based on quirks.
+
+We have addressed this criticism in the broader discussion of the use of residual plots and lineups for residual diagnostics added to Section XXX (see issue #11).
+
+An observational study will hopefully be possible once a computer vision model is deployed that will allow analysts to upload their residuals for automated testing.
+
 *3. It is true that formal diagnostic tests tend to be too sensitive and yet we don't have a definite sense of how much divergence from the assumed model would cause a significant problem. How much non-normality in the residuals is acceptable? We don't really know. Formal tests give us definite answers about violations of assumptions which we might find hard to ignore but diagnostic plots give us license to sweep inconvenient features under the carpet. Is there really an advantage to the diagnostic plot in this case other than the opportunity to hand-wave about our answer?*
 
+When the diagnostic plots are embedded in a lineup of nulls, it does have the advantage of providing a definitive answer, and protects against the subjectiveness of hand-waving. We are advocating that you should always calibrate the diagnostic plot with a comparison with null plots.
+We have strengthened this point of view by adding a sentence in the introduction, in addition to what is provided in the Conclusions.
+
+(Is there a paper to refer the reader to?)
+
 *4. I use something like the lineup protocol in teaching to help students calibrate their assessment of diagnostic plots. But I doubt very much experienced analysts use them in practice. I do not think it is realistic or really that helpful to recommend their everyday use.*
+
+It can be argued that it is being used by practitioners based on download rates of the nullabor package, and applications articles that report usage. We agree that it is not widespread, and think that this is because it's a little unwieldy. The goal is to make it easier, particularly by employing an automated testing tool using computer vision, but this is not the subject of the current paper.
+
+We have added a sentence to Section XXX to make this clearer.
 
 # Reviewer 2
 

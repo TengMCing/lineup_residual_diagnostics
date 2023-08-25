@@ -23,7 +23,7 @@ Thank for this feedback. We are happy to see that, like many people, you don't n
 
 We have added more explanation of the use of residual plots in the Introduction and we have added a section Limitations and practicality where the broader picture is discussed.
 
-(diagnostic plots may reveal features which are not directly connected to a linear model assumption)
+(diagnostic plots may reveal features which are not directly connected to a linear model assumption; You have restricted attention to the residual-fitted plot and a particular selection of formal tests; Nevertheless, it would be good to add some discussion of the wider picture.)
 
 *1. "The ubiquity of this advice is curious: investigating why, is the subject of this paper. " I don't find this advice curious - it seems almost universal. I have taught this topic for many years and give the same advice. I explain why I give this advice and I believe several other authors do the same. Their reasons are wider in scope than you express in this article.*
 

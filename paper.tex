@@ -37,7 +37,7 @@
 \usepackage[utf8]{inputenc}
 \def\tightlist{}
 \usepackage{setspace}
-\doublespacing
+% \doublespacing
 
 \usepackage{booktabs}
 \usepackage{longtable}
@@ -130,15 +130,17 @@ goodness-of-fit test, such as the Shapiro-Wilk normality test
 In addition, scatterplots of residuals plotted against the fitted values
 and each of the explanatory variables, can be used to scrutinize their
 relationships. If there are any visually discoverable patterns, the
-model is potentially inadequate or incorrectly specified. In general,
-one looks for noticeable departures from the model such as non-linear
-pattern or heteroskedasticity. A non-linear pattern would suggest that
-the model needs to have some additional non-linear terms.
+model is potentially inadequate or incorrectly specified.
+\textcolor{red}{Interesting features that are not directly connected to a linear model assumption can also be found from residual plots, such as the discreteness of the fitted values, outliers and influential points.}
+In general, one looks for noticeable departures from the model such as
+non-linear pattern or heteroskedasticity. A non-linear pattern would
+suggest that the model needs to have some additional non-linear terms.
 Heteroskedasticity suggests that the error is dependent on the
-predictors, and hence violates the independence assumption. However,
-correctly judging whether NO pattern exists in a residual plot is a
-difficult task for humans. Humans will almost always see a pattern (see
-\citet{kahneman2011thinking}), so the question that really needs
+predictors, and hence violates the independence assumption.
+
+However, correctly judging whether NO pattern exists in a residual plot
+is a difficult task for humans. Humans will almost always see a pattern
+(see \citet{kahneman2011thinking}), so the question that really needs
 answering is whether any pattern perceived is consistent with
 randomness, purely sampling variability, or noise. It is especially
 difficult to teach this to new analysts and students
@@ -147,13 +149,15 @@ available to check for non-linear patterns
 \citep[e.g.][]{ramsey1969tests}, and heteroskedasticity
 \citep[e.g.][]{breusch1979simple}.
 
-Linear regression is a well-established procedure, and there is
-considerable literature describing diagnostic procedures, e.g.
-\citet{draper1998applied}, \citet{montgomery1982introduction},
-\citet{belsley1980regression}, \citet{cook1999applied} and
-\citet{cook1982residuals}. Interestingly, despite the abundance of
-conventional tests, ALL of these writings advise that plotting residuals
-is an essential tool for diagnosing regression model problems:
+\textcolor{red}{There are other types of residual plot to extract the available information and identify inappropriate assumptions, like the added variable plot (cite here) for studying the role of an external variable if it enters linearly into a model. Partial residual plots (cite here) have been suggested as computationally convenient substitutes for the added variable plots. For use in diagnostic procedures, several transformations of the ordinary residuals have been suggested to overcome partially some of their shortcomings. Studentized residuals (cite here) have null distributions that are independent of the scale parameters. These residuals are shown to be closely related to a mean shift model for outliers and to the residuals obtained when each case in turn is left out of the data. Alternatively. the residuals can be transformed to have a selected covariance structure: The usual suggestion is to obtain residuals with uncorrelated elements.}
+
+There is sustainable literature describing diagnostic procedures for
+linear models, e.g. \citet{draper1998applied},
+\citet{montgomery1982introduction}, \citet{belsley1980regression},
+\citet{cook1999applied} and \citet{cook1982residuals}. Interestingly,
+despite the abundance of conventional tests, ALL of these writings
+advise that plotting residuals is an essential tool for diagnosing
+regression model problems:
 
 \begin{quote}
 \emph{Some most useful checks allowed by data plots should be done on a
@@ -174,8 +178,9 @@ tests may occasionally prove useful.} \citep{montgomery1982introduction}
 \end{quote}
 
 \noindent The common wisdom of experts is that plotting the residuals is
-indispensable for diagnosing model fits. The ubiquity of this advice is
-\emph{curious}: investigating why, is the subject of this paper.
+indispensable for diagnosing model fits. The lack of empirical evidence
+for the ubiquitous advice is \emph{curious}. The research study
+discussed in this paper fills this gap.
 
 The paper is structured as follows. Section \ref{background} describes
 the background on the types of departures that one expects to detect,
@@ -1340,6 +1345,34 @@ derivations and use simulation to assess the effect of the observed
 distribution of the predictors on test power. The big differences in the
 power curves seen in Figure \ref{fig:different-x-dist-poly-power} is
 echoed in the results reported in these articles.
+
+\hypertarget{limitations-and-practicality}{%
+\section{Limitations and
+practicality}\label{limitations-and-practicality}}
+
+\begin{itemize}
+\item
+  explain how the lineup protocol can be cheaply done with the R package
+  ``nullabor''. everyone can do it easily. The cost of using lineup in
+  stat education under classroom setting is cheap (adam loy teaching
+  paper)
+\item
+  Formal tests. reliable results. crowd sourcing is not expensive
+  compared to the cost other devices in the lab and is not entirely
+  unreasonable. Only if there is grey area (you can not confidently
+  detect the data).
+\item
+  The possiblity of computer vision in the future.
+\item
+  repeat the scope of the study
+\item
+  list other things we could have tested
+\item
+  explain why the result should apply to other residual diagnostics
+  settings
+\item
+  finding interesting feature that was not intended to test for
+\end{itemize}
 
 \hypertarget{conclusions}{%
 \section{Conclusions}\label{conclusions}}

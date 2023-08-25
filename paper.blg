@@ -1,0 +1,63 @@
+This is BibTeX, Version 0.99d (TeX Live 2022)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: paper.aux
+The style file: tfcad.bst
+Database file #1: ref.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Warning--empty organization and address in rticles
+Warning--empty organization and address in cli
+Warning--empty organization and address in progress
+Warning--empty organization and address in purrr
+Warning--empty organization and address in ggmosaic
+Warning--empty organization and address in here
+Warning--empty organization and address in tibble
+Warning--empty organization and address in rcartocolor
+Warning--empty organization and address in curl
+Warning--empty organization and address in patchwork
+Warning--empty organization and address in stringr
+Warning--empty organization and address in dplyr
+Warning--empty organization and address in tidyr
+Warning--empty organization and address in readr
+Warning--empty organization and address in kableextra
+You've used 58 entries,
+            3285 wiz_defined-function locations,
+            999 strings with 14491 characters,
+and the built_in function-call counts, 31313 in all, are:
+= -- 2638
+> -- 1286
+< -- 3
++ -- 572
+- -- 377
+* -- 2283
+:= -- 4880
+add.period$ -- 241
+call.type$ -- 58
+change.case$ -- 405
+chr.to.int$ -- 59
+cite$ -- 73
+duplicate$ -- 2396
+empty$ -- 2401
+format.name$ -- 443
+if$ -- 6254
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 503
+newline$ -- 181
+num.names$ -- 175
+pop$ -- 1148
+preamble$ -- 1
+purify$ -- 385
+quote$ -- 0
+skip$ -- 930
+stack$ -- 0
+substring$ -- 1312
+swap$ -- 1101
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 322
+warning$ -- 15
+while$ -- 228
+width$ -- 0
+write$ -- 638
+(There were 15 warnings)

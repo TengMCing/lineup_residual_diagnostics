@@ -21,11 +21,12 @@ Note that *The original reviewer comments are in italic* and our response is nor
 
 Thank for this feedback. We are happy to see that, like many people, you don't need convincing and that you are glad to see that we have succeeded in demonstrating the superiority of residual diagnostic plots.
 
-We have added a broader discussion on the use of residual plots in Section XXX, beyond those tested in this work. (Need to include: (1) finding interesting feature that was not intended to test for; (2) other residual plots - need to make a comprehensive list of common residual plots.)
+We have added more explanation of the use of residual plots in the Introduction and we have added a section Limitations and practicality where the broader picture is discussed.
 
 *1. "The ubiquity of this advice is curious: investigating why, is the subject of this paper. " I don't find this advice curious - it seems almost universal. I have taught this topic for many years and give the same advice. I explain why I give this advice and I believe several other authors do the same. Their reasons are wider in scope than you express in this article.*
 
-We have replaced the "is curious" to better acknowledge that many practitioners already know this. (lack of empirical evidence for the advice is curious)
+
+We have changed the language to focus on that is the advice is given despite the lack of empirical evidence.
 
 *2. All your examples are simulated data and very obviously so. Real data shows much greater irregularity - the points will usually not be uniformly spaced along the x-axis. The response may be somewhat discrete or have other features that will distinguish it from bland randomness. This would seem to offer greater challenges to your lineup idea as generating data under the null will be much more challenging. If we simulate from the null model, the real data will be very obvious. You have done an experiment but the reality would be more like an observational study. This limits the scope of your conclusions which you should clearly acknowledge.*
 
@@ -58,17 +59,41 @@ We have added a sentence to Section XXX to make this clearer.
 
 *Overall, this paper is very well written and interesting. However, I have some serious reservations about the practicality of the procedure, which I articulate in greater detail below. I also think the paper is currently too long, and that a significant chunk of material should be shifted to the Appendix.*
 
+Thanks for the positive feedback. We have shortened the paper by XXX pages. We have expanded the explanations of why the practicality of the procedure should not be questioned in Section XXX.
+
 *1. As mentioned above, the paper is too long. While the onus should be on the authors for getting the page number down, some possible suggestions could be combining Sections 1 and 2 while moving some of the historical context (which I fully acknowledge is quite interesting) to the Appendix, and moving some of the technical details of Section 3.2 to the Appendix.*
+
+See the response above, thanks for your suggestions. We have moved most of Section 3.2 Statistical significance to the Appendix. (how we shorten the rest of the paper XXX)
+
+- Part of Experimental design -> appendix
+- Part of Explanations of the lineup (p-value) -> appendix
+- Shorten the Section 1 and 2 (more precise)
+- Modify the discussion and conclusion to address the issues raised by reviews
 
 *2. The practical implementation of this as a procedure is, in my opinion, the biggest weakness. The authors acknowledge the costliness of human evaluation of residuals, but not until Page 33, Line 47. I find this a tad disingenuous as this will likely jump out to the reader as being a problem right from the beginning of reading this paper (it did for me). So I think being upfront about this limitation, and providing some practical considerations to address this concern will assuage my concerns. There might be some concepts from human-computer interaction that could be effective for operationalizing and improving the efficiency of the present work.*
 
+The new Section Limitations and practicality addresses these concerns and we have added a sentence in Introduction so that the reader will not be concerned upfront.
+
 *3. I think a better connection needs to be made with where this computationally expensive process could potentially pay off. For example, applying the lineup protocol to, say, any of the data examples in the texts cited by the authors would amount to nothing more than an academic exercise. But, what sort of data problems can the authors point to and definitively claim that the lineup protocol will be invaluable at ensuring we visually capture possible nonlinearities or heteroskedasticity? I am not doubting the efficacy of the approach, but I’d like to see a stronger case made with its practical application.*
+
+As mentioned above, 
+
+This is not computationally expensive. The conventional test also make mistakes. You need something more than the conventional test. And you also need something more than the residual plot.
+
+check earlier paper.
 
 *4. What should be claimed about the sample size n as a limitation? Take in point the comments at the bottom of page 19. Am I to understand that the lineup protocol will not be appropriate for big data problems?*
 
+This is a display issue not a lineup protocol issue.
+
 *5. At the beginning of Section 4.2.3, what cultural biases do the authors anticipate by restricting the participants to be “fluent in English”? Granted this is likely done as a matter of convenience, but it would be good to articulate how cultural biases may be present in interpreting a lineup protocol.*
 
+The instruction of this study was in English.
+very unlikely there will be a difference between English speaker and non-English speaker.
+
 *6. I would like the authors to be a little clearer about their specific contributions. I felt as if the biggest contribution in this work was the experiments that they did. A lot of references are included for work that is applied in this manuscript, so at times I got lost as to what already existed in the literature and what “new” material the authors were giving the reader.*
+
+We have clarified the language of the Introduction and the Conclusion.
 
 *Minor Comments*
 

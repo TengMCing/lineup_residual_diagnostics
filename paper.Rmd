@@ -1667,17 +1667,14 @@ It is worth noting that despite the need for participants with unbiased perspect
 
 However, it's important to understand that if the goal is to attain results similar to those of formal hypothesis testing in rigor and reliability, using crowd-sourcing becomes necessary. The expense associated with crowd-sourcing is relatively reasonable when  compared to the costs of other laboratory devices, making it a sensible investment for research that requires clear and valuable findings. Importantly, this higher level of scrutiny is typically justified only when the data plot can not be confidently identified and requires a thorough investigation.
 
+The study aims to showcase the utility of residual plots in model diagnostics while comparing them with conventional tests. Our primary focus is on employing residual-fitted plots within a controlled model environment to facilitate a human subject experiment. It's worth mentioning that there are other captivating aspects of residual diagnostics that are not covered within the scope of this paper. We consider the findings of this paper, can be applied to other types of statistical models.   
 
+<!-- - The possiblity of computer vision in the future.  -->
 
-Human evaluation of residuals is expensive, time-consuming and laborious. This is possibly why residual plot analysis is often not done in practice. However, with the emergence of effective computer vision, our work could lay a foundation for automated residual plot assessment.
-
-
-- The possiblity of computer vision in the future. 
-
-- repeat the scope of the study
-- list other things we could have tested
-- explain why the result should apply to other residual diagnostics settings 
-- finding interesting feature that was not intended to test for
+<!-- - repeat the scope of the study -->
+<!-- - list other things we could have tested -->
+<!-- - explain why the result should apply to other residual diagnostics settings  -->
+<!-- - finding interesting feature that was not intended to test for -->
 
 # Conclusions
 

@@ -24,4 +24,4 @@ This repo contains the materials to fully reproduce the paper titled "`r metadat
 Please cite the paper as:
 
 
-Li et al. (2023) `r metadata$title`. URL:  https://github.com/TengMCing/lineup_residual_diagnostics
+Li et al. (2023) `r metadata$title`. arXiv preprint. URL: http://arxiv.org/abs/2308.05964

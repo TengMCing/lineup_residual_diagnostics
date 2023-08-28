@@ -13,5 +13,5 @@ VanderPlas.
 Please cite the paper as:
 
 Li et al. (2023) A Plot is Worth a Thousand Tests: Assessing Residual
-Diagnostics with the Lineup Protocol . URL:
-<https://github.com/TengMCing/lineup_residual_diagnostics>
+Diagnostics with the Lineup Protocol . arXiv preprint. URL:
+<http://arxiv.org/abs/2308.05964>

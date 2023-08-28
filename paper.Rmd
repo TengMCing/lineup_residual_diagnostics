@@ -1661,8 +1661,17 @@ The variation in power in the conventional tests is at first sight, shocking. Ho
 
 # Limitations and practicality
 
-- explain how the lineup protocol can be cheaply done with the R package "nullabor". everyone can do it easily. The cost of using lineup in stat education under classroom setting is cheap (adam loy teaching paper)
-- Formal tests. reliable results. crowd sourcing is not expensive compared to the cost other devices in the lab and is not entirely unreasonable. Only if there is grey area (you can not confidently detect the data).
+One of the notable limitations of the lineup protocol lies in its reliance on human judgements. In this context, the effectiveness of the lineup protocol is closely connected with the perceptive ability and subjective interpretation of individual evaluators. This reliance on human judgment introduces an element of variability and subjectivity that can potentially impact the robustness of the results obtained. To ensure reliable outcomes, it's often necessary to include a diverse group of participants capable of offering unbiased judgements. This requirement has led researchers, including those in our study, to turn to crowd-sourcing platforms that offer access to a random selection of participants, which can help mitigate potential bias.
+
+It is worth noting that despite the need for participants with unbiased perspectives, the lineup protocol can be implemented at a relatively low cost. Leveraging tools like the R package `nullabor`, the process of constructing and evaluating lineups becomes accessible and straightforward. This accessibility empowers a wider range of researchers, even those without extensive statistical backgrounds, to employ the lineup protocol in their studies. Moreover, the cost-effectiveness of lineup-based analyses makes them particularly appealing for integration into statistical education within classroom settings (cite adam loy paper here). The practicality of lineup demonstrations can facilitate a deeper understanding of the concept of randomness and statistical testing among students.
+
+However, it's important to understand that if the goal is to attain results similar to those of formal hypothesis testing in rigor and reliability, using crowd-sourcing becomes necessary. The expense associated with crowd-sourcing is relatively reasonable when  compared to the costs of other laboratory devices, making it a sensible investment for research that requires clear and valuable findings. Importantly, this higher level of scrutiny is typically justified only when the data plot can not be confidently identified and requires a thorough investigation.
+
+
+
+Human evaluation of residuals is expensive, time-consuming and laborious. This is possibly why residual plot analysis is often not done in practice. However, with the emergence of effective computer vision, our work could lay a foundation for automated residual plot assessment.
+
+
 - The possiblity of computer vision in the future. 
 
 - repeat the scope of the study

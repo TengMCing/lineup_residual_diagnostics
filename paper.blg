@@ -1,4 +1,4 @@
-This is BibTeX, Version 0.99d (TeX Live 2022)
+This is BibTeX, Version 0.99d (TeX Live 2023)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: paper.aux
 The style file: tfcad.bst
@@ -19,45 +19,45 @@ Warning--empty organization and address in dplyr
 Warning--empty organization and address in tidyr
 Warning--empty organization and address in readr
 Warning--empty organization and address in kableextra
-You've used 58 entries,
+You've used 59 entries,
             3285 wiz_defined-function locations,
-            999 strings with 14491 characters,
-and the built_in function-call counts, 31313 in all, are:
-= -- 2638
-> -- 1286
+            1006 strings with 14872 characters,
+and the built_in function-call counts, 32377 in all, are:
+= -- 2718
+> -- 1372
 < -- 3
-+ -- 572
-- -- 377
-* -- 2283
-:= -- 4880
-add.period$ -- 241
-call.type$ -- 58
-change.case$ -- 405
-chr.to.int$ -- 59
-cite$ -- 73
-duplicate$ -- 2396
-empty$ -- 2401
-format.name$ -- 443
-if$ -- 6254
++ -- 615
+- -- 401
+* -- 2372
+:= -- 5027
+add.period$ -- 245
+call.type$ -- 59
+change.case$ -- 419
+chr.to.int$ -- 60
+cite$ -- 74
+duplicate$ -- 2473
+empty$ -- 2454
+format.name$ -- 473
+if$ -- 6466
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 503
-newline$ -- 181
-num.names$ -- 175
-pop$ -- 1148
+missing$ -- 519
+newline$ -- 184
+num.names$ -- 178
+pop$ -- 1190
 preamble$ -- 1
-purify$ -- 385
+purify$ -- 399
 quote$ -- 0
-skip$ -- 930
+skip$ -- 956
 stack$ -- 0
-substring$ -- 1312
-swap$ -- 1101
+substring$ -- 1340
+swap$ -- 1148
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 322
+type$ -- 330
 warning$ -- 15
-while$ -- 228
+while$ -- 231
 width$ -- 0
-write$ -- 638
+write$ -- 650
 (There were 15 warnings)

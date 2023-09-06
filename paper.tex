@@ -37,7 +37,7 @@
 \usepackage[utf8]{inputenc}
 \def\tightlist{}
 \usepackage{setspace}
-% \doublespacing
+\doublespacing
 
 \usepackage{booktabs}
 \usepackage{longtable}
@@ -127,32 +127,26 @@ concern. We can also inspect the distribution by conducting a
 goodness-of-fit test, such as the Shapiro-Wilk normality test
 \citep{shapiro1965analysis}.
 
-In addition, scatterplots of residuals plotted against the fitted values
-and each of the explanatory variables, can be used to scrutinize their
-relationships. If there are any visually discoverable patterns, the
-model is potentially inadequate or incorrectly specified.
-\textcolor{red}{Interesting features that are not directly connected to a linear model assumption can also be found from residual plots, such as the discreteness of the fitted values, outliers and influential points.}
-In general, one looks for noticeable departures from the model such as
-non-linear pattern or heteroskedasticity. A non-linear pattern would
-suggest that the model needs to have some additional non-linear terms.
-Heteroskedasticity suggests that the error is dependent on the
-predictors, and hence violates the independence assumption.
-
-However, correctly judging whether NO pattern exists in a residual plot
-is a difficult task for humans. Humans will almost always see a pattern
-(see \citet{kahneman2011thinking}), so the question that really needs
-answering is whether any pattern perceived is consistent with
-randomness, purely sampling variability, or noise. It is especially
-difficult to teach this to new analysts and students
-\citep{loy2021bringing}. To address this, statistical tests are
-available to check for non-linear patterns
+It is also common to make scatterplots of residuals against the fitted
+values, and each of the explanatory variables, can be used to scrutinize
+their relationships. If there are any visually discoverable
+associations, the model is potentially inadequate or incorrectly
+specified.
+\textcolor{red}{It is also possible to discover patterns not directly connected to a linear model assumption from these residual plots, such as the discreteness or skewness of the fitted values, and outliers.}
+To read residual plots, one looks for noticeable departures from the
+model such as non-linear pattern or heteroskedasticity. A non-linear
+pattern would suggest that the model needs to have some additional
+non-linear terms. Heteroskedasticity suggests that the error is
+dependent on the predictors, and hence violates the independence
+assumption. Statistical tests were developed to provide objective
+assessment, for example, of non-linear patterns
 \citep[e.g.][]{ramsey1969tests}, and heteroskedasticity
 \citep[e.g.][]{breusch1979simple}.
 
-\textcolor{red}{There are other types of residual plot to extract the available information and identify inappropriate assumptions, like the added variable plot (cite here) for studying the role of an external variable if it enters linearly into a model. Partial residual plots (cite here) have been suggested as computationally convenient substitutes for the added variable plots. For use in diagnostic procedures, several transformations of the ordinary residuals have been suggested to overcome partially some of their shortcomings. Studentized residuals (cite here) have null distributions that are independent of the scale parameters. These residuals are shown to be closely related to a mean shift model for outliers and to the residuals obtained when each case in turn is left out of the data. Alternatively. the residuals can be transformed to have a selected covariance structure: The usual suggestion is to obtain residuals with uncorrelated elements.}
+\textcolor{red}{There are also many variations on residual plots that are important to consider making. The normal probability plot is used to assess a normality assumption on the error distribution. Residuals are often plotted against  order of observations to check for collection bias, batch effects or autocorrelation. Partial residual plots assess the importance of an independent variable to a model, conditional on other variables, by plotting partial residuals against this variable. Partial residuals are computed from the difference between the response value and the fitted model excluding term of the independent variable of interest. A partial regression plot assesses the unique effect of an independent variable in a multiple regression model, by plotting residuals from the model with and without the this variable against each other.}
 
-There is sustainable literature describing diagnostic procedures for
-linear models, e.g. \citet{draper1998applied},
+These are all topics explained thoroughly in the sizeable literature on
+diagnostic procedures for linear models, e.g. \citet{draper1998applied},
 \citet{montgomery1982introduction}, \citet{belsley1980regression},
 \citet{cook1999applied} and \citet{cook1982residuals}. Interestingly,
 despite the abundance of conventional tests, ALL of these writings
@@ -179,8 +173,12 @@ tests may occasionally prove useful.} \citep{montgomery1982introduction}
 
 \noindent The common wisdom of experts is that plotting the residuals is
 indispensable for diagnosing model fits. The lack of empirical evidence
-for the ubiquitous advice is \emph{curious}. The research study
-discussed in this paper fills this gap.
+for the ubiquitous advice is \emph{curious}, and is what this article
+tackles.
+
+\textcolor{red}{However, it needs to be noted that relying purely on subjective assessment of plots can be a source of anxiety. Indeed, correctly judging whether NO pattern exists in a residual plot is a really difficult task. People will almost always see a pattern (see @kahneman2011thinking), so the question that really needs answering is whether any pattern perceived is consistent with randomness, or sampling variability, or noise. @loy2021bringing emphasizes that this is especially difficult to teach to new analysts and students, and advocates to the broader use of the lineup protocol [@bujastatistical2009].}
+
+\textcolor{red}{The lineup protocol places a data plot in a field of null plots, allowing for a comparison of patterns due purely by chance to what is perceived in the data plot. For residual analysis this is especially helpful for gauging whether there is NO pattern. In its strict use, one would insist that the data plot is not seen before seeing the lineup, so that the observer doesn't know which is the true plot. When used this way, it provides an objective test for data plots. @majumdervalidation2013 validated that results from lineups assessed by human observers performed similarly to conventional tests. One wouldn't use a lineup when a conventional test exists and is adequate because it is more manually expensive to conduct. However, where no adequate conventional test exists, it is invaluable, as shown by @loy2013diagnostic. Here we use the lineup as a vehicle to rigorously explore why experts advise that residual plots are indispensable despite the prevalence of numerical tests.}
 
 The paper is structured as follows. Section \ref{background} describes
 the background on the types of departures that one expects to detect,
@@ -457,95 +455,9 @@ In hypothesis testing, a \(p\)-value is defined as the probability of
 observing test results at least as extreme as the observed result
 assuming \(H_0\) is true. Conventional hypothesis tests usually have an
 existing method to derive or compute the \(p\)-value based on the null
-distribution. Here we establish the method to estimate a \(p\)-value for
-a visual test.
-
-Within the context of visual inference, with \(K\) independent
-observers, the visual \(p\)-value can be seen as the probability of
-having as many or more participants detect the data plot than the
-observed result.
-
-The approach used in \citet{majumder2013validation} is as follows.
-Define \(X_j = \{0,1\}\) to be a Bernoulli random variable measuring
-whether participant \(j\) detected the data plot, and
-\(X = \sum_{j=1}^{K}X_j\) be the total number of observers who detected
-the data plot. Then, by imposing a relatively strong assumption that all
-\(K\) evaluations are fully independent, under \(H_0\)
-\(X \sim \mathrm{Binom}_{K,1/m}\). Therefore, the \(p\)-value of a
-lineup of size \(m\) evaluated by \(K\) observer is estimated with
-\(P(X \geq x) = 1 - F(x) + f(x)\), where \(F(.)\) is the binomial
-cumulative distribution function, \(f(.)\) is the binomial probability
-mass function and \(x\) is the realization of number of observers
-choosing the data plot.
-
-As pointed out by \citet{vanderplas2021statistical}, this basic binomial
-model is deficient. It does not take into account the possible
-dependencies in the visual test due to repeated evaluations of the same
-lineup, or account for when participants are offered the option to
-select one or more ``most different'' plots, or none, from a lineup.
-They suggest three common lineup scenarios: (1) \(K\) different lineups
-are shown to \(K\) participants, (2) \(K\) lineups with different null
-plots but the same data plot are shown to \(K\) participants, and (3)
-the same lineup is shown to \(K\) participants. Scenario 3 is the most
-feasible to apply, but has the most dependencies to accommodate for the
-\(p\)-value calculation. For Scenario 3, VanderPlas et al propose
-modelling the probability of plot \(i\) being selected from a lineup as
-\(\theta_i\), where \(\theta_i \sim \text{Dirichlet}(\alpha)\) for
-\(i=1,...,m\) and \(\alpha > 0\). The number of times plot \(i\) being
-selected in \(K\) evaluations is denoted as \(c_i\). In case participant
-\(j\) makes multiple selections, \(1/s_j\) will be added to \(c_i\)
-instead of one, where \(s_j\) is the number of plots participant \(j\)
-selected for \(j=1,...K\). This ensures \(\sum_{i}c_i=K\). Since we are
-only interested in the selections of the data plot \(i\), the marginal
-model can be simplified to a beta-binomial model and thus the visual
-\(p\)-value is given as
-
-\begin{equation} \label{eq:pvalue-beta-binomial}
-P(C \geq c_i) = \sum_{x=c_i}^{K}{K \choose x}\frac{B(x + \alpha, K - x + (m - 1)\alpha)}{B(\alpha, (m-1)\alpha)},\quad \text{for} \quad c_i \in \mathbb{Z}_0^+
-\end{equation}
-
-\noindent where \(B(.)\) is the beta function defined as
-
-\begin{equation} \label{eq:betafunction}
-B(a, b) = \int_{0}^{1}t^{\alpha - 1}(1-t)^{b-1}dt,\quad \text{where}\quad a,b>0.
-\end{equation}
-
-\noindent We extend the equation to non-negative real number \(c_i\) by
-applying a linear approximation
-
-\begin{equation} \label{eq:pvalue-beta-binomial-approx}
-P(C \geq c_i) = P(C \geq \lceil c_i \rceil) + (\lceil c_i \rceil - c_i) P(C = \lfloor c_i \rfloor), \quad \text{for}\quad c_i \in \mathbb{R}_0^+,
-\end{equation}
-
-\noindent where \(P(C \geq \lceil c_i \rceil)\) is calculated using
-Equation \ref{eq:pvalue-beta-binomial} and
-\(P(C = \lfloor c_i \rfloor)\) is calculated by
-
-\begin{equation} \label{eq:pmf-beta-binomial}
-P(C = c_i) = {K \choose c_i}\frac{B(c_i + \alpha, K - c_i + (m - 1)\alpha)}{B(\alpha, (m-1)\alpha)},\quad \text{for} \quad c_i \in \mathbb{Z}_0^+.
-\end{equation}
-
-The parameter \(\alpha\) used in Equation \ref{eq:pvalue-beta-binomial}
-and \ref{eq:pmf-beta-binomial} is usually unknown and will need to be
-estimated from the survey data. An interpretation of \(\alpha\) is that
-when it is low only a few plots are attractive to the observers and tend
-to be selected, and when high, most plots are equally likely to be
-chosen. VanderPlas et al define \(c\)-interesting plot to be if \(c\) or
-more participants select the plot as the most different. The expected
-number of plots selected at least \(c\) times, \(\mathrm{E}[Z_c]\), is
-then calculated as
-
-\begin{equation} \label{eq:c-interesting-expectation}
-\mathrm{E}[Z_c(\alpha)] = \frac{m}{B(\alpha, (m-1)\alpha)}\sum_{\lceil c \rceil}^{K}{K \choose x} B(x + \alpha, K - x + (m-1)\alpha).\end{equation}
-
-With Equation \ref{eq:c-interesting-expectation}, \(\alpha\) can be
-estimated using maximum likelihood estimation. Precise estimation of
-\(\alpha\), is aided by evaluation of Rorschach lineups, where all plots
-are null plots. In a Rorschach, in theory all plots should be equally
-likely, but in practice some (irrelevant) visual elements may be more
-eye-catching than others. This is what \(alpha\) captures, the capacity
-for extraneous features to distract the observer for a particular type
-of plot display.
+distribution. The method to estimate a \(p\)-value for a visual test
+essentially follows the process detailed by
+\citet{vanderplas2021statistical}. Details are given in Appendix A.
 
 \hypertarget{power-of-the-tests}{%
 \subsection{Power of the tests}\label{power-of-the-tests}}
@@ -595,15 +507,14 @@ In this scenario, having the probability of a participant \(j\)
 correctly picking the data plot from a lineup \(l\) is insufficient to
 determine the power of a visual test because it does not provide
 information about the number of selections made by the participant for
-the calculation of the \(p\)-value (See Equation
-\ref{eq:pvalue-beta-binomial-approx}). Therefore, we directly estimate
-the probability of a lineup being rejected by assuming that individual
-skill has negligible effect on the variation of the power. This
-assumption essentially averages out the subject ability and helps to
-simplify the model structure, thereby obviating a costly large-scale
-experiment to estimate complex covariance matrices. The same model given
-in Equation \ref{eq:logistic-regression-1-1} is applied to model the
-power of a visual test.
+the calculation of the \(p\)-value. Therefore, we directly estimate the
+probability of a lineup being rejected by assuming that individual skill
+has negligible effect on the variation of the power. This assumption
+essentially averages out the subject ability and helps to simplify the
+model structure, thereby obviating a costly large-scale experiment to
+estimate complex covariance matrices. The same model given in Equation
+\ref{eq:logistic-regression-1-1} is applied to model the power of a
+visual test.
 
 To study various factors contributing to the power of both tests, the
 same logistic regression model is fit on different subsets of the
@@ -620,11 +531,10 @@ visual inference in the application of linear regression diagnostics.
 Two types of departures, non-linearity and heteroskedasticity, were
 collected during data collection periods I and II. The data collection
 period III was designed primarily to measure human responses to null
-lineups so that the parameter \(\alpha\) in Equation
-\ref{eq:pvalue-beta-binomial} can be estimated. Additional lineups for
-both non-linearity and heteroskedasticity, using uniform fitted value
-distributions, were included for additional data, and to avoid
-participant frustration of too many difficult tasks. Overall, we
+lineups so that the visual \(p\)-values can be estimated. Additional
+lineups for both non-linearity and heteroskedasticity, using uniform
+fitted value distributions, were included for additional data, and to
+avoid participant frustration of too many difficult tasks. Overall, we
 collected 7974 evaluations on 1152 unique lineups performed by 443
 participants throughout three data collection periods.
 
@@ -857,11 +767,10 @@ the fitted values are uniformly distributed.
 Three different sample sizes were used in our experiment:
 \(n = 50, 100, 300\). Figure \ref{fig:different-n} shows the non-linear
 ``S'' shape for different sample sizes. We expect signal strength to
-decline in the simulated data plots with smaller \(n\). A sample size of
-300 is typically enough for structure to be visible in a scatterplot
-reliably. Beyond 300, structure can be obscured by over-plotting, and a
-different type of display that included transparency, binning or density
-mapping, might be needed.
+decline in the simulated data plots with smaller \(n\). We chose 300 as
+the upper limit, because it is typically enough for structure to be
+visible in a scatterplot reliably.
+\textcolor{red}{Beyond 300, the scatterplot should probably be used with transparency or replaced with a density or binned plot. Scatterplots suffer from over-plotting.}
 
 \begin{figure}
 
@@ -1350,77 +1259,63 @@ echoed in the results reported in these articles.
 \section{Limitations and
 practicality}\label{limitations-and-practicality}}
 
-One of the notable limitations of the lineup protocol lies in its
-reliance on human judgements. In this context, the effectiveness of the
-lineup protocol is closely connected with the perceptive ability and
-subjective interpretation of individual evaluators. This reliance on
-human judgment introduces an element of variability and subjectivity
-that can potentially impact the robustness of the results obtained. To
-ensure reliable outcomes, it's often necessary to include a diverse
-group of participants capable of offering unbiased judgements. This
-requirement has led researchers, including those in our study, to turn
-to crowd-sourcing platforms that offer access to a random selection of
-participants, which can help mitigate potential bias.
+One of the primary limitations of the lineup protocol lies in its
+reliance on human judgements. In this context, the effectiveness of a
+single lineup evaluation is closely connected with the perceptual
+ability and visual skills of the individual. When results from multiple
+individuals are combined the outcome is encouragingly robust. For simple
+plots and strong patterns just a few individuals are needed to arrive at
+a clear answer, but more individuals will be needed when the plot design
+is complex, or the signal strength is weak.
 
-It is worth noting that despite the need for participants with unbiased
-perspectives, the lineup protocol can be implemented at a relatively low
-cost. Leveraging tools like the R package \texttt{nullabor}, the process
-of constructing and evaluating lineups becomes accessible and
-straightforward. This accessibility empowers a wider range of
-researchers, even those without extensive statistical backgrounds, to
-employ the lineup protocol in their studies. Moreover, the
-cost-effectiveness of lineup-based analyses makes them particularly
-appealing for integration into statistical education within classroom
-settings (cite adam loy paper here). The practicality of lineup
-demonstrations can facilitate a deeper understanding of the concept of
-randomness and statistical testing among students.
+Using a lineup protocol removes subjectiveness in interpreting patterns
+in plots. A plot is compared with draws from a null model, in much the
+same way as a test statistic is compared to its sampling distribution.
+It is important to define the data plot using the language provided by a
+grammar of graphics (e.g.~using \citet{ggplot2}) because this provides
+the functional mapping of abstract variables to plot elements. It is
+also important to remove plot elements that might introduce bias, such
+as axis labels, text and legends, or to make them generic.
 
-However, it's important to understand that if the goal is to attain
-results similar to those of formal hypothesis testing in rigor and
-reliability, using crowd-sourcing becomes necessary. The expense
-associated with crowd-sourcing is relatively reasonable when compared to
-the costs of other laboratory devices, making it a sensible investment
-for research that requires clear and valuable findings. Importantly,
-this higher level of scrutiny is typically justified only when the data
-plot can not be confidently identified and requires a thorough
-investigation.
+The lineup protocol can be used cheaply and informally with the R
+package \texttt{nullabor}. There is evidence that it is being used
+fairly broadly, based on software download rates and citations of the
+original papers. For residual plot analysis we recommend that the lineup
+be the default first plot so that the data plot is only seen in the
+context of null plots. When a rigorous test is needed, we recommend
+using a crowd-sourcing service, as done in gene expression experiment
+described in \citet{RNAseq2013}. While it takes extra effort it is not
+difficult today, and costs are tiny compared to the overall costs of
+conducting a scientific experiment. We do also expect that at some point
+a computer vision model can be developed to take over the task of
+employing people to evaluate residual plots.
 
-Additionally, there is the exciting possibility of utilizing computer
-vision technology to automate the analysis of lineup of residual plots.
-This innovation has the potential to significantly reduce the expenses
-associated with recruiting human judges. By incorporating computer
-vision models, researchers can simplify the evaluation process, making
-it more efficient and cost-effective.
-
-The scope of this study is to highlight practical value of residual
-plots in model diagnostics, drawing comparisons with conventional tests.
-Our primary focus is on the use of residual-fitted plots in a controlled
-model environment for the purpose of a human subject experiment. It's
-important to note that there are other intriguing aspects of residual
-diagnostics that fall beyond the boundaries of this paper. For example,
-as mentioned in Introduction, residual plots can be used to explore
-interesting data characteristics while conducting model diagnostics.
-Furthermore, some model violations, such as serial correlation,
-necessitate the use of alternative residual plots like residual against
-row number plots. Nevertheless, we believe that the insights derived
-from this study have the potential to apply to other residual
-diagnostics setting, because the fundamental principles and statistical
-concepts underlying the lineup protocol and residual plots remain
-consistent across different contexts. In real-world situations,
-researchers often rely on visual assessment to make informed decisions
-about model validity. The lineup protocol's capability to identify
-deviations from randomness serves as a valuable aid in this scenario.
+For this study, simulated data was used to provide a precisely
+controlled environment within which to compare results from conventional
+testing to those from visual testing. We also explored only the most
+commonly used, the residual vs fitted value plots. However, we expect
+the behavior of the conventional test and the visual test to be similar
+when observed residuals are diagnosed with this type of plot or other
+residual plots. The conventional tests will be more sensitive to small
+departures from the null. They will also fail to detect departures when
+delivered residuals that have some contamination, like outliers or
+anomalies, as is often encountered when working with data. The lineup
+approach is well-suited for generally interpreting data plots, and also
+detecting unexpected patterns not related to the model. This is
+supported by earlier research (e.g. \citet{wickham2010},
+\citet{roy2015using}, \citet{loy2015you}, \citet{VanderPlas2015},
+\citet{loy2016variations}).
 
 \hypertarget{conclusions}{%
 \section{Conclusions}\label{conclusions}}
 
-Regression analysis experts suggest that residual plots are
-indispensable methods for assessing model fit. We conducted a perceptual
-experiment using visual inference to assess this oft-repeated advice.
-The experiment tested two primary departures from good residuals:
-non-linearity and heteroskedasticity.
-
-We found that conventional residual-based statistical tests are more
+This paper has described experimental evidence providing support for the
+advice of regression analysis experts \emph{that residual plots are
+indispensable methods for assessing model fit}, using the formal
+framework of the lineup protocol. We conducted a perceptual experiment
+on scatterplots of residuals vs fitted values, with two primary
+departures from good residuals: non-linearity and heteroskedasticity. We
+found that conventional residual-based statistical tests are more
 sensitive to weak departures from model assumptions than visual tests.
 That is, a conventional test concludes there are problems with the model
 fit almost twice as often as a human. Conventional tests often reject
@@ -1434,21 +1329,27 @@ happen even when downstream analysis and results would not be
 significantly affected by the small departures from a good fit. The
 results from human evaluations provide a more practical solution, which
 reinforces the statements from regression experts that residual plots
-are an indispensable method for model diagnostics.
+are an indispensable method for model diagnostics. Further work would be
+needed to \emph{quantify} how much departure from good residuals is too
+much.
 
-It is important to note that residual plots need to be delivered as a
-lineup, embedded in a field of null plots. A residual plot may contain
-many visual features, but some are caused by the characteristics of the
-predictors and the randomness of the error, not by the violation of the
-model assumptions. These irrelevant visual features have a chance to be
-filtered out by participants with a comparison to null plots, resulting
-in more accurate reading. The lineup enables a careful calibration for
-reading structure in residual plots.
+It is important to emphasize that this work also supports a change in
+common practice, which is to deliver residual plots as a lineup,
+embedded in a field of null plots, rather than be viewed out of context.
+A residual plot may contain many visual features, but some are caused by
+the characteristics of the predictors and the randomness of the error,
+not by the violation of the model assumptions. These irrelevant visual
+features have a chance to be filtered out by participants with a
+comparison to null plots, resulting in more accurate reading. The lineup
+enables a careful calibration for reading structure in residual plots,
+and also provides the potential to discover interesting and important
+features in the data not directly connected to linear model assumptions.
 
 Human evaluation of residuals is expensive, time-consuming and
 laborious. This is possibly why residual plot analysis is often not done
 in practice. However, with the emergence of effective computer vision,
-our work could lay a foundation for automated residual plot assessment.
+it is hoped this work helps to lay the foundation for automated residual
+plot assessment.
 
 The experiment also revealed some interesting results. For the most
 part, the visual test performed similarly to the appropriate

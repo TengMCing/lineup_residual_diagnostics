@@ -86,6 +86,96 @@ VanderPlas. Email: \href{mailto:susan.vanderplas@unl.edu}{\nolinkurl{susan.vande
 \section{Additional details of testing
 procedures}\label{additional-details-of-testing-procedures}}
 
+\hypertarget{statistical-significance}{%
+\subsection{Statistical significance}\label{statistical-significance}}
+
+Within the context of visual inference, with \(K\) independent
+observers, the visual \(p\)-value can be seen as the probability of
+having as many or more participants detect the data plot than the
+observed result.
+
+The approach used in \citet{majumder2013validation} is as follows.
+Define \(X_j = \{0,1\}\) to be a Bernoulli random variable measuring
+whether participant \(j\) detected the data plot, and
+\(X = \sum_{j=1}^{K}X_j\) be the total number of observers who detected
+the data plot. Then, by imposing a relatively strong assumption that all
+\(K\) evaluations are fully independent, under \(H_0\)
+\(X \sim \mathrm{Binom}_{K,1/m}\). Therefore, the \(p\)-value of a
+lineup of size \(m\) evaluated by \(K\) observer is estimated with
+\(P(X \geq x) = 1 - F(x) + f(x)\), where \(F(.)\) is the binomial
+cumulative distribution function, \(f(.)\) is the binomial probability
+mass function and \(x\) is the realization of number of observers
+choosing the data plot.
+
+As pointed out by \citet{vanderplas2021statistical}, this basic binomial
+model is deficient. It does not take into account the possible
+dependencies in the visual test due to repeated evaluations of the same
+lineup, or account for when participants are offered the option to
+select one or more ``most different'' plots, or none, from a lineup.
+They suggest three common lineup scenarios: (1) \(K\) different lineups
+are shown to \(K\) participants, (2) \(K\) lineups with different null
+plots but the same data plot are shown to \(K\) participants, and (3)
+the same lineup is shown to \(K\) participants. Scenario 3 is the most
+feasible to apply, but has the most dependencies to accommodate for the
+\(p\)-value calculation. For Scenario 3, VanderPlas et al propose
+modelling the probability of plot \(i\) being selected from a lineup as
+\(\theta_i\), where \(\theta_i \sim \text{Dirichlet}(\alpha)\) for
+\(i=1,...,m\) and \(\alpha > 0\). The number of times plot \(i\) being
+selected in \(K\) evaluations is denoted as \(c_i\). In case participant
+\(j\) makes multiple selections, \(1/s_j\) will be added to \(c_i\)
+instead of one, where \(s_j\) is the number of plots participant \(j\)
+selected for \(j=1,...K\). This ensures \(\sum_{i}c_i=K\). Since we are
+only interested in the selections of the data plot \(i\), the marginal
+model can be simplified to a beta-binomial model and thus the visual
+\(p\)-value is given as
+
+\begin{equation} \label{eq:pvalue-beta-binomial}
+P(C \geq c_i) = \sum_{x=c_i}^{K}{K \choose x}\frac{B(x + \alpha, K - x + (m - 1)\alpha)}{B(\alpha, (m-1)\alpha)},\quad \text{for} \quad c_i \in \mathbb{Z}_0^+
+\end{equation}
+
+\noindent where \(B(.)\) is the beta function defined as
+
+\begin{equation} \label{eq:betafunction}
+B(a, b) = \int_{0}^{1}t^{\alpha - 1}(1-t)^{b-1}dt,\quad \text{where}\quad a,b>0.
+\end{equation}
+
+\noindent We extend the equation to non-negative real number \(c_i\) by
+applying a linear approximation
+
+\begin{equation} \label{eq:pvalue-beta-binomial-approx}
+P(C \geq c_i) = P(C \geq \lceil c_i \rceil) + (\lceil c_i \rceil - c_i) P(C = \lfloor c_i \rfloor), \quad \text{for}\quad c_i \in \mathbb{R}_0^+,
+\end{equation}
+
+\noindent where \(P(C \geq \lceil c_i \rceil)\) is calculated using
+Equation \ref{eq:pvalue-beta-binomial} and
+\(P(C = \lfloor c_i \rfloor)\) is calculated by
+
+\begin{equation} \label{eq:pmf-beta-binomial}
+P(C = c_i) = {K \choose c_i}\frac{B(c_i + \alpha, K - c_i + (m - 1)\alpha)}{B(\alpha, (m-1)\alpha)},\quad \text{for} \quad c_i \in \mathbb{Z}_0^+.
+\end{equation}
+
+The parameter \(\alpha\) used in Equation \ref{eq:pvalue-beta-binomial}
+and \ref{eq:pmf-beta-binomial} is usually unknown and will need to be
+estimated from the survey data. An interpretation of \(\alpha\) is that
+when it is low only a few plots are attractive to the observers and tend
+to be selected, and when high, most plots are equally likely to be
+chosen. VanderPlas et al define \(c\)-interesting plot to be if \(c\) or
+more participants select the plot as the most different. The expected
+number of plots selected at least \(c\) times, \(\mathrm{E}[Z_c]\), is
+then calculated as
+
+\begin{equation} \label{eq:c-interesting-expectation}
+\mathrm{E}[Z_c(\alpha)] = \frac{m}{B(\alpha, (m-1)\alpha)}\sum_{\lceil c \rceil}^{K}{K \choose x} B(x + \alpha, K - x + (m-1)\alpha).\end{equation}
+
+With Equation \ref{eq:c-interesting-expectation}, \(\alpha\) can be
+estimated using maximum likelihood estimation. Precise estimation of
+\(\alpha\), is aided by evaluation of Rorschach lineups, where all plots
+are null plots. In a Rorschach, in theory all plots should be equally
+likely, but in practice some (irrelevant) visual elements may be more
+eye-catching than others. This is what \(alpha\) captures, the capacity
+for extraneous features to distract the observer for a particular type
+of plot display.
+
 \hypertarget{effect-size-derivation}{%
 \subsection{Effect size derivation}\label{effect-size-derivation}}
 

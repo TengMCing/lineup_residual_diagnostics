@@ -25,3 +25,16 @@ Please cite the paper as:
 
 
 Li et al. (2023) `r metadata$title`. arXiv preprint. URL: http://arxiv.org/abs/2308.05964
+
+
+## Reproducibility
+
+The main paper is written using R Markdown and contained in "paper.Rmd". To render this, you need to install all relevant packages. Two custom packages are:
+
+```{r, eval = FALSE}
+# OOP supports needed by `visage`
+remotes::install_github("TengMCing/bandicoot")
+# 
+# Visual inference models and p-value calculation
+remotes::install_url("https://github.com/TengMCing/visage/raw/master/built/visage_0.1.0.tar.gz")
+```

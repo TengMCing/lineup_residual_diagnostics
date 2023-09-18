@@ -128,12 +128,10 @@ concern. We can also inspect the distribution by conducting a
 goodness-of-fit test, such as the Shapiro-Wilk normality test
 \citep{shapiro1965analysis}.
 
-It is also common to make scatterplots of residuals against the fitted
-values, and each of the explanatory variables, can be used to scrutinize
-their relationships. If there are any visually discoverable
-associations, the model is potentially inadequate or incorrectly
-specified.
-\textcolor{red}{It is also possible to discover patterns not directly connected to a linear model assumption from these residual plots, such as the discreteness or skewness of the fitted values, and outliers.}
+\textcolor{red}{Scatterplots of residuals against the fitted values, and each of the explanatory variables, are commonly used to scrutinize their relationships}.
+If there are any visually discoverable associations, the model is
+potentially inadequate or incorrectly specified.
+\textcolor{red}{We can also potentially discover patterns not directly connected to a linear model assumption from these residual plots, such as the discreteness or skewness of the fitted values, and outliers.}
 To read residual plots, one looks for noticeable departures from the
 model such as non-linear pattern or heteroskedasticity. A non-linear
 pattern would suggest that the model needs to have some additional
@@ -150,7 +148,7 @@ indispensable for diagnosing model fits
 The lack of empirical evidence for the ubiquitous advice is
 \emph{curious}, and is what this article tackles.
 
-\textcolor{red}{However, it needs to be noted that relying purely on subjective assessment of plots can be a source of anxiety. Indeed, correctly judging whether \emph{no} pattern exists in a residual plot is a really difficult task. People will almost always see a pattern \citep[see ][]{kahneman2011thinking}, so the question that really needs answering is whether any pattern perceived is consistent with randomness, or sampling variability, or noise. \cite{loy2021bringing} emphasizes that this is especially difficult to teach to new analysts and students, and advocates to the broader use of the lineup protocol \citep{bujastatistical2009}.}
+\textcolor{red}{However, relying purely on subjective assessment of a single plot can be deceiving. Indeed, correctly judging whether \emph{no} pattern exists in a residual plot is a difficult task. People will almost always see a pattern \citep[see ][]{kahneman2011thinking}, so the question that really needs answering is whether any pattern perceived is consistent with randomness, or sampling variability, or noise. \cite{loy2021bringing} emphasizes that this is especially difficult to teach to new analysts and students, and advocates to the broader use of the lineup protocol \citep{bujastatistical2009}.}
 
 \textcolor{red}{The lineup protocol places a data plot in a field of null plots, allowing for a comparison of patterns due purely by chance to what is perceived in the data plot. For residual analysis this is especially helpful for gauging whether there is \emph{no} pattern. In its strict use, one would insist that the data plot is not seen before seeing the lineup, so that the observer doesn't know which is the true plot. When used this way, it provides an objective test for data plots. \cite{majumdervalidation2013} validated that results from lineups assessed by human observers performed similarly to conventional tests. One wouldn't use a lineup when a conventional test exists and is adequate because it is more manually expensive to conduct. However, where no adequate conventional test exists, it is invaluable, as shown by \cite{loy2013diagnostic}. Here we use the lineup as a vehicle to rigorously explore why experts advise that residual plots are indispensable despite the prevalence of numerical tests.}
 

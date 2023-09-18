@@ -112,10 +112,11 @@ significance; effect size
 is importantly wrong.''} \citep{box1976science}
 \end{quote}
 
-Diagnosing a model is an important part of analysing data. In linear
-regression analysis, studying the residuals from a model fit is a common
-diagnostic activity. Residuals summarise what is not captured by the
-model, and thus provide the capacity to identify what might be wrong.
+\textcolor{red}{Diagnosing a model is an important part of building an appropriate model.}
+In linear regression analysis, studying the residuals from a model fit
+is a common diagnostic activity. Residuals summarise what is not
+captured by the model, and thus provide the capacity to identify what
+might be wrong.
 
 We can assess residuals in multiple ways. To examine the univariate
 distribution, residuals may be plotted as a histogram or normal
@@ -143,42 +144,15 @@ assessment, for example, of non-linear patterns
 \citep[e.g.][]{ramsey1969tests}, and heteroskedasticity
 \citep[e.g.][]{breusch1979simple}.
 
-\textcolor{red}{There are also many variations on residual plots that are important to consider making. The normal probability plot is used to assess a normality assumption on the error distribution. Residuals are often plotted against  order of observations to check for collection bias, batch effects or autocorrelation. Partial residual plots assess the importance of an independent variable to a model, conditional on other variables, by plotting partial residuals against this variable. Partial residuals are computed from the difference between the response value and the fitted model excluding term of the independent variable of interest. A partial regression plot assesses the unique effect of an independent variable in a multiple regression model, by plotting residuals from the model with and without the this variable against each other.}
+The common wisdom of experts is that plotting the residuals is
+indispensable for diagnosing model fits
+\citep{draper1998applied, cook1982residuals, montgomery1982introduction}.
+The lack of empirical evidence for the ubiquitous advice is
+\emph{curious}, and is what this article tackles.
 
-These are all topics explained thoroughly in the sizeable literature on
-diagnostic procedures for linear models, e.g. \citet{draper1998applied},
-\citet{montgomery1982introduction}, \citet{belsley1980regression},
-\citet{cook1999applied} and \citet{cook1982residuals}. Interestingly,
-despite the abundance of conventional tests, ALL of these writings
-advise that plotting residuals is an essential tool for diagnosing
-regression model problems:
+\textcolor{red}{However, it needs to be noted that relying purely on subjective assessment of plots can be a source of anxiety. Indeed, correctly judging whether \emph{no} pattern exists in a residual plot is a really difficult task. People will almost always see a pattern \citep[see ][]{kahneman2011thinking}, so the question that really needs answering is whether any pattern perceived is consistent with randomness, or sampling variability, or noise. \cite{loy2021bringing} emphasizes that this is especially difficult to teach to new analysts and students, and advocates to the broader use of the lineup protocol \citep{bujastatistical2009}.}
 
-\begin{quote}
-\emph{Some most useful checks allowed by data plots should be done on a
-routine basis for every regression.} \citep{draper1998applied}
-\end{quote}
-
-\begin{quote}
-\emph{Such formal and informal procedures are complementary, and both
-have a place in residual analysis.} \citep{cook1982residuals}
-\end{quote}
-
-\begin{quote}
-\emph{In our experience, statistical tests on regression model residuals
-are not widely used. In most practical situations the residual plots are
-more informative than the corresponding tests. However, since residual
-plots do require skill and experience to interpret, the statistical
-tests may occasionally prove useful.} \citep{montgomery1982introduction}
-\end{quote}
-
-\noindent The common wisdom of experts is that plotting the residuals is
-indispensable for diagnosing model fits. The lack of empirical evidence
-for the ubiquitous advice is \emph{curious}, and is what this article
-tackles.
-
-\textcolor{red}{However, it needs to be noted that relying purely on subjective assessment of plots can be a source of anxiety. Indeed, correctly judging whether NO pattern exists in a residual plot is a really difficult task. People will almost always see a pattern (see @kahneman2011thinking), so the question that really needs answering is whether any pattern perceived is consistent with randomness, or sampling variability, or noise. @loy2021bringing emphasizes that this is especially difficult to teach to new analysts and students, and advocates to the broader use of the lineup protocol [@bujastatistical2009].}
-
-\textcolor{red}{The lineup protocol places a data plot in a field of null plots, allowing for a comparison of patterns due purely by chance to what is perceived in the data plot. For residual analysis this is especially helpful for gauging whether there is NO pattern. In its strict use, one would insist that the data plot is not seen before seeing the lineup, so that the observer doesn't know which is the true plot. When used this way, it provides an objective test for data plots. @majumdervalidation2013 validated that results from lineups assessed by human observers performed similarly to conventional tests. One wouldn't use a lineup when a conventional test exists and is adequate because it is more manually expensive to conduct. However, where no adequate conventional test exists, it is invaluable, as shown by @loy2013diagnostic. Here we use the lineup as a vehicle to rigorously explore why experts advise that residual plots are indispensable despite the prevalence of numerical tests.}
+\textcolor{red}{The lineup protocol places a data plot in a field of null plots, allowing for a comparison of patterns due purely by chance to what is perceived in the data plot. For residual analysis this is especially helpful for gauging whether there is \emph{no} pattern. In its strict use, one would insist that the data plot is not seen before seeing the lineup, so that the observer doesn't know which is the true plot. When used this way, it provides an objective test for data plots. \cite{majumdervalidation2013} validated that results from lineups assessed by human observers performed similarly to conventional tests. One wouldn't use a lineup when a conventional test exists and is adequate because it is more manually expensive to conduct. However, where no adequate conventional test exists, it is invaluable, as shown by \cite{loy2013diagnostic}. Here we use the lineup as a vehicle to rigorously explore why experts advise that residual plots are indispensable despite the prevalence of numerical tests.}
 
 The paper is structured as follows. Section \ref{background} describes
 the background on the types of departures that one expects to detect,
@@ -1255,9 +1229,8 @@ distribution of the predictors on test power. The big differences in the
 power curves seen in Figure \ref{fig:different-x-dist-poly-power} is
 echoed in the results reported in these articles.
 
-\hypertarget{limitations-and-practicality}{%
-\section{Limitations and
-practicality}\label{limitations-and-practicality}}
+\hypertarget{section}{%
+\section{\texorpdfstring{\textcolor{red}{Limitations and practicality}}{}}\label{section}}
 
 One of the primary limitations of the lineup protocol lies in its
 reliance on human judgements. In this context, the effectiveness of a

@@ -487,11 +487,11 @@ The power of a conventional hypothesis test is affected by both the true paramet
 
 ```{=tex}
 \begin{equation} \label{eq:logistic-regression-1-1}
-Pr(\text{reject}~H_0|H_1,E) = \Lambda\left(log\left(\frac{0.05}{0.95}\right) + \beta_1 E\right),
+Pr(\text{reject}~H_0|H_1,E) = \Lambda\left(\log\left(\frac{0.05}{0.95}\right) + \beta_1 E\right),
 \end{equation}
 ```
 
-\noindent where $\Lambda(.)$ is the standard logistic function given as $\Lambda(z) = exp(z)/(1+exp(z))$. The effect size $E$ is the only predictor and the intercept is fixed to $log(0.05/0.95)$ so that $\hat{Pr}(\text{reject}~H_0|H_1,E = 0) = 0.05$, the desired significance level.    
+\noindent where $\Lambda(.)$ is the standard logistic function given as $\Lambda(z) = \exp(z)(1+\exp(z))^{-1}$. The effect size $E$ is the only predictor and the intercept is fixed to $\log(0.05/0.95)$ so that $\hat{Pr}(\text{reject}~H_0|H_1,E = 0) = 0.05$, the desired significance level.    
 
 The power of a visual test on the other hand, may additionally depend on the ability of the particular participant, as the skill of each individual may affect the number of observers who identify the data plot from the lineup [@majumder2013validation]. To address this issue, @majumder2013validation models the probability of participant $j$ correctly picking the data plot from lineup $l$ using a mixed-effect logistic regression, with participants treated as random effect. Then, the estimated power of a visual test evaluated by a single participant is the predicted value obtained from the mixed effects model. However, this mixed effects model does not work with scenario where participants are asked to select one or more most different plots. In this scenario, having the probability of a participant $j$ correctly picking the data plot from a lineup $l$ is insufficient to determine the power of a visual test because it does not provide information about the number of selections made by the participant for the calculation of the $p$-value. Therefore, we directly estimate the probability of a lineup being rejected by assuming that individual skill has negligible effect on the variation of the power. This assumption essentially averages out the subject ability and helps to simplify the model structure, thereby obviating a costly large-scale experiment to estimate complex covariance matrices. The same model given in Equation \ref{eq:logistic-regression-1-1} is applied to model the power of a visual test.  
 
@@ -519,7 +519,7 @@ data.frame(j = c("2", "3", "6", "18", ""),
                escape = FALSE,
                format = "latex",
                booktabs = TRUE, 
-               caption  = 'Levels of the factors used in data collection periods I, II, III.', 
+               caption  = 'Levels of the factors used in data collection periods I, II, and III.', 
                label = "model-factor-table" ) %>%
   kableExtra::kable_styling(latex_options = "scale_down") %>%
   kableExtra::add_header_above(c("Poly Order (sym1)", #"Order of Hermite polynomial\n(sym1)", 

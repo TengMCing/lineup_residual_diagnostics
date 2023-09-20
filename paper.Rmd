@@ -640,7 +640,11 @@ map(c(1, 2, 4), function(sigma) {
 
 Visual patterns of non-linearity are simulated using four different orders of probabilist's Hermite polynomials ($j = 2, 3, 6, 18$). The values of $j$ were chosen so that distinct shapes of non-linearity were included in the residual plot. These include "U", "S", "M" and "triple-U" shape as shown in Figure \ref{fig:different-shape-of-herimite}. A greater value of $j$ will result in a curve with more turning points. It is expected that the "U" shape will be the easiest to detect, as the shape gets more complex it will be harder to perceive in a scatterplot, particularly when there is noise. Figure \ref{fig:different-sigma} shows the "U" shape for different amounts of noise ($\sigma$).
 
+<!----
+
 Figure \ref{fig:example-poly-lineup} is one of the non-linearity lineups used in experiment. This data plot is produced by the non-linearity model with $j = 6$, and is in location $2^3+1$. All five participants who viewed the lineup chose this plot as most different, thus all detected the data plot.
+
+
 
 ```{r example-poly-lineup, fig.pos="t!", fig.height = 7, fig.width = 7, fig.cap = "One of the lineups containing non-linearity patterns used in data collection period I. Can you spot the most different plot? The data plot is positioned at $2^3 + 1$."}
 VI_MODEL$plot_lineup(vi_lineup$poly_24$data, 
@@ -648,6 +652,8 @@ VI_MODEL$plot_lineup(vi_lineup$poly_24$data,
                      theme = theme_light(),
                      remove_axis = TRUE)
 ```
+
+--->
 
 ### Heteroskedasticity
 
@@ -734,6 +740,8 @@ map(c(1, 4, 16, 64), function(b) {
   ylab("Residuals")
 ```
 
+<!---
+
 
 ```{r example-heter-lineup, fig.pos="t!", fig.height = 7, fig.width = 7, fig.cap = "One of the lineups containing heteroskedasticity pattern used in data collection period II. Can you spot the most different plot? The data plot is positioned at $3^3 - 3^2$."}
 
@@ -745,6 +753,8 @@ VI_MODEL$plot_lineup(vi_lineup$heter_471$data,
 
 
 An example lineup of this model used in data collection period II is shown in Figure \ref{fig:example-heter-lineup} with $a = -1$. The data plot location is in position $2^4 + 2$. Nine out of 11 participants chose this plot from the lineup. 
+
+--->
 
 
 ### Factors common to both data collection periods

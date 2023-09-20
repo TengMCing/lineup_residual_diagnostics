@@ -1674,8 +1674,7 @@ The experiment also revealed some interesting results. For the most part, the vi
 
 # Acknowledgements {-}
 
-These `R` packages are used for the work: 
-`cli` [@cli], `curl` [@curl], `dplyr` [@dplyr], `ggplot2` [@ggplot2], `jsonlite` [@jsonlite], `lmtest` [@lmtest], `mpoly` [@mpoly], `progress` [@progress], `tibble` [@tibble], `ggmosaic` [@ggmosaic], `purrr` [@purrr], `tidyr` [@tidyr], `readr` [@readr], `stringr` [@stringr], `here` [@here], `kableExtra` [@kableextra], `patchwork` [@patchwork], `rcartocolor` [@rcartocolor]. The study website is powered by `PythonAnywhere` [@pythonanywhere] and the `Flask` web framework [@flask]. The `jsPsych` framework [@jspsych] is used to create behavioural experiments that run in our study website. 
+These `R` packages are used for the work: `tidyverse` [@tidyverse], `lmtest` [@lmtest], `mpoly` [@mpoly], `ggmosaic` [@ggmosaic], `kableExtra` [@kableextra], `patchwork` [@patchwork], `rcartocolor` [@rcartocolor]. The study website is powered by `PythonAnywhere` [@pythonanywhere] and the `Flask` web framework [@flask]. The `jsPsych` framework [@jspsych] is used to create behavioural experiments that run in our study website. 
 
 The article was created with R packages `rticles` [@rticles], `knitr` [@knitr] and `rmarkdown` [@rmarkdown]. The project's GitHub repository (https://github.com/TengMCing/lineup_residual_diagnostics) contains all materials required to reproduce this article.
 

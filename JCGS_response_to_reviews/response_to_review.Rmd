@@ -62,7 +62,7 @@ It can be argued that it is being used by practitioners based on download rates 
 
 *Overall, this paper is very well written and interesting. However, I have some serious reservations about the practicality of the procedure, which I articulate in greater detail below. I also think the paper is currently too long, and that a significant chunk of material should be shifted to the Appendix.*
 
-Thank you for the positive feedback. We have shortened the paper by about five pages, while also adding a discussion on the practicality in the Section "Limitations and practicality".
+Thank you for the positive feedback. We have shortened the paper by about four pages, while also adding a discussion on the practicality in the Section "Limitations and practicality".
 
 *1. As mentioned above, the paper is too long. While the onus should be on the authors for getting the page number down, some possible suggestions could be combining Sections 1 and 2 while moving some of the historical context (which I fully acknowledge is quite interesting) to the Appendix, and moving some of the technical details of Section 3.2 to the Appendix.*
 
@@ -72,6 +72,7 @@ Thank you for your suggestions. This is how we have shortened the paper:
 - Sections 1 and 2 have been made more precise, while still covering the requested additional topics.
 - The explanation of power calculation was left in the main paper because this is new and of primary importance for understanding the results.
 - Part of the Experimental design has been moved into the Appendix.
+- Two of the full lineup plots were removed.
 
 *2. The practical implementation of this as a procedure is, in my opinion, the biggest weakness. The authors acknowledge the costliness of human evaluation of residuals, but not until Page 33, Line 47. I find this a tad disingenuous as this will likely jump out to the reader as being a problem right from the beginning of reading this paper (it did for me). So I think being upfront about this limitation, and providing some practical considerations to address this concern will assuage my concerns. There might be some concepts from human-computer interaction that could be effective for operationalizing and improving the efficiency of the present work.*
 
@@ -89,7 +90,7 @@ check earlier paper.-->
 
 *4. What should be claimed about the sample size n as a limitation? Take in point the comments at the bottom of page 19. Am I to understand that the lineup protocol will not be appropriate for big data problems?*
 
-The lineup protocol is very suitable for big data. A plot other than a scatterplot is probably needed to better display a large number of observations. We have changed the language so that this is clearer.
+The lineup protocol is very suitable for big data. A plot other than a scatterplot is probably needed to better display a large number of observations. We have changed the language so that this is clearer (highlighted in red).
 
 *5. At the beginning of Section 4.2.3, what cultural biases do the authors anticipate by restricting the participants to be “fluent in English”? Granted this is likely done as a matter of convenience, but it would be good to articulate how cultural biases may be present in interpreting a lineup protocol.*
 

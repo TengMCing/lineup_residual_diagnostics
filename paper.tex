@@ -148,9 +148,9 @@ indispensable for diagnosing model fits
 The lack of empirical evidence for the ubiquitous advice is
 \emph{curious}, and is what this article tackles.
 
-\textcolor{red}{However, relying purely on subjective assessment of a single plot can be deceiving. Indeed, correctly judging whether \emph{no} pattern exists in a residual plot is a difficult task. People will almost always see a pattern \citep[see ][]{kahneman2011thinking}, so the question that really needs answering is whether any pattern perceived is consistent with randomness, or sampling variability, or noise. \cite{loy2021bringing} emphasizes that this is especially difficult to teach to new analysts and students, and advocates to the broader use of the lineup protocol \citep{bujastatistical2009}.}
+\textcolor{red}{Additionally, relying solely on the subjective assessment of a single plot can be problematic. People will almost always see a pattern \citep[see][]{kahneman2011thinking}, so the question that really needs answering is whether any pattern perceived is consistent with randomness, or sampling variability, or noise. Correctly judging whether \emph{no} pattern exists in a residual plot is a difficult task. \cite{loy2021bringing} emphasizes that this is especially difficult to teach to new analysts and students, and advocates to the broader use of the lineup protocol \citep{bujastatistical2009}.}
 
-\textcolor{red}{The lineup protocol places a data plot in a field of null plots, allowing for a comparison of patterns due purely by chance to what is perceived in the data plot. For residual analysis this is especially helpful for gauging whether there is \emph{no} pattern. In its strict use, one would insist that the data plot is not seen before seeing the lineup, so that the observer doesn't know which is the true plot. When used this way, it provides an objective test for data plots. \cite{majumdervalidation2013} validated that results from lineups assessed by human observers performed similarly to conventional tests. One wouldn't use a lineup when a conventional test exists and is adequate because it is more manually expensive to conduct. However, where no adequate conventional test exists, it is invaluable, as shown by \cite{loy2013diagnostic}. Here we use the lineup as a vehicle to rigorously explore why experts advise that residual plots are indispensable despite the prevalence of numerical tests.}
+\textcolor{red}{The lineup protocol places a data plot in a field of null plots, allowing for a comparison of patterns due purely by chance to what is perceived in the data plot. For residual analysis this is especially helpful for gauging whether there is \emph{no} pattern. (Figure \ref{fig:first-example-lineup} shows an example of a lineup of residual plots.) In its strict use, one would insist that the data plot is not seen before seeing the lineup, so that the observer doesn't know which is the true plot. When used this way, it provides an objective test for data plots. \cite{majumdervalidation2013} validated that results from lineups assessed by human observers performed similarly to conventional tests. One wouldn't use a lineup when a conventional test exists and is adequate because it is more manually expensive to conduct. However, where no adequate conventional test exists, it is invaluable, as shown by \cite{loy2013diagnostic}. Here we use the lineup as a vehicle to rigorously explore why experts advise that residual plots are indispensable despite the prevalence of numerical tests.}
 
 The paper is structured as follows. Section \ref{background} describes
 the background on the types of departures that one expects to detect,
@@ -162,6 +162,15 @@ design to compare the decisions made by formal hypothesis testing, and
 how humans would read diagnostic plots. The results are reported in
 Section \ref{results}. We conclude with a discussion of the presented
 work, and ideas for future directions.
+
+\begin{figure}[t!]
+
+{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/first-example-lineup-1} 
+
+}
+
+\caption{Visual testing is conducted using a lineup, as in the example here. The residual plot computed from the observed data is embedded among 19 null plots, where the residuals are simulated from a standard error model. Computing the $p$-value requires that the lineup be examined by a number of human judges, each asked to select the most different plot. A small $p$-value would result from a substantial number selecting the data plot (at position $2^2 + 2$, exhibiting non-linearity).}\label{fig:first-example-lineup}
+\end{figure}
 
 \hypertarget{background}{%
 \section{Background}\label{background}}
@@ -337,15 +346,6 @@ requires a priori specification of \(H_0\) (or at least a null data
 generating mechanism), much like the requirement of knowing the sampling
 distribution of the test statistic in null hypothesis significance
 testing framework.
-
-\begin{figure}[t!]
-
-{\centering \includegraphics[width=1\linewidth]{paper_files/figure-latex/first-example-lineup-1} 
-
-}
-
-\caption{Visual testing is conducted using a lineup, as in the example here. The residual plot computed from the observed data (plot $2^2 + 2$, exhibiting non-linearity) is embedded among 19 null plots, where the residuals are simulated from a standard error model. Computing the $p$-value requires that the lineup be examined by a number of human judges, each asked to select the most different plot. A small $p$-value would result from a substantial number selecting plot $2^2 + 2$.}\label{fig:first-example-lineup}
-\end{figure}
 
 Figure \ref{fig:first-example-lineup} is an example of a lineup
 protocol. If the data plot at position \(2^2 + 2\) is identifiable, then
@@ -1197,12 +1197,12 @@ echoed in the results reported in these articles.
 
 One of the primary limitations of the lineup protocol lies in its
 reliance on human judgements. In this context, the effectiveness of a
-single lineup evaluation is closely connected with the perceptual
-ability and visual skills of the individual. When results from multiple
-individuals are combined the outcome is encouragingly robust. For simple
-plots and strong patterns just a few individuals are needed to arrive at
-a clear answer, but more individuals will be needed when the plot design
-is complex, or the signal strength is weak.
+single lineup evaluation can be dependent on the perceptual ability and
+visual skills of the individual. However, when results from multiple
+individuals are combined the outcome is encouragingly high-quality and
+robust. For simple plots and strong patterns just a few individuals are
+needed to arrive at a clear answer, but more individuals will be needed
+when the plot design is complex, or the signal strength is weak.
 
 Using a lineup protocol removes subjectiveness in interpreting patterns
 in plots. A plot is compared with draws from a null model, in much the
@@ -1290,12 +1290,12 @@ tests, where one needs to specifically test for non-linearity or
 heteroskedasticity the visual test operated effectively across the range
 of departures from good residuals. If the fitted value distribution is
 not uniform, there is a small loss of power in the visual test.
-Surprisingly there is a big difference in power of the conventional test
-across fitted value distributions. Another surprising finding was that
-the direction of heteroskedasticity appears to affect the ability to
-visually detect it: both triangles being more difficult to detect than
-the butterfly, and a small difference in detection between left- and
-right-triangle.
+Surprisingly, there is a big difference in power of the conventional
+test across fitted value distributions. Another unexpected finding was
+that the direction of heteroskedasticity appears to affect the ability
+to visually detect it: both triangles being more difficult to detect
+than the butterfly, and a small difference in detection between left-
+and right-triangle.
 
 \hypertarget{acknowledgements}{%
 \section*{Acknowledgements}\label{acknowledgements}}

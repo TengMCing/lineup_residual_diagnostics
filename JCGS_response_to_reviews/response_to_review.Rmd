@@ -24,7 +24,6 @@ Thank you for this feedback. We are glad to see that the reviewer agrees with th
 
 We have added more explanation about the use of residual plots in the Introduction (highlighted in red) and we have added a new section "Limitations and practicality" that provides some insight into the wider picture.
 
-<!-- (diagnostic plots may reveal features which are not directly connected to a linear model assumption; You have restricted attention to the residual-fitted plot and a particular selection of formal tests; Nevertheless, it would be good to add some discussion of the wider picture.)-->
 
 *1. "The ubiquity of this advice is curious: investigating why, is the subject of this paper. " I don't find this advice curious - it seems almost universal. I have taught this topic for many years and give the same advice. I explain why I give this advice and I believe several other authors do the same. Their reasons are wider in scope than you express in this article.*
 
@@ -32,13 +31,7 @@ We have changed the language.
 
 *2. All your examples are simulated data and very obviously so. Real data shows much greater irregularity - the points will usually not be uniformly spaced along the x-axis. The response may be somewhat discrete or have other features that will distinguish it from bland randomness. This would seem to offer greater challenges to your lineup idea as generating data under the null will be much more challenging. If we simulate from the null model, the real data will be very obvious. You have done an experiment but the reality would be more like an observational study. This limits the scope of your conclusions which you should clearly acknowledge.*
 
-The work intentionally uses simulated data because we need to study the problem in controlled conditions. The reviewer is correct, though, that real data will pose more interesting challenges. It should be noted that our simulation setup does include discrete independent variables, and consequently somewhat discretized response. The other point to note is that our null generating process uses residual rotation and will likely maintain irrelevant quirks of the data in the null plots as well. In that sense, the real data plot is not necessarily always obvious (see @buja2009statistical and @wickham2010 for examples). Nonetheless, our simulation does only test handful of conditions. We have addressed this limited scope in the broader discussion of the use of residual plots and lineups for residual diagnostics added to the new Section "Limitations and practicality". <!-- (see issue #11).-->
-
-<!--
-ET: I don't think talking about computer vision model makes sense here as the reviewer would not know about our other work?
-
-An observational study involving actual residual plots will hopefully be possible once a computer vision model is deployed that will allow analysts to upload their residuals for automated testing.
--->
+The work intentionally uses simulated data because we need to study the problem in controlled conditions. The reviewer is correct, though, that real data will pose more interesting challenges. It should be noted that our simulation setup does include discrete independent variables, and consequently somewhat discretized response. The other point to note is that our null generating process uses residual rotation and will likely maintain irrelevant quirks of the data in the null plots as well. In that sense, the real data plot is not necessarily always obvious (see @buja2009statistical and @wickham2010 for examples). Nonetheless, our simulation does only test handful of conditions. We have addressed this limited scope in the broader discussion of the use of residual plots and lineups for residual diagnostics added to the new Section "Limitations and practicality". 
 
 *3. It is true that formal diagnostic tests tend to be too sensitive and yet we don't have a definite sense of how much divergence from the assumed model would cause a significant problem. How much non-normality in the residuals is acceptable? We don't really know. Formal tests give us definite answers about violations of assumptions which we might find hard to ignore but diagnostic plots give us license to sweep inconvenient features under the carpet. Is there really an advantage to the diagnostic plot in this case other than the opportunity to hand-wave about our answer?*
 
@@ -46,11 +39,10 @@ When the diagnostic plots are embedded in a lineup of nulls, it does have the ad
 
 Having a definitive (numerical) answer to "how much is too much" would require more and different work. For our purposes, it was that the true residual plot could be detected from the null plots when the lineup was evaluated by people. We've added a sentence to the Conclusion clarifying this. 
 
-<!--(Is there a paper to refer the reader to?)-->
 
 *4. I use something like the lineup protocol in teaching to help students calibrate their assessment of diagnostic plots. But I doubt very much experienced analysts use them in practice. I do not think it is realistic or really that helpful to recommend their everyday use.*
 
-It can be argued that it is being used by practitioners based on download rates of the `nullabor` package (>19,000 downloads in the past year) which implements a process for creating lineups, and application articles that report usage. Using it formally, we agree requires the effort of engaging a crowd-sourcing service, involving a small expense. Science labs typically have a budget for equipment and experimental devices and we would advocate that this is a useful addition. Where a practitioner lacks the budget for running crowd-sourcing services, the protocol can be used with their team or network and can be an excellent way to engage their team/network with the data. We have formally used crowd-sourcing ourselves for application purposes in @roychowdhuryUsingVisualStatistical2015a for ecological data and @mahbubulmajumderVisualMiningMethods2013 for gene expression analysis. We have added some details in the "Limitations and practicality" section. <!--We agree that it is not widespread, and think that this is because it's a little unwieldy. The goal is to make it easier, particularly by employing an automated testing tool using computer vision, but this is not the subject of the current paper.-->
+It can be argued that it is being used by practitioners based on download rates of the `nullabor` package (>19,000 downloads in the past year) which implements a process for creating lineups, and application articles that report usage. Using it formally, we agree requires the effort of engaging a crowd-sourcing service, involving a small expense. Science labs typically have a budget for equipment and experimental devices and we would advocate that this is a useful addition. Where a practitioner lacks the budget for running crowd-sourcing services, the protocol can be used with their team or network and can be an excellent way to engage their team/network with the data. We have formally used crowd-sourcing ourselves for application purposes in @roychowdhuryUsingVisualStatistical2015a for ecological data and @mahbubulmajumderVisualMiningMethods2013 for gene expression analysis. We have added some details in the "Limitations and practicality" section. 
 
 # Reviewer 2
 
@@ -81,12 +73,6 @@ The new Section "Limitations and practicality" addresses these concerns and we h
 *3. I think a better connection needs to be made with where this computationally expensive process could potentially pay off. For example, applying the lineup protocol to, say, any of the data examples in the texts cited by the authors would amount to nothing more than an academic exercise. But, what sort of data problems can the authors point to and definitively claim that the lineup protocol will be invaluable at ensuring we visually capture possible nonlinearities or heteroskedasticity? I am not doubting the efficacy of the approach, but I’d like to see a stronger case made with its practical application.*
 
 See the new Section "Limitations and practicality". Some additional text is provided in various places. It's very practical to employ the lineup protocol using the `nullabor` package, and the (growing) number of citations from publications in a variety of areas show that it is being used. 
-
-<!-- As mentioned above, 
-
-This is not computationally expensive. The conventional test also make mistakes. You need something more than the conventional test. And you also need something more than the residual plot.
-
-check earlier paper.-->
 
 *4. What should be claimed about the sample size n as a limitation? Take in point the comments at the bottom of page 19. Am I to understand that the lineup protocol will not be appropriate for big data problems?*
 

@@ -46,11 +46,43 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
+
 # OOP supports needed by `visage`
-# remotes::install_github("TengMCing/bandicoot")
-# 
+if (!requireNamespace("bandicoot", quietly = TRUE)) {
+  remotes::install_github("TengMCing/bandicoot")
+}
+
 # Visual inference models and p-value calculation
-# remotes::install_github("TengMCing/visage")
+if (!requireNamespace("visage", quietly = TRUE)) {
+  remotes::install_url("https://github.com/TengMCing/visage/raw/master/built/visage_0.1.2.tar.gz")
+} else {
+  if (packageVersion("visage") < "0.1.2") {
+    remotes::install_url("https://github.com/TengMCing/visage/raw/master/built/visage_0.1.2.tar.gz")
+  }
+}
+
+if (!requireNamespace("tidyverse", quietly = TRUE)) {
+  install.packages("tidyverse")
+}
+
+if (!requireNamespace("here", quietly = TRUE)) {
+  install.packages("here")
+}
+
+if (!requireNamespace("kableExtra", quietly = TRUE)) {
+  install.packages("kableExtra")
+}
+
+if (!requireNamespace("ggpubr", quietly = TRUE)) {
+  install.packages("ggpubr")
+}
+
+if (!requireNamespace("lvplot", quietly = TRUE)) {
+  install.packages("lvplot")
+}
 
 library(tidyverse)
 library(visage)

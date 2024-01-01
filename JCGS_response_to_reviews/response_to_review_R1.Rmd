@@ -1,0 +1,40 @@
+---
+title: "Response to Reviews: JCGS-23-139.R1"
+author: Weihao Li, Emi Tanaka, Dianne Cook, Susan VanderPlas
+output: pdf_document
+date: "`r Sys.Date()`"
+bibliography: ../ref.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+We thank the anonymous associate editor and reviewers for their careful reviews. What follows is our point-by-point response to reviewer comments. 
+
+Note that *the original reviewer comments are in italic* and our response is in normal text. 
+
+# Reviewer 1
+
+*Good response.*
+
+Thank you. (...)
+
+# Reviewer 2
+
+*I appreciate the effort provided by the authors for both my comments and the other reviewer’s comments. The revision is much improved. I have a few remaining comments.*
+
+Thank you. (...)
+
+*1. I still believe the paper is too long. Starting with Section 4, I believe the paper starts to become a little too cumbersome. I suggest the authors look for ways to condense down Sections 4 and 5 a bit as I think these are the biggest contributors to the length.*
+
+*2. In the Figure 1 caption, clarify what is meant by the "at position $2^2 + 2$".*
+
+*3. In the footnote on the bottom of page6, replace "didn't" and "it's" by "did not" and "it is", respectively.*
+
+*4. In the last sentence of Section 2.2, the final segment "statistical and practical statistics" sounds awkward because "statistical" should be serving as an adjective to another word, and the segment as written makes it sound like it is also an adjective to "statistics". The authors might consider replacing "statistical" with "classic inference" as the paper is addressing the discrepancies between inferential results and what may be practically done.*
+
+*5. Page 21 onward, there are many instances where the figure references did not compile correctly. These need to be corrected.*
+

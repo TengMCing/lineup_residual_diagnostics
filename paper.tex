@@ -170,7 +170,7 @@ seen before seeing the lineup, so that the observer doesn't know which
 is the true plot. When used this way, it provides an objective test for
 data plots. \cite{majumdervalidation2013} validated that results from
 lineups assessed by human observers performed similarly to conventional
-tests. One wouldn't use a lineup when a conventional test exists and is
+tests. One would not use a lineup when a conventional test exists and is
 adequate because it is more manually expensive to conduct. However,
 where no adequate conventional test exists, it is invaluable, as shown
 by \cite{loy2013diagnostic}. Here we use the lineup as a vehicle to
@@ -215,8 +215,8 @@ various types of departures from this ideal pattern. Non-linearity,
 heteroskedasticity and non-normality, shown in Figures
 \ref{fig:residual-plot-common-departures}B,
 \ref{fig:residual-plot-common-departures}C, and
-\ref{fig:residual-plot-common-departures}D are three commonly checked
-departures.
+\ref{fig:residual-plot-common-departures}D, respectively, are three
+commonly checked departures.
 
 \begin{figure}[t!]
 
@@ -234,7 +234,7 @@ of a predictor is wrongfully omitted. Any non-linear pattern visible in
 the residual plot could be indicative of this problem. An example
 residual plot containing visual pattern of non-linearity is shown in
 Figure \ref{fig:residual-plot-common-departures}B. One can clearly
-observe the ``S-shape'' from the residual plot, which corresponds to
+observe the ``S-shape'' from the residual plot, which corresponds to the
 cubic term that should have been included in the model.
 
 Heteroskedasticity refers to the presence of non-constant error variance
@@ -253,8 +253,8 @@ vertical spread. Unlike non-linearity and heteroskedasticity,
 non-normality is usually detected with a different type of residual
 plot: a histogram or a normal probability plot. Because we focus on
 scatterplots, non-normality is not one of the departures examined in
-depth in this paper. (\citet{loy2016variations} discuss related work on
-non-normality checking.)
+depth in this paper. \citep[ discuss related work on non-normality
+checking.]{loy2016variations}
 
 \hypertarget{conventionally-testing-for-departures}{%
 \subsection{Conventionally testing for
@@ -316,7 +316,7 @@ could lead to incorrect conclusions or errors in subsequent analyses,
 but minor defects in the model are unlikely to have a significant impact
 and may be best disregarded for practical purposes. The experiment
 discussed in this paper specifically addresses this tension between
-statistical and practical statistics.
+statistical and practical significance.
 
 \begin{table}
 
@@ -338,22 +338,19 @@ D & Non-normality & 0.863 & 0.736 & \em{0.000}\\
 \subsection{Visual test procedure based on
 lineups}\label{visual-test-procedure-based-on-lineups}}
 
-The examination of data plots to infer signal or patterns (or lack
+The examination of data plots to infer signals or patterns (or lack
 thereof) is fraught with variation in the human ability to interpret and
 decode the information embedded in a graph
-\citep{cleveland1984graphical}. Human examination of diagnostic plots
-can feel subjective. Ideally we would expect visual evaluation to be
-done objectively with low human-to-human variation in reading data
-plots, but we cannot assume this is the case.
+\citep{cleveland1984graphical}. In practice, over-interpretation of a
+single plot is common. For instance, \citet{roy2015using} described a
+published example where authors over-interpreted separation between gene
+groups from a two-dimensional projection of a linear discriminant
+analysis even when there were no differences in the expression levels
+between the gene groups.
 
-In practice, over-interpretation of a single plot is common. For
-instance, \citet{roy2015using} described a published example where
-authors over-interpreted separation between gene groups from a
-two-dimensional projection of a linear discriminant analysis even when
-there were no differences in the expression levels between the gene
-groups. One solution to over-interpretation is to examine the plot in
-the context of natural sampling variability assumed by the model, called
-the lineup protocol, as proposed in \citet{buja2009statistical}.
+One solution to over-interpretation is to examine the plot in the
+context of natural sampling variability assumed by the model, called the
+lineup protocol, as proposed in \citet{buja2009statistical}.
 \citet{majumder2013validation} showed that the lineup protocol is
 analogous to the null hypothesis significance testing framework. The
 protocol consists of \(m\) randomly placed plots, where one plot is the
@@ -405,14 +402,14 @@ a similar power to a t-test, though they express that in general it is
 unnecessary to use visual inference if there exists a corresponding
 conventional test, and they do not expect the visual test to perform
 equally well as the conventional test. In their third experiment, where
-the contamination of the data violate the assumptions of the convetional
-test, visual test outperforms the conventional test by a large margin.
-This is encouraging, as it supports the use of visual inference in
-situations where there are no existing numerical testing procedures.
-Visual inference has also been integrated into diagnostics for
-hierarchical linear models where the lineup protocol is used to judge
-the assumptions of linearity, normality and constant error variance for
-both the level-1 and level-2 residuals
+the contamination of the data violate the assumptions of the
+conventional test, visual test outperforms the conventional test by a
+large margin. This supports the use of visual inference in situations
+where there are no existing numerical testing procedures. Visual
+inference has also been integrated into diagnostics for hierarchical
+linear models where the lineup protocol is used to judge the assumptions
+of linearity, normality and constant error variance for both the level-1
+and level-2 residuals
 \citep{loy2013diagnostic, loy2014hlmdiag, loy2015you}.
 
 \hypertarget{significance-calculation}{%
@@ -1193,9 +1190,7 @@ The supplementary material is available at
 \url{https://github.com/TengMCing/lineup_residual_diagnostics/blob/master/appendix.pdf}.
 It includes more details about the experimental setup, the derivation of
 the effect size, the effect of data collection period, and the estimate
-of \(\alpha\).
-
-The R package \texttt{visage} is currently available at
+of \(\alpha\). The R package \texttt{visage} is currently available at
 \url{https://github.com/TengMCing/visage}.
 
 \bibliographystyle{tfcad}

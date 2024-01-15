@@ -422,12 +422,11 @@ power}\label{significance-calculation}}
 In diagnosing a model fit using the residuals, we are generally
 interested in testing whether ``\emph{the regression model is correctly
 specified}'' (\(H_0\)) against the broad alternative ``\emph{the
-regression model is misspecified}'' (\(H_a\)).
-
-However, it is practically impossible to test this broad \(H_0\) with
-conventional tests, because they need specific structure causing the
-departure to be quantifiable in order to be computable. For example, the
-RESET test for detecting non-linear departures is formulated by fitting
+regression model is misspecified}'' (\(H_a\)). However, it is
+practically impossible to test this broad \(H_0\) with conventional
+tests, because they need specific structure causing the departure to be
+quantifiable in order to be computable. For example, the RESET test for
+detecting non-linear departures is formulated by fitting
 \(y = \tau_0 + \sum_{i=1}^{p}\tau_px_p +\gamma_1\hat{y}^2 + \gamma_2\hat{y}^3 + \gamma_3\hat{y}^4 + u, ~~u \sim N(0, \sigma_u^2)\)
 in order to test \(H_0:\gamma_1 = \gamma_2 = \gamma_3 = 0\) against
 \(H_a: \gamma_1 \neq 0 \text{ or } \gamma_2 \neq 0 \text{ or } \gamma_3 \neq 0\).
@@ -466,7 +465,7 @@ more interested in knowing how much the residuals deviate from the model
 assumptions, and whether this deviation is of practical significance.
 
 The power of a conventional hypothesis test is affected by both the true
-parameter \(\boldsymbol{\theta}\) and the sample size \(n\). These two
+parameters \(\boldsymbol{\theta}\) and the sample size \(n\). These two
 can be quantified in terms of effect size \(E\) to measure the strength
 of the residual departures from the model assumptions. Details about the
 calculation of effect size are provided in Section \ref{effect-size}
@@ -497,22 +496,22 @@ from the lineup \citep{majumder2013validation}. To address this issue,
 \citet{majumder2013validation} models the probability of participant
 \(j\) correctly picking the data plot from lineup \(l\) using a
 mixed-effect logistic regression, with participants treated as random
-effect. Then, the estimated power of a visual test evaluated by a single
-participant is the predicted value obtained from the mixed effects
-model. However, this mixed effects model does not work with scenario
-where participants are asked to select one or more most different plots.
-In this scenario, having the probability of a participant \(j\)
-correctly picking the data plot from a lineup \(l\) is insufficient to
-determine the power of a visual test because it does not provide
-information about the number of selections made by the participant for
-the calculation of the \(p\)-value. Therefore, we directly estimate the
-probability of a lineup being rejected by assuming that individual skill
-has negligible effect on the variation of the power. This assumption
-essentially averages out the subject ability and helps to simplify the
-model structure, thereby obviating a costly large-scale experiment to
-estimate complex covariance matrices. The same model given in Equation
-\ref{eq:logistic-regression-1-1} is applied to model the power of a
-visual test.
+effects. Then, the estimated power of a visual test evaluated by a
+single participant is the predicted value obtained from the mixed
+effects model. However, this mixed effects model does not work with
+scenario where participants are asked to select one or more most
+different plots. In this scenario, having the probability of a
+participant \(j\) correctly picking the data plot from a lineup \(l\) is
+insufficient to determine the power of a visual test because it does not
+provide information about the number of selections made by the
+participant for the calculation of the \(p\)-value. Therefore, we
+directly estimate the probability of a lineup being rejected by assuming
+that individual skill has negligible effect on the variation of the
+power. This assumption essentially averages out the subject ability and
+helps to simplify the model structure, thereby obviating a costly
+large-scale experiment to estimate complex covariance matrices. The same
+model given in Equation \ref{eq:logistic-regression-1-1} is applied to
+model the power of a visual test.
 
 To study various factors contributing to the power of both tests, the
 same logistic regression model is fit on different subsets of the
@@ -649,7 +648,7 @@ details about the simulation process are provided in the Appendix.
 
 }
 
-\caption{Heteroskedasticity forms used in the experiment. Three different shapes ($a = -1, 0, 1$) are used in the experiment to create left-triangle, "butterfly" and "right-triangle" shapes, respectively.}\label{fig:different-shape-of-heter}
+\caption{Heteroskedasticity forms used in the experiment. Three different shapes ($a = -1, 0, 1$) are used in the experiment to create "left-triangle", "butterfly" and "right-triangle" shapes, respectively.}\label{fig:different-shape-of-heter}
 \end{figure}
 
 \begin{figure}[!h]
@@ -665,11 +664,11 @@ details about the simulation process are provided in the Appendix.
 \subsubsection{Factors common to both data collection
 periods}\label{factors-common-to-both-data-collection-periods}}
 
-Fitted values are a function of the independent variables, and the
-distribution of the observed values affects the distribution of the
-fitted values. In the best case scenario the fitted values will have a
-uniform distribution, which means that there is even coverage of
-possible observed values across all of the predictors. This is not
+Fitted values are a function of the independent variables (or
+predictors), and the distribution of the observed values affects the
+distribution of the fitted values. Ideally, we would want the fitted
+values to have a uniform coverage across the range of observed values or
+have a uniform distribution across all of the predictors. This is not
 always present in the collected data. Sometimes the fitted values are
 discrete because one or more predictors were measured discretely. It is
 also common to see a skewed distribution of fitted values if one or more
@@ -683,7 +682,7 @@ predictor, including \(U(-1, 1)\) (uniform), \(N(0, 0.3^2)\) (normal),
 Figure \ref{fig:different-dist} shows the non-linear pattern, a ``U''
 shape, with the different fitted value distributions. We would expect
 that structure in residual plots would be easier to perceive when the
-fitted values are uniformly distributed.
+predictors are uniformly distributed.
 
 Three different sample sizes were used in our experiment:
 \(n = 50, 100, 300\). Figure \ref{fig:different-n} shows the non-linear
@@ -715,10 +714,11 @@ plot as scatterplots suffer from over-plotting.
 \hypertarget{effect-size}{%
 \subsection{Effect size}\label{effect-size}}
 
-The lineups are allocated to participants in a manner that covers the
-experimental design and is relatively uniform. To manage this, we use
-effect size to measure the signal strength, which helps in assigning a
-set of lineups with a range of difficulties to each participant.
+The lineups are allocated to participants in a manner that uniformly
+covers the combination of experimental factors in Table
+\ref{tab:model-factor-table}. In addition, we use effect size to measure
+the signal strength, which helps in assigning a set of lineups with a
+range of difficulties to each participant.
 
 Effect size in statistics measures the strength of the signal relative
 to the noise. It is surprisingly difficult to quantify, even for
@@ -758,7 +758,7 @@ equation, \(\boldsymbol{\beta}_z\) contains the corresponding
 coefficients, and \(\sigma^2\boldsymbol{I}_n\) is the assumed covariance
 matrix of the error term when \(H_0\) is true.
 
-To compute the effect size for each lineup we simulate a sufficient
+To compute the effect size for each lineup we simulate a sufficiently
 large number of samples from the same model with the number of
 observations \(n\) fixed for each sample. We then compute the effect
 size for each sample and take the average as the final value. This

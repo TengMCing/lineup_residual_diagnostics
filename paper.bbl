@@ -1,0 +1,247 @@
+\begin{thebibliography}{50}
+\newcommand{\enquote}[1]{``#1''}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\normalfont{#1}}
+\providecommand{\urlprefix}{}
+
+\bibitem[Allaire et~al.(2022)]{rticles}
+Allaire, JJ, Yihui Xie, Christophe Dervieux, {R Foundation}, Hadley Wickham,
+  {Journal of Statistical Software}, Ramnath Vaidyanathan, et~al. 2022.
+  \emph{rticles: Article formats for R Markdown}. R package version 0.24,
+  \urlprefix\url{https://CRAN.R-project.org/package=rticles}.
+
+\bibitem[Box(1976)]{box1976science}
+Box, George~EP. 1976. ``Science and statistics.'' \emph{Journal of the American
+  Statistical Association} 71 (356): 791--799.
+
+\bibitem[Breusch and Pagan(1979)]{breusch1979simple}
+Breusch, Trevor~S, and Adrian~R Pagan. 1979. ``A simple test for
+  heteroscedasticity and random coefficient variation.'' \emph{Econometrica:
+  Journal of the Econometric Society} 1287--1294.
+
+\bibitem[Buja et~al.(2009{\natexlab{a}})]{bujastatistical2009}
+Buja, Andreas, Dianne Cook, Heike Hofmann, Michael Lawrence, Eun-Kyung Lee,
+  Deborah~F. Swayne, and Hadley Wickham. 2009{\natexlab{a}}. ``Statistical
+  inference for exploratory data analysis and model diagnostics.''
+  \emph{Philosophical Transactions of the Royal Society A: Mathematical,
+  Physical and Engineering Sciences} 367 (1906): 4361--4383.
+
+\bibitem[Buja et~al.(2009{\natexlab{b}})]{buja2009statistical}
+Buja, Andreas, Dianne Cook, Heike Hofmann, Michael Lawrence, Eun-Kyung Lee,
+  Deborah~F Swayne, and Hadley Wickham. 2009{\natexlab{b}}. ``Statistical
+  inference for exploratory data analysis and model diagnostics.''
+  \emph{Philosophical Transactions of the Royal Society A: Mathematical,
+  Physical and Engineering Sciences} 367 (1906): 4361--4383.
+
+\bibitem[Cleveland and McGill(1984)]{cleveland1984graphical}
+Cleveland, William~S, and Robert McGill. 1984. ``Graphical perception: Theory,
+  experimentation, and application to the development of graphical methods.''
+  \emph{Journal of the American Statistical Association} 79 (387): 531--554.
+
+\bibitem[Cook and Weisberg(1982)]{cook1982residuals}
+Cook, R~Dennis, and Sanford Weisberg. 1982. \emph{Residuals and influence in
+  regression}. New York: Chapman and Hall.
+
+\bibitem[Cook and Weisberg(1999)]{cook1999applied}
+Cook, R~Dennis, and Sanford Weisberg. 1999. \emph{Applied regression including
+  computing and graphics}. John Wiley \& Sons.
+
+\bibitem[De~Leeuw(2015)]{jspsych}
+De~Leeuw, Joshua~R. 2015. ``jsPsych: A JavaScript library for creating
+  behavioral experiments in a web browser.'' \emph{Behavior Research Methods}
+  47: 1--12.
+
+\bibitem[Draper and Smith(1998)]{draper1998applied}
+Draper, Norman~R, and Harry Smith. 1998. \emph{Applied regression analysis}.
+  Vol. 326. John Wiley \& Sons.
+
+\bibitem[Farrar(2020)]{skedastic}
+Farrar, Thomas~J. 2020. \emph{skedastic: Heteroskedasticity diagnostics for
+  linear regression models}. Bellville, South Africa. R Package Version 1.0.0.
+
+\bibitem[Grinberg(2018)]{flask}
+Grinberg, Miguel. 2018. \emph{Flask web development: Developing web
+  applications with Python}. " O'Reilly Media, Inc.".
+
+\bibitem[Hermite(1864)]{hermite1864nouveau}
+Hermite, M. 1864. \emph{Sur un nouveau d{\'e}veloppement en s{\'e}rie des
+  fonctions}. Imprimerie de Gauthier-Villars.
+
+\bibitem[Jamshidian, Jennrich, and Liu(2007)]{jamshidian2007study}
+Jamshidian, Mortaza, Robert~I Jennrich, and Wei Liu. 2007. ``A study of partial
+  F tests for multiple linear regression models.'' \emph{Computational
+  Statistics \& Data Analysis} 51 (12): 6269--6284.
+
+\bibitem[Jarque and Bera(1980)]{jarque1980efficient}
+Jarque, Carlos~M, and Anil~K Bera. 1980. ``Efficient tests for normality,
+  homoscedasticity and serial independence of regression residuals.''
+  \emph{Economics Letters} 6 (3): 255--259.
+
+\bibitem[Jeppson, Hofmann, and Cook(2021)]{ggmosaic}
+Jeppson, Haley, Heike Hofmann, and Di~Cook. 2021. \emph{ggmosaic: Mosaic plots
+  in the 'ggplot2' framework}. R package version 0.3.3,
+  \urlprefix\url{https://CRAN.R-project.org/package=ggmosaic}.
+
+\bibitem[Kahle(2013)]{mpoly}
+Kahle, David. 2013. ``mpoly: Multivariate Polynomials in {R}.'' \emph{The R
+  Journal} 5 (1): 162--170.
+
+\bibitem[Kahneman(2011)]{kahneman2011thinking}
+Kahneman, Daniel. 2011. \emph{Thinking, fast and slow}. Farrar, Straus and
+  Giroux.
+
+\bibitem[Kimball(1957)]{kimball1957errors}
+Kimball, AW. 1957. ``Errors of the third kind in statistical consulting.''
+  \emph{Journal of the American Statistical Association} 52 (278): 133--142.
+
+\bibitem[Kirk(1996)]{kirk1996practical}
+Kirk, Roger~E. 1996. ``Practical significance: A concept whose time has come.''
+  \emph{Educational and psychological measurement} 56 (5): 746--759.
+
+\bibitem[Kullback and Leibler(1951)]{kullback1951information}
+Kullback, Solomon, and Richard~A Leibler. 1951. ``On information and
+  sufficiency.'' \emph{The Annals of Mathematical Statistics} 22 (1): 79--86.
+
+\bibitem[Laplace(1820)]{de1820theorie}
+Laplace, Pierre-Simon. 1820. \emph{Th{\'e}orie analytique des
+  probabilit{\'e}s}. Vol.~7. Courcier.
+
+\bibitem[Loy(2021)]{loy2021bringing}
+Loy, Adam. 2021. ``Bringing visual inference to the classroom.'' \emph{Journal
+  of Statistics and Data Science Education} 29 (2): 171--182.
+
+\bibitem[Loy, Follett, and Hofmann(2016)]{loy2016variations}
+Loy, Adam, Lendie Follett, and Heike Hofmann. 2016. ``Variations of Q--Q plots:
+  the power of our eyes!'' \emph{The American Statistician} 70 (2): 202--214.
+
+\bibitem[Loy and Hofmann(2013)]{loy2013diagnostic}
+Loy, Adam, and Heike Hofmann. 2013. ``Diagnostic tools for hierarchical linear
+  models.'' \emph{Wiley Interdisciplinary Reviews: Computational Statistics} 5
+  (1): 48--61.
+
+\bibitem[Loy and Hofmann(2014)]{loy2014hlmdiag}
+Loy, Adam, and Heike Hofmann. 2014. ``HLMdiag: A suite of diagnostics for
+  hierarchical linear models in R.'' \emph{Journal of Statistical Software} 56:
+  1--28.
+
+\bibitem[Loy and Hofmann(2015)]{loy2015you}
+Loy, Adam, and Heike Hofmann. 2015. ``Are you normal? The problem of confounded
+  residual structures in hierarchical linear models.'' \emph{Journal of
+  Computational and Graphical Statistics} 24 (4): 1191--1209.
+
+\bibitem[Majumder, Hofmann, and
+  Cook(2013{\natexlab{a}})]{majumdervalidation2013}
+Majumder, Mahbubul, Heike Hofmann, and Dianne Cook. 2013{\natexlab{a}}.
+  ``Validation of visual statistical inference, applied to linear models.''
+  \emph{Journal of the American Statistical Association} 108 (503): 942--956.
+
+\bibitem[Majumder, Hofmann, and
+  Cook(2013{\natexlab{b}})]{majumder2013validation}
+Majumder, Mahbubul, Heike Hofmann, and Dianne Cook. 2013{\natexlab{b}}.
+  ``Validation of visual statistical inference, applied to linear models.''
+  \emph{Journal of the American Statistical Association} 108 (503): 942--956.
+
+\bibitem[Montgomery, Peck, and Vining(1982)]{montgomery1982introduction}
+Montgomery, Douglas~C, Elizabeth~A Peck, and G~Geoffrey Vining. 1982.
+  \emph{Introduction to linear regression analysis}. John Wiley \& Sons.
+
+\bibitem[Nowosad(2018)]{rcartocolor}
+Nowosad, Jakub. 2018. \emph{'CARTOColors' palettes}. R package version 1.0,
+  \urlprefix\url{https://nowosad.github.io/rcartocolor}.
+
+\bibitem[Olvera~Astivia, Gadermann, and Guhn(2019)]{olvera2019relationship}
+Olvera~Astivia, Oscar~L, Anne Gadermann, and Martin Guhn. 2019. ``The
+  relationship between statistical power and predictor distribution in
+  multilevel logistic regression: a simulation-based approach.'' \emph{BMC
+  Medical Research Methodology} 19 (1): 1--20.
+
+\bibitem[Palan and Schitter(2018)]{palan2018prolific}
+Palan, Stefan, and Christian Schitter. 2018. ``Prolific. ac—A subject pool
+  for online experiments.'' \emph{Journal of Behavioral and Experimental
+  Finance} 17: 22--27.
+
+\bibitem[Pedersen(2022)]{patchwork}
+Pedersen, Thomas~Lin. 2022. \emph{patchwork: The composer of plots}. R package
+  version 1.1.2,  \urlprefix\url{https://CRAN.R-project.org/package=patchwork}.
+
+\bibitem[{PythonAnywhere LLP}(2023)]{pythonanywhere}
+{PythonAnywhere LLP}. 2023. ``PythonAnywhere.''
+  \urlprefix\url{https://www.pythonanywhere.com}.
+
+\bibitem[Ramsey(1969)]{ramsey1969tests}
+Ramsey, James~Bernard. 1969. ``Tests for specification errors in classical
+  linear least-squares regression analysis.'' \emph{Journal of the Royal
+  Statistical Society: Series B (Methodological)} 31 (2): 350--371.
+
+\bibitem[Roy~Chowdhury et~al.(2015)]{roy2015using}
+Roy~Chowdhury, Niladri, Dianne Cook, Heike Hofmann, Mahbubul Majumder,
+  Eun-Kyung Lee, and Amy~L Toth. 2015. ``Using visual statistical inference to
+  better understand random class separations in high dimension, low sample size
+  data.'' \emph{Computational Statistics} 30: 293--316.
+
+\bibitem[Shapiro and Wilk(1965)]{shapiro1965analysis}
+Shapiro, Samuel~Sanford, and Martin~B Wilk. 1965. ``An analysis of variance
+  test for normality (complete samples).'' \emph{Biometrika} 52 (3/4):
+  591--611.
+
+\bibitem[Silvey(1959)]{silvey1959lagrangian}
+Silvey, Samuel~D. 1959. ``The Lagrangian multiplier test.'' \emph{The Annals of
+  Mathematical Statistics} 30 (2): 389--407.
+
+\bibitem[VanderPlas and Hofmann(2016)]{VanderPlas2015}
+VanderPlas, Susan, and Heike Hofmann. 2016. ``Spatial Reasoning and Data
+  Displays.'' \emph{IEEE Transactions on Visualization and Computer Graphics}
+  22 (1): 459--468.
+
+\bibitem[VanderPlas et~al.(2021)]{vanderplas2021statistical}
+VanderPlas, Susan, Christian R{\"o}ttger, Dianne Cook, and Heike Hofmann. 2021.
+  ``Statistical significance calculations for scenarios in visual inference.''
+  \emph{Stat} 10 (1): e337.
+
+\bibitem[White(1980)]{white1980heteroskedasticity}
+White, Halbert. 1980. ``A heteroskedasticity-consistent covariance matrix
+  estimator and a direct test for heteroskedasticity.'' \emph{Econometrica:
+  Journal of the Econometric Society} 817--838.
+
+\bibitem[Wickham et~al.(2019)]{tidyverse}
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy~D'Agostino
+  McGowan, Romain François, Garrett Grolemund, et~al. 2019. ``Welcome to the
+  {tidyverse}.'' \emph{Journal of Open Source Software} 4 (43): 1686.
+
+\bibitem[Wickham et~al.(2010)]{wickham2010}
+Wickham, Hadley, Dianne Cook, Heike Hofmann, and Andreas Buja. 2010.
+  ``Graphical inference for infovis.'' \emph{IEEE Transactions on Visualization
+  and Computer Graphics} 16 (6): 973--979.
+
+\bibitem[Xie(2014)]{knitr}
+Xie, Yihui. 2014. ``knitr: A comprehensive tool for reproducible research in
+  {R}.'' In \emph{Implementing reproducible computational research},  edited by
+  Victoria Stodden, Friedrich Leisch, and Roger~D. Peng. Chapman and Hall/CRC.
+  ISBN 978-1466561595,
+  \urlprefix\url{http://www.crcpress.com/product/isbn/9781466561595}.
+
+\bibitem[Xie, Dervieux, and Riederer(2020)]{rmarkdown}
+Xie, Yihui, Christophe Dervieux, and Emily Riederer. 2020. \emph{R Markdown
+  cookbook}. Boca Raton, Florida: Chapman and Hall/CRC. ISBN 9780367563837,
+  \urlprefix\url{https://bookdown.org/yihui/rmarkdown-cookbook}.
+
+\bibitem[Yin et~al.(2013)]{RNAseq2013}
+Yin, Tengfei, Mahbubul Majumder, Niladri {Roy Chowdhury}, Dianne Cook, Randy
+  Shoemaker, and Michelle Graham. 2013. ``Visual Mining Methods for RNA-Seq
+  Data: Data Structure, Dispersion Estimation and Significance Testing.''
+  \emph{Journal of Data Mining in Genomics and Proteomics} 4 (139).
+
+\bibitem[Zeileis and Hothorn(2002)]{lmtest}
+Zeileis, Achim, and Torsten Hothorn. 2002. ``Diagnostic checking in regression
+  relationships.'' \emph{R News} 2 (3): 7--10.
+
+\bibitem[Zhang and Yuan(2018)]{zhang2018practical}
+Zhang, Zhiyong, and Ke-Hai Yuan. 2018. \emph{Practical statistical power
+  analysis using Webpower and R}. Isdsa Press.
+
+\bibitem[Zhu(2021)]{kableextra}
+Zhu, Hao. 2021. \emph{kableExtra: Construct complex table with kable and pipe
+  syntax}. R package version 1.3.4,
+  \urlprefix\url{https://CRAN.R-project.org/package=kableExtra}.
+
+\end{thebibliography}

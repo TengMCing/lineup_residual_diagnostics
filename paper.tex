@@ -577,7 +577,7 @@ incorporated.
 \toprule
 \multicolumn{2}{c}{Non-linearity} & \multicolumn{2}{c}{Heteroskedasticity} & \multicolumn{2}{c}{Common} \\
 \cmidrule(l{3pt}r{3pt}){1-2} \cmidrule(l{3pt}r{3pt}){3-4} \cmidrule(l{3pt}r{3pt}){5-6}
-\multicolumn{1}{c}{Poly Order ($j$)} & \multicolumn{1}{c}{SD ($\sigma$)} & \multicolumn{1}{c}{Shape ($a$)} & \multicolumn{1}{c}{Ratio ($b$)} & \multicolumn{1}{c}{Size ($n$)} & \multicolumn{1}{c}{Distribution of fitted values} \\
+\multicolumn{1}{c}{Poly Order ($j$)} & \multicolumn{1}{c}{SD ($\sigma$)} & \multicolumn{1}{c}{Shape ($a$)} & \multicolumn{1}{c}{Ratio ($b$)} & \multicolumn{1}{c}{Size ($n$)} & \multicolumn{1}{c}{Distribution of the predictor} \\
 \cmidrule(l{3pt}r{3pt}){1-1} \cmidrule(l{3pt}r{3pt}){2-2} \cmidrule(l{3pt}r{3pt}){3-3} \cmidrule(l{3pt}r{3pt}){4-4} \cmidrule(l{3pt}r{3pt}){5-5} \cmidrule(l{3pt}r{3pt}){6-6}
 2 & 0.25 & -1 & 0.25 & 50 & Uniform\\
 3 & 1.00 & 0 & 1.00 & 100 & Normal\\
@@ -639,7 +639,7 @@ details about the simulation process are provided in the Appendix.
 
 }
 
-\caption{Examining the effect of $\sigma$ on the signal strength in the non-linearity detection, for $n=300$, uniform fitted value distribution and the "U" shape. As $\sigma$ increases the signal strength decreases, to the point that the "U" is almost unrecognisable when $\sigma=4$.}\label{fig:different-sigma}
+\caption{Examining the effect of $\sigma$ on the signal strength in the non-linearity detection, for $n=300$, uniform fitted value distribution and the ``U" shape. As $\sigma$ increases the signal strength decreases, to the point that the ``U" is almost unrecognisable when $\sigma=4$.}\label{fig:different-sigma}
 \end{figure}
 
 \begin{figure}[!h]
@@ -648,7 +648,7 @@ details about the simulation process are provided in the Appendix.
 
 }
 
-\caption{Heteroskedasticity forms used in the experiment. Three different shapes ($a = -1, 0, 1$) are used in the experiment to create "left-triangle", "butterfly" and "right-triangle" shapes, respectively.}\label{fig:different-shape-of-heter}
+\caption{Heteroskedasticity forms used in the experiment. Three different shapes ($a = -1, 0, 1$) are used in the experiment to create ``left-triangle", ``butterfly" and ``right-triangle" shapes, respectively.}\label{fig:different-shape-of-heter}
 \end{figure}
 
 \begin{figure}[!h]
@@ -782,13 +782,16 @@ lineups were used in the subsequent analysis. The de-identified data,
 \texttt{visage}.
 
 The data was collected on lineups constructed from four different fitted
-value distributions: uniform, normal, skewed and discrete. More data was
-collected on the uniform distribution (each evaluated by 11
-participants) than the others (each evaluated by 5 participants). The
-analysis in Sections \ref{power-analysis}--\ref{hetero-analysis} uses
-only results from lineups generated with uniform fitted values, for a
-total 3069 lineup evaluations. This allows us to compare the
-conventional and visual test performance in an optimal scenario. Section
+value distributions that stem from the corresponding predictor
+distribution: uniform, normal, skewed and discrete. Henceforth, we refer
+to these four different fitted value distributions with respect to their
+predictor distribution. More data was collected on the uniform
+distribution (each evaluated by 11 participants) than the others (each
+evaluated by 5 participants). The analysis in Sections
+\ref{power-analysis}--\ref{hetero-analysis} uses only results from
+lineups with uniform distribution, for a total 3069 lineup evaluations.
+This allows us to compare the conventional and visual test performance
+in an optimal scenario. Section
 \ref{effect-of-fitted-value-distributions} examines how the results may
 be affected if the fitted value distribution was different.
 
@@ -825,7 +828,7 @@ the uniformly higher power is the RESET test, one that specifically
 tests for non-linearity. Note that the BP and SW tests have much lower
 power, which is expected because they are not designed to detect
 non-linearity. The bootstrapped power curves for the visual test are
-effectively a shift right from that of the RESET test. This means that
+effectively a right shift from that of the RESET test. This means that
 the RESET test will reject at a lower effect size (less structure) than
 the visual test, but otherwise the performance will be similar. In other
 words, the RESET test is more sensitive than the visual test. This is
@@ -846,7 +849,7 @@ plots at the bottom we might argue that the heteroskedasticity becomes
 noticeably visible around an effect size of 3 or 3.5. However the BP
 test would reject at around effect size 2.5. Interestingly, the power
 curve for the SW test (for non-normality) is only slightly different to
-that of the visual test, suggesting that it performs reasonably for
+that of the visual test, suggesting that it performs reasonably well for
 detecting heteroskedasticity, too. The power curve for the BP test
 suggests it is not useful for detecting heteroskedasticity, as expected.
 
@@ -904,10 +907,10 @@ size (\(\log_e(E)=4.02\)), which is reflected by the visual test
 is slightly above the significance cutoff of \(0.05\). This lineup was
 evaluated by 11 participants, it has experimental factors \(a = 0\)
 (``butterfly'' shape), \(b = 64\) (large variance ratio), \(n = 50\)
-(small sample size), and a uniform distribution for the fitted values.
-It may have been the small sample size and the presence of a few
-outliers that may have resulted in the lack of detection by the
-conventional test.
+(small sample size), and a uniform distribution for the predictor. It
+may have been the small sample size and the presence of a few outliers
+that may have resulted in the lack of detection by the conventional
+test.
 
 \begin{figure}
 
@@ -999,7 +1002,7 @@ investigating further.
 
 }
 
-\caption{The effect of heteroskedasticity shape (parameter $a$) on the power of conventional and visual tests. The butterfly has higher power in both tests. Curiously, the visual test has a slightly higher power for the "left-triangle" than the "right-triangle" shape, when it would be expected that they should be similar, which is observed in conventional testing.}\label{fig:heter-power-uniform-a}
+\caption{The effect of heteroskedasticity shape (parameter $a$) on the power of conventional and visual tests. The butterfly has higher power in both tests. Curiously, the visual test has a slightly higher power for the ``left-triangle" than the ``right-triangle" shape, when it would be expected that they should be similar, which is observed in conventional testing.}\label{fig:heter-power-uniform-a}
 \end{figure}
 
 \hypertarget{effect-of-fitted-value-distributions}{%
@@ -1014,9 +1017,10 @@ analysis but it is important. Where \(X\) is observed, the distribution
 of the \(X\) values in the sample, or consequently \(\hat{Y}\), may
 affect the ability to read any patterns in the residual plots. The
 effect of fitted value distribution on test performance is assess using
-four different distributions of fitted values: uniform, normal, discrete
-and lognormal (skewed). We expect that if \(\hat{Y}\) has a uniform
-distribution, it is easier to read the relationship with the residuals.
+four different distributions of fitted values stemming from the
+predictor distributions: uniform, normal, discrete and lognormal
+(skewed). We expect that if all predictors have a uniform distribution,
+it is easier to read the relationship with the residuals.
 
 \begin{figure}[t!]
 

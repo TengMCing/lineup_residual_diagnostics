@@ -1,9 +1,7 @@
 ---
 title: "Response to Reviews: JCGS-23-139.R1"
-author: Weihao Li, Emi Tanaka, Dianne Cook, Susan VanderPlas
 output: pdf_document
 date: "`r Sys.Date()`"
-bibliography: ../ref.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -20,21 +18,32 @@ Note that *the original reviewer comments are in italic* and our response is in 
 
 *Good response.*
 
-Thank you. (...)
+Thank you for the positive feedback.
 
 # Reviewer 2
 
 *I appreciate the effort provided by the authors for both my comments and the other reviewer’s comments. The revision is much improved. I have a few remaining comments.*
 
-Thank you. (...)
+We appreciate the reviewer's acknowledgment of our efforts in addressing the comments and improving the manuscript. Thank you for your remaining comments, which we have carefully considered and addressed in the revised version.
 
 *1. I still believe the paper is too long. Starting with Section 4, I believe the paper starts to become a little too cumbersome. I suggest the authors look for ways to condense down Sections 4 and 5 a bit as I think these are the biggest contributors to the length.*
 
+Thank you for the suggestion to condense Sections 4 and 5. We agree that the length of these sections contributed to the overall length of the paper. In the revised version, we have streamlined these sections, reducing the main text by 4 pages. Some of the details have been moved to the appendix to improve readability while retaining the necessary information.
+
 *2. In the Figure 1 caption, clarify what is meant by the "at position $2^2 + 2$".*
+
+Thank you for seeking clarification on the caption of Figure 1. The expression $2^2 + 2$ was intended to introduce a brief pause before revealing the data plot, allowing the reader time to examine the lineup first. However, we agree that this notation may be unclear. In the revised version, we have replaced it with the numerical value $6$, which represents the position where the data plot is presented.
+
 
 *3. In the footnote on the bottom of page6, replace "didn't" and "it's" by "did not" and "it is", respectively.*
 
+Thank you for pointing out the use of contractions in the footnote on page 6. We have replaced "didn't" with "did not" and "it's" with "it is" as suggested. Additionally, we have carefully reviewed the manuscript and addressed any other inappropriate use of contractions to ensure appropriate academic writing style throughout the text.
+
 *4. In the last sentence of Section 2.2, the final segment "statistical and practical statistics" sounds awkward because "statistical" should be serving as an adjective to another word, and the segment as written makes it sound like it is also an adjective to "statistics". The authors might consider replacing "statistical" with "classic inference" as the paper is addressing the discrepancies between inferential results and what may be practically done.*
 
+Thank you for the insightful feedback on the language used in the last sentence of Section 2.2. We appreciate you pointing out the awkward phrasing of "statistical and practical statistics." As you suggested, the use of "statistical" as an adjective modifying "statistics" is redundant and may cause confusion. In the revised version, we have replaced that phrase with "statistical significance and practical significance" to better reflect the contrast between inferential results and practical implications, which is the focus of that discussion.
+
 *5. Page 21 onward, there are many instances where the figure references did not compile correctly. These need to be corrected.*
+
+Thank you for bringing to our attention the issue with the figure references not compiling correctly from page 21 onward. We have carefully reviewed and recompiled the manuscript, ensuring that all figure references are now accurately represented and correctly linked.
 
